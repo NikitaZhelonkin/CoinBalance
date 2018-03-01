@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CryptoBalance</string>
+    <string name="title_add_wallet">Add wallet</string>
+
+    <string name="success_add_wallet">Wallet successfully added</string>
+    <string name="error_coin_not_supported">Coin not supported</string>
+    <string name="error_add_wallet">Error, pls try again later</string>
+    <string name="error_add_wallet_already_exist">Error, that wallet already exist</string>
+    <string name="action_add_wallet">Add wallet</string>
+    <string name="scan_qr_code_prompt">Scan QR-Code of your wallet</string>
+</resources>

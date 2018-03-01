@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/app_bar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:clipToPadding="false">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/coin_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </android.support.v7.widget.CardView>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Wallet Public Address"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true">
+
+            <EditText
+                android:id="@+id/wallet_address_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textVisiblePassword"
+                android:paddingEnd="32dp"
+                android:textSize="14sp"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+            <ImageView
+                android:contentDescription="@null"
+                android:id="@+id/address_clear_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tint="@color/colorSecondary"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginRight="8dp"
+                android:visibility="invisible"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_clear_24dp" />
+
+            <ImageView
+                android:contentDescription="@null"
+                android:id="@+id/qr_code_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginRight="8dp"
+                android:visibility="visible"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_qr_code_24dp" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Alias"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true">
+
+                <EditText
+                    android:id="@+id/alias_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:paddingEnd="32dp"
+                    android:textSize="14sp"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <ImageView
+                android:contentDescription="@null"
+                android:id="@+id/alis_clear_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginRight="8dp"
+                android:visibility="invisible"
+                android:background="?selectableItemBackgroundBorderless"
+                android:tint="@color/colorSecondary"
+                android:src="@drawable/ic_clear_24dp" />
+
+        </FrameLayout>
+
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/submit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="?colorAccent"
+            android:text="Submit"
+            android:textColor="@android:color/white" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

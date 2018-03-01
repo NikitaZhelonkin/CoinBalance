@@ -1,0 +1,71 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "ru.nikitazhelonkin.cryptobalance"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+ext.versions = [
+        androidSupport : '26.1.0',
+        retrofit: '2.2.0',
+        rxJava: '2.0.1',
+        butterKnife: '8.5.1',
+        dagger: '2.7',
+]
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.android.support:appcompat-v7:$versions.androidSupport"
+    implementation "com.android.support:design:$versions.androidSupport"
+    implementation "com.android.support:cardview-v7:$versions.androidSupport"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    //QR-code
+    implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
+
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
+    implementation "com.squareup.retrofit2:converter-jackson:$versions.retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit"
+
+    //rxJava
+    implementation "io.reactivex.rxjava2:rxandroid:$versions.rxJava"
+    implementation "io.reactivex.rxjava2:rxjava:$versions.rxJava"
+
+    //butterknife
+    implementation "com.jakewharton:butterknife:$versions.butterKnife"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$versions.butterKnife"
+
+    // Room (use 1.1.0-alpha2 for latest alpha)
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+    // RxJava support for Room (use 1.1.0-alpha1 for latest alpha)
+    implementation "android.arch.persistence.room:rxjava2:1.0.0"
+
+    //dagger
+    implementation "com.google.dagger:dagger:$versions.dagger"
+    annotationProcessor "com.google.dagger:dagger-compiler:$versions.dagger"
+
+    implementation 'javax.annotation:jsr250-api:1.0'
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}
