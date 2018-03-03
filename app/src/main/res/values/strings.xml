@@ -1,11 +1,26 @@
 <resources>
-    <string name="app_name">CryptoBalance</string>
+    <string name="app_name">CoinBalance</string>
     <string name="title_add_wallet">Add wallet</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
     <string name="success_add_wallet">Wallet successfully added</string>
     <string name="error_coin_not_supported">Coin not supported</string>
     <string name="error_add_wallet">Error, pls try again later</string>
     <string name="error_add_wallet_already_exist">Error, that wallet already exist</string>
+    <string name="error_unknown">Unknown error</string>
+    <string name="error_generating_qr_code">Error generating QR-code</string>
     <string name="action_add_wallet">Add wallet</string>
     <string name="scan_qr_code_prompt">Scan QR-Code of your wallet</string>
+    <string name="settings">Settings</string>
+    <string name="total_value">Total value</string>
+    <string name="address_copied">Your address copied to clipboard</string>
+    <string name="my_wallet_format">My %s wallet</string>
+    <string name="wallet_name">Wallet name</string>
+    <string name="dialog_delete_wallet_message">Delete wallet?</string>
+
+    <string name="copy">Copy Address</string>
+    <string name="code">QR-code</string>
+    <string name="edit">Edit name</string>
+    <string name="delete">Delete</string>
 </resources>

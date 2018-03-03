@@ -28,6 +28,7 @@ ext.versions = [
         rxJava: '2.0.1',
         butterKnife: '8.5.1',
         dagger: '2.7',
+        parceler: '1.0.4'
 ]
 
 dependencies {
@@ -37,8 +38,17 @@ dependencies {
     implementation "com.android.support:cardview-v7:$versions.androidSupport"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
+    //parceler
+    implementation "org.parceler:parceler-api:$versions.parceler"
+    annotationProcessor "org.parceler:parceler:$versions.parceler"
+
     //QR-code
     implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
+    implementation 'com.google.zxing:core:3.3.0'
+
+    implementation('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.8.6@aar') {
+        transitive = true
+    }
 
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"

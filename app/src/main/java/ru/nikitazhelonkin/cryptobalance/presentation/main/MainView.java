@@ -1,22 +1,29 @@
 package ru.nikitazhelonkin.cryptobalance.presentation.main;
 
 
-import java.util.List;
-
-import ru.nikitazhelonkin.cryptobalance.data.entity.WalletViewModel;
+import ru.nikitazhelonkin.cryptobalance.data.entity.MainViewModel;
+import ru.nikitazhelonkin.cryptobalance.data.entity.Wallet;
 import ru.nikitazhelonkin.cryptobalance.mvp.MvpView;
 
 public interface MainView extends MvpView {
 
-    void setData(List<WalletViewModel> data);
+    void setData(MainViewModel data);
 
+    void showError(int errorResId);
 
-    void showError(String error);
+    void showMessage(int message);
 
     void showLoader();
 
     void hideLoader();
 
+    void showQRCodeView(Wallet wallet);
+
+    void showEditNameView(Wallet wallet);
+
+    void showDeleteView(Wallet wallet);
+
     void navigateToAddWalletView();
+
 
 }

@@ -35,7 +35,8 @@ public class AddWalletInteractor {
         return mCoinRepository.getCoin(wallet.getCoinTicker())
                 .onErrorResumeNext(throwable -> Single.error(mapThrowable(throwable)))
                 .flatMap(coin -> getBalance(wallet))
-                .flatMapCompletable(coin -> mWalletRepository.insert(wallet));
+                .doOnSuccess(s -> wallet.setBalance(Float.parseFloat(s)))
+                .flatMapCompletable(balance -> mWalletRepository.insert(wallet));
 
     }
 

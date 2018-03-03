@@ -6,13 +6,34 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorText</item>
+        <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
         <item name="android:dropDownSpinnerStyle">@style/DropDownSpinnerStyle</item>
+        <item name="popupMenuStyle">@style/PopupMenuStyle</item>
+        <item name="bottomSheetDialogTheme">@style/Theme.Dialog.BottomSheet</item>
+        <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="DropDownSpinnerStyle" parent="@style/Widget.AppCompat.Spinner.DropDown">
         <item name="android:padding">0dp</item>
+        <item name="android:tint">@android:color/black</item>
     </style>
+
+    <style name="PopupMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+    </style>
+
+    <style name="Theme.Dialog.BottomSheet" parent="@style/Theme.Design.BottomSheetDialog">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Alert" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorText</item>
+        <item name="android:textColorSecondary">@color/colorText</item>
+    </style>
+
 
 </resources>

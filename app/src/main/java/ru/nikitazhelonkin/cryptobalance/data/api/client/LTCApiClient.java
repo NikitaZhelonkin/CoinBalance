@@ -2,20 +2,21 @@ package ru.nikitazhelonkin.cryptobalance.data.api.client;
 
 
 import io.reactivex.Single;
+import okhttp3.ResponseBody;
 import ru.nikitazhelonkin.cryptobalance.data.api.ChainsoApiService;
+import ru.nikitazhelonkin.cryptobalance.data.api.ChainzApiService;
 
 public class LTCApiClient implements ApiClient {
 
-    private ChainsoApiService mChainsoApiService;
+    private ChainzApiService mChainzApiService;
 
-    public LTCApiClient(ChainsoApiService chainsoApiService) {
-        mChainsoApiService = chainsoApiService;
+    public LTCApiClient(ChainzApiService chainzApiService) {
+        mChainzApiService = chainzApiService;
     }
 
     @Override
     public Single<String> getBalance(String address) {
-        return mChainsoApiService.balance("LTC", address)
-                .map(response -> response.data.confirmedBalance);
+        return mChainzApiService.balance("ltc", address).map(ResponseBody::string);
     }
 
 }

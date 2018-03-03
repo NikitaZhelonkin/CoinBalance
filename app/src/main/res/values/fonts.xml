@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="font_roboto_regular">RobotoRegular.ttf</string>
+    <string name="font_roboto_medium">RobotoMedium.ttf</string>
+    <string name="font_roboto_bold">RobotoBold.ttf</string>
+    <string name="font_roboto_black">RobotoBlack.ttf</string>
+</resources>

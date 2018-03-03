@@ -19,6 +19,8 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 import ru.nikitazhelonkin.cryptobalance.BuildConfig;
 import ru.nikitazhelonkin.cryptobalance.data.api.BTCApiService;
 import ru.nikitazhelonkin.cryptobalance.data.api.ChainsoApiService;
+import ru.nikitazhelonkin.cryptobalance.data.api.ChainzApiService;
+import ru.nikitazhelonkin.cryptobalance.data.api.CryptoCompareApiService;
 import ru.nikitazhelonkin.cryptobalance.data.api.ETHApiService;
 import ru.nikitazhelonkin.cryptobalance.data.api.XRPApiService;
 import ru.nikitazhelonkin.cryptobalance.data.api.interceptor.LoggingInterceptor;
@@ -71,6 +73,18 @@ public class AppModule {
     @Provides
     @Singleton
     @NonNull
+    CryptoCompareApiService provideCryptocompareApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
+        return new Retrofit.Builder()
+                .baseUrl("https://min-api.cryptocompare.com")
+                .client(httpClient)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(JacksonConverterFactory.create(objectMapper)).build()
+                .create(CryptoCompareApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
     BTCApiService provideBTCApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
         return new Retrofit.Builder()
                 .baseUrl("https://blockchain.info")
@@ -90,6 +104,18 @@ public class AppModule {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(JacksonConverterFactory.create(objectMapper)).build()
                 .create(ETHApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    ChainzApiService provideChainzApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
+        return new Retrofit.Builder()
+                .baseUrl("https://chainz.cryptoid.info")
+                .client(httpClient)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(JacksonConverterFactory.create(objectMapper)).build()
+                .create(ChainzApiService.class);
     }
 
     @Provides

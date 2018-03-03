@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/black">
+
+    <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+        android:id="@+id/wallet_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        app:font="@string/font_roboto_medium"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="My bitcoin wallet" />
+
+    <ImageView
+        android:id="@+id/qr_code_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginRight="72dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/white"
+        android:contentDescription="@null"
+        android:padding="8dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/wallet_name" />
+
+    <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+        android:id="@+id/error_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="@string/error_generating_qr_code"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@id/qr_code_view"
+        app:layout_constraintLeft_toLeftOf="@id/qr_code_view"
+        app:layout_constraintRight_toRightOf="@id/qr_code_view"
+        app:layout_constraintTop_toTopOf="@id/qr_code_view" />
+
+    <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+        android:id="@+id/wallet_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="16dp"
+        android:background="?selectableItemBackground"
+        android:drawableLeft="@drawable/ic_copy_light_16dp"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:padding="4dp"
+        android:singleLine="true"
+        tools:text="1CPZuurirMNKtaQ1co5rcfKLYC3zK1CXrX"
+        android:textColor="@color/colorTextSecondary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/qr_code_view" />
+
+
+</android.support.constraint.ConstraintLayout>

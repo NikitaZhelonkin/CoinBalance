@@ -8,8 +8,12 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import org.parceler.Parcel;
+import org.parceler.ParcelConstructor;
+
 @Entity(indices =
-@Index(name = "index_name", value = "coin_ticker", unique = true))
+@Index(name = "index_name", value = "address", unique = true))
+@Parcel(Parcel.Serialization.BEAN)
 public class Wallet {
 
     @PrimaryKey(autoGenerate = true)
@@ -20,11 +24,20 @@ public class Wallet {
     private String mAddress;
     @ColumnInfo(name = "alias")
     private String mAlias;
+    @ColumnInfo(name = "balance")
+    private float mBalance;
+
 
     public Wallet(@NonNull String coinTicker, @NonNull String address, @Nullable String alias) {
+        this(coinTicker, address, alias, 0);
+    }
+
+    @ParcelConstructor
+    public Wallet(@NonNull String coinTicker, @NonNull String address, @Nullable String alias, float balance) {
         mCoinTicker = coinTicker;
         mAddress = address;
         mAlias = alias;
+        mBalance = balance;
     }
 
     public Wallet() {
@@ -64,5 +77,13 @@ public class Wallet {
 
     public void setAlias(String alias) {
         mAlias = alias;
+    }
+
+    public void setBalance(float balance) {
+        mBalance = balance;
+    }
+
+    public float getBalance() {
+        return mBalance;
     }
 }
