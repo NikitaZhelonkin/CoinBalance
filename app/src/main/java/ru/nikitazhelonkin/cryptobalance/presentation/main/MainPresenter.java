@@ -11,6 +11,7 @@ import ru.nikitazhelonkin.cryptobalance.R;
 import ru.nikitazhelonkin.cryptobalance.data.entity.MainViewModel;
 import ru.nikitazhelonkin.cryptobalance.data.entity.Wallet;
 import ru.nikitazhelonkin.cryptobalance.data.system.ClipboardManager;
+import ru.nikitazhelonkin.cryptobalance.data.system.SystemManager;
 import ru.nikitazhelonkin.cryptobalance.domain.MainInteractor;
 import ru.nikitazhelonkin.cryptobalance.mvp.MvpBasePresenter;
 import ru.nikitazhelonkin.cryptobalance.utils.L;
@@ -21,14 +22,17 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
     private MainInteractor mMainInteractor;
     private RxSchedulerProvider mRxSchedulerProvider;
     private ClipboardManager mClipboardManager;
+    private SystemManager mSystemManager;
 
     @Inject
     public MainPresenter(MainInteractor mainInteractor,
                          RxSchedulerProvider rxSchedulerProvider,
-                         ClipboardManager clipboardManager) {
+                         ClipboardManager clipboardManager,
+                         SystemManager systemManager) {
         mMainInteractor = mainInteractor;
         mRxSchedulerProvider = rxSchedulerProvider;
         mClipboardManager = clipboardManager;
+        mSystemManager = systemManager;
     }
 
     @Override
@@ -36,6 +40,11 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         super.onAttach(view, savedInstanceState);
         syncBalances();
         loadWallets();
+        observe();
+    }
+
+    public void onSettingsClick() {
+        getView().navigateToSettingsView();
     }
 
     public void onRefresh() {
@@ -67,27 +76,28 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
     public void editWalletName(Wallet wallet, String name) {
         mMainInteractor.editWalletName(wallet, name)
                 .compose(mRxSchedulerProvider.ioToMainTransformer())
-                .subscribe(this::loadWallets);
+                .subscribe();
     }
 
     public void deleteWallet(Wallet wallet) {
         mMainInteractor.deleteWallet(wallet)
                 .compose(mRxSchedulerProvider.ioToMainTransformer())
-                .subscribe(this::loadWallets);
+                .subscribe();
+    }
+
+    private void observe() {
+        Disposable disposable = mMainInteractor.observe()
+                .compose(mRxSchedulerProvider.ioToMainTransformer())
+                .subscribe(aClass -> loadWallets());
+        disposeOnDetach(disposable);
+
     }
 
     private void syncBalances() {
         getView().showLoader();
         Disposable disposable = mMainInteractor.syncBalances()
                 .compose(mRxSchedulerProvider.ioToMainTransformer())
-                .subscribe(() -> {
-                    getView().hideLoader();
-                    loadWallets();
-                }, throwable -> {
-                    getView().hideLoader();
-                    getView().showError(R.string.error_unknown);
-                    L.e(throwable);
-                });
+                .subscribe(() -> getView().hideLoader(), this::onError);
         disposeOnDetach(disposable);
     }
 
@@ -100,10 +110,16 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
 
     private void onResult(MainViewModel data) {
         getView().setData(data);
+        getView().setEmptyViewVisible(data.getWalletCount() == 0);
     }
 
     private void onError(Throwable e) {
-        getView().showError(R.string.error_unknown);
+        getView().hideLoader();
+        if (!mSystemManager.isConnected()) {
+            getView().showError(R.string.error_connection);
+        } else {
+            getView().showError(R.string.error_unknown);
+        }
         L.e(e);
     }
 

@@ -11,6 +11,7 @@ import io.reactivex.disposables.Disposable;
 import ru.nikitazhelonkin.cryptobalance.R;
 import ru.nikitazhelonkin.cryptobalance.data.entity.Wallet;
 import ru.nikitazhelonkin.cryptobalance.data.exception.CoinNotSupportedException;
+import ru.nikitazhelonkin.cryptobalance.data.system.SystemManager;
 import ru.nikitazhelonkin.cryptobalance.domain.AddWalletInteractor;
 import ru.nikitazhelonkin.cryptobalance.mvp.MvpBasePresenter;
 import ru.nikitazhelonkin.cryptobalance.utils.L;
@@ -20,12 +21,15 @@ public class AddWalletPresenter extends MvpBasePresenter<AddWalletView> {
 
     private AddWalletInteractor mAddWalletInteractor;
     private RxSchedulerProvider mRxSchedulerProvider;
+    private SystemManager mSystemManager;
 
     @Inject
     public AddWalletPresenter(AddWalletInteractor addWalletInteractor,
-                              RxSchedulerProvider rxSchedulerProvider) {
+                              RxSchedulerProvider rxSchedulerProvider,
+                              SystemManager systemManager) {
         mAddWalletInteractor = addWalletInteractor;
         mRxSchedulerProvider = rxSchedulerProvider;
+        mSystemManager = systemManager;
     }
 
     @Override
@@ -65,8 +69,10 @@ public class AddWalletPresenter extends MvpBasePresenter<AddWalletView> {
             getView().showMessage(R.string.error_coin_not_supported);
         } else if (throwable instanceof SQLiteConstraintException) {
             getView().showMessage(R.string.error_add_wallet_already_exist);
+        } else if (!mSystemManager.isConnected()) {
+            getView().showMessage(R.string.error_connection);
         } else {
-            getView().showMessage(R.string.error_add_wallet);
+            getView().showMessage(R.string.error_unknown);
         }
         L.e(throwable);
     }

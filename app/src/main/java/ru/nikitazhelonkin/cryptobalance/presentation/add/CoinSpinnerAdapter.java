@@ -18,7 +18,7 @@ public class CoinSpinnerAdapter extends BaseAdapter {
 
     private List<Coin> mCoinList;
 
-    public CoinSpinnerAdapter(Context context) {
+    public CoinSpinnerAdapter() {
 
     }
 

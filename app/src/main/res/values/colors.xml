@@ -7,5 +7,7 @@
     <color name="colorText">@android:color/black</color>
     <color name="colorTextSecondary">#9b9b9b</color>
     <color name="colorDivider">#efefef</color>
-    <color name="colorBlue">#118bcc</color>
+
+    <color name="ic_launcher_background">#000000</color>
+
 </resources>

@@ -9,6 +9,8 @@ public interface MainView extends MvpView {
 
     void setData(MainViewModel data);
 
+    void setEmptyViewVisible(boolean visible);
+
     void showError(int errorResId);
 
     void showMessage(int message);
@@ -24,6 +26,8 @@ public interface MainView extends MvpView {
     void showDeleteView(Wallet wallet);
 
     void navigateToAddWalletView();
+
+    void navigateToSettingsView();
 
 
 }

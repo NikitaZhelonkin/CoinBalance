@@ -3,7 +3,6 @@ package ru.nikitazhelonkin.cryptobalance.data.api.client;
 
 import io.reactivex.Single;
 import okhttp3.ResponseBody;
-import ru.nikitazhelonkin.cryptobalance.data.api.ChainsoApiService;
 import ru.nikitazhelonkin.cryptobalance.data.api.ChainzApiService;
 
 public class LTCApiClient implements ApiClient {

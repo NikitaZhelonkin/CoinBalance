@@ -3,6 +3,7 @@ package ru.nikitazhelonkin.cryptobalance.presentation.main;
 
 import android.content.Context;
 import android.support.v4.view.GravityCompat;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
@@ -38,17 +39,16 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         void onMenuItemClick(Wallet wallet, int itemId);
     }
 
-
     private Callback mCallback;
 
     public void setCallback(Callback callback) {
         mCallback = callback;
     }
 
-
     public void setData(MainViewModel data) {
+        MainViewModel oldData = mData;
         mData = data;
-        notifyDataSetChanged();
+        DiffUtil.calculateDiff(new MainDiffCallback(oldData, data)).dispatchUpdatesTo(this);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
         private void bind(Wallet wallet) {
             Coin coin = mData.getCoin(wallet.getCoinTicker());
-            Currency currency = Currency.getInstance("USD");
+            Currency currency = Currency.getInstance(mData.getCurrency());
             NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
             format.setCurrency(currency);
 

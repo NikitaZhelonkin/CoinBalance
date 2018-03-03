@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import ru.nikitazhelonkin.cryptobalance.utils.L;
-
 public class PricesDeserializer extends JsonDeserializer<Prices> {
 
     @Override

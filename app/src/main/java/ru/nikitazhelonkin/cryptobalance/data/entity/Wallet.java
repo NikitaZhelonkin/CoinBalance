@@ -86,4 +86,19 @@ public class Wallet {
     public float getBalance() {
         return mBalance;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Wallet wallet = (Wallet) o;
+
+        return mId == wallet.mId;
+    }
+
+    @Override
+    public int hashCode() {
+        return mId;
+    }
 }

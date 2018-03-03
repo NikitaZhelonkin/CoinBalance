@@ -9,7 +9,6 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
 import io.reactivex.Single;
 import ru.nikitazhelonkin.cryptobalance.data.entity.Wallet;
 
@@ -18,9 +17,6 @@ public interface WalletDao {
 
     @Query("SELECT * FROM wallet")
     Single<List<Wallet>> getAll();
-
-    @Query("SELECT COUNT(*) FROM wallet")
-    Flowable<Integer> observe();
 
     @Insert
     void insert(Wallet wallet);

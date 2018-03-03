@@ -8,7 +8,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import ru.nikitazhelonkin.cryptobalance.data.api.CryptoCompareApiService;
@@ -19,7 +18,6 @@ import ru.nikitazhelonkin.cryptobalance.data.entity.MainViewModel;
 import ru.nikitazhelonkin.cryptobalance.data.entity.Wallet;
 import ru.nikitazhelonkin.cryptobalance.data.repository.CoinRepository;
 import ru.nikitazhelonkin.cryptobalance.data.repository.WalletRepository;
-import ru.nikitazhelonkin.cryptobalance.utils.L;
 
 public class MainInteractor {
 
@@ -50,7 +48,7 @@ public class MainInteractor {
         return mWalletRepository.delete(wallet);
     }
 
-    public Flowable<Integer> observe() {
+    public Observable<Class<?>> observe() {
         return mWalletRepository.observe();
     }
 
@@ -66,7 +64,13 @@ public class MainInteractor {
     }
 
     public Single<MainViewModel> loadData() {
-        return Single.zip(getWallets(), getCoins(), getPrices("USD"), MainViewModel::new);
+        return Single.zip(getWallets(), getCoins(),
+                getPrices(getCurrency()),(wallets, coins, prices) -> new MainViewModel(
+                        getCurrency(), wallets, coins, prices));
+    }
+
+    private String getCurrency(){
+        return "USD";
     }
 
     private Single<List<Wallet>> getWallets() {

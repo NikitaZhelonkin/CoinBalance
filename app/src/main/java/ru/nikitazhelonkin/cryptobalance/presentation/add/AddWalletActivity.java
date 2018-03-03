@@ -71,7 +71,7 @@ public class AddWalletActivity extends MvpActivity<AddWalletPresenter, AddWallet
         setTitle(R.string.title_add_wallet);
         mToolbar.setNavigationOnClickListener(view -> onBackPressed());
 
-        mCoinSpinnerAdapter = new CoinSpinnerAdapter(this);
+        mCoinSpinnerAdapter = new CoinSpinnerAdapter();
         mCoinSpinner.setAdapter(mCoinSpinnerAdapter);
         mCoinSpinner.setOnItemSelectedListener(this);
         mWalletAddressInput.addTextChangedListener(this);
@@ -160,7 +160,7 @@ public class AddWalletActivity extends MvpActivity<AddWalletPresenter, AddWallet
 
     @Override
     public void showMessage(int messageResId) {
-        Snackbar.make(mToolbar, messageResId, Snackbar.LENGTH_SHORT).show();
+        showSnackBar(getString(messageResId));
     }
 
     @Override
@@ -188,6 +188,12 @@ public class AddWalletActivity extends MvpActivity<AddWalletPresenter, AddWallet
         mQRCodeButton.setVisibility(mWalletAddressInput.getText().length() == 0 ? View.VISIBLE : View.GONE);
         mAddressClearButton.setVisibility(mWalletAddressInput.getText().length() == 0 ? View.GONE : View.VISIBLE);
         mAliasClearButton.setVisibility(mAliasInput.getText().length() == 0 ? View.GONE : View.VISIBLE);
+    }
+
+    private void showSnackBar(String text) {
+        Snackbar snackbar = Snackbar.make(mToolbar, text, Snackbar.LENGTH_SHORT);
+        snackbar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        snackbar.show();
     }
 }
 

@@ -9,9 +9,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 import java.util.Currency;
@@ -40,6 +42,8 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     TextView mToolbarTitle;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
+    @BindView(R.id.empty_view)
+    View mEmptyView;
     @BindView(R.id.progress_view)
     ProgressBar mProgressBar;
     @BindView(R.id.swipe_refresh_layout)
@@ -70,13 +74,22 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         }
         mToolbarTitle.setText(R.string.app_name);
 
-        setTotalBalance(0);
+        setTotalBalance("USD", 0);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_settings) {
+            getPresenter().onSettingsClick();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -105,7 +118,7 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     @Override
     public void setData(MainViewModel data) {
         mMainAdapter.setData(data);
-        setTotalBalance(data.getTotalBalance());
+        setTotalBalance(data.getCurrency(), data.getTotalBalance());
     }
 
     @Override
@@ -162,8 +175,13 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         startActivity(AddWalletActivity.createIntent(this));
     }
 
-    private void setTotalBalance(float totalBalance) {
-        Currency currency = Currency.getInstance("USD");
+    @Override
+    public void navigateToSettingsView() {
+        Toast.makeText(this, "TODO", Toast.LENGTH_SHORT).show();
+    }
+
+    private void setTotalBalance(String currencyStr, float totalBalance) {
+        Currency currency = Currency.getInstance(currencyStr);
         NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
         format.setCurrency(currency);
 
@@ -179,5 +197,9 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         snackbar.show();
     }
 
+    @Override
+    public void setEmptyViewVisible(boolean visible) {
+        mEmptyView.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
 }
 

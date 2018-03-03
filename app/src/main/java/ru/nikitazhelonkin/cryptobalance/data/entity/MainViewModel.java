@@ -16,7 +16,10 @@ public class MainViewModel {
 
     private List<Coin> mCoins;
 
-    public MainViewModel(List<Wallet> wallets, List<Coin> coins, Prices prices) {
+    private String mCurrency;
+
+    public MainViewModel(String currency, List<Wallet> wallets, List<Coin> coins, Prices prices) {
+        mCurrency = currency;
         mWallets = wallets;
         mCoins = coins;
         mPrices = prices;
@@ -38,37 +41,12 @@ public class MainViewModel {
         return ListUtils.find(mCoins, c -> c.getTicker().equals(coin));
     }
 
-//    public int indexOf(Coin coin) {
-//        if (coin == null) {
-//            return -1;
-//        }
-//        for (int i = 0; i < getCoinCount(); i++) {
-//            if (coin.equals(getEntry(i).getKey())) {
-//                return i;
-//            }
-//        }
-//        return -1;
-//    }
-//
-//    public int getCoinCount() {
-//        return mWallets.size();
-//    }
-//
-//    public Map.Entry<Coin, List<Wallet>> getEntry(int position) {
-//        Set<Map.Entry<Coin, List<Wallet>>> entries = mWallets.entrySet();
-//        int i = 0;
-//        for (Map.Entry<Coin, List<Wallet>> entry : entries)
-//            if (i++ == position) return entry;
-//
-//        return null;
-//    }
-//
-//    public List<Wallet> getWallets(Coin coin) {
-//        return mWallets.get(coin);
-//    }
-
     public float getPrice(String coin) {
         return mPrices.getPrice(coin);
+    }
+
+    public String getCurrency() {
+        return mCurrency;
     }
 
     public float getTotalBalance() {
