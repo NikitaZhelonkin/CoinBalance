@@ -30,13 +30,22 @@ import ru.nikitazhelonkin.cryptobalance.ui.text.FontSpan;
 import ru.nikitazhelonkin.cryptobalance.ui.text.Spanner;
 import ru.nikitazhelonkin.cryptobalance.ui.text.Typefaces;
 import ru.nikitazhelonkin.cryptobalance.ui.widget.MyPopupMenu;
+import ru.nikitazhelonkin.cryptobalance.ui.widget.itemtouchhelper.ItemTouchHelperAdapter;
+import ru.nikitazhelonkin.cryptobalance.ui.widget.itemtouchhelper.ItemTouchHelperViewHolder;
+import ru.nikitazhelonkin.cryptobalance.utils.AppNumberFormatter;
 
-public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
+public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> implements
+        ItemTouchHelperAdapter {
 
     private MainViewModel mData;
 
+
     public interface Callback {
         void onMenuItemClick(Wallet wallet, int itemId);
+
+        void onStartDragging();
+
+        void onStopDragging();
     }
 
     private Callback mCallback;
@@ -62,12 +71,20 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         holder.bind(mData.getWallet(position));
     }
 
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        mData.swapWallets(fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
+    }
+
     @Override
     public int getItemCount() {
         return mData != null ? mData.getWalletCount() : 0;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
 
         @BindView(R.id.coin_icon)
         ImageView imageView;
@@ -88,20 +105,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         private void bind(Wallet wallet) {
             Coin coin = mData.getCoin(wallet.getCoinTicker());
             Currency currency = Currency.getInstance(mData.getCurrency());
-            NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
-            format.setCurrency(currency);
 
-            String currencyBalanceStr = format.format(mData.getPrice(coin.getTicker()) * wallet.getBalance())
-                    .replace(currency.getSymbol(), "");
+            float balance = mData.getPrice(coin.getTicker()) * wallet.getBalance();
+            String currencyBalanceStr = AppNumberFormatter.format(balance);
 
-            Spanner.from(String.format(Locale.US, "%s %s", currencyBalanceStr, currency.getSymbol()))
-                    .style(currency.getSymbol()
-                            , new ForegroundColorSpan(mTextColorSecondary))
-                    .style(currency.getSymbol(), new FontSpan(Typefaces.getTypeface(getContext(),
-                            R.string.font_roboto_regular)))
-                    .applyTo(currencyBalance);
+            currencyBalance.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), currencyBalanceStr));
 
-            Spanner.from(String.format(Locale.US, "%f %s", wallet.getBalance(), coin.getTicker()))
+            Spanner.from(String.format(Locale.US, "%.4f %s", wallet.getBalance(), coin.getTicker()))
                     .style(coin.getTicker(), new ForegroundColorSpan(mTextColorSecondary))
                     .applyTo(balanceView);
 
@@ -133,6 +143,21 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             return itemView.getContext();
         }
 
+        @Override
+        public void onItemSelected() {
+            itemView.setAlpha(0.5f);
+            if (mCallback != null) {
+                mCallback.onStartDragging();
+            }
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setAlpha(1f);
+            if (mCallback != null) {
+                mCallback.onStopDragging();
+            }
+        }
     }
 
 

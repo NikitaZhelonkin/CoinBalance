@@ -89,7 +89,6 @@ public class AddWalletActivity extends MvpActivity<AddWalletPresenter, AddWallet
         if (result != null) {
             if (result.getContents() != null) {
                 mWalletAddressInput.setText(result.getContents());
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

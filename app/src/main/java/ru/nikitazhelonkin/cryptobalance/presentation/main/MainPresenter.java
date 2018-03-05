@@ -24,6 +24,8 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
     private ClipboardManager mClipboardManager;
     private SystemManager mSystemManager;
 
+    private MainViewModel mData;
+
     @Inject
     public MainPresenter(MainInteractor mainInteractor,
                          RxSchedulerProvider rxSchedulerProvider,
@@ -41,6 +43,7 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         syncBalances();
         loadWallets();
         observe();
+        getView().setTotalBalance(mMainInteractor.getCurrency(), 0);
     }
 
     public void onSettingsClick() {
@@ -109,18 +112,33 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
     }
 
     private void onResult(MainViewModel data) {
+        mData = data;
         getView().setData(data);
+        getView().setTotalBalance(data.getCurrency(), data.getTotalBalance());
         getView().setEmptyViewVisible(data.getWalletCount() == 0);
+        getView().setErrorViewVisible(false);
+    }
+
+    public void updateItemPositions() {
+        if (mData == null)
+            return;
+        for (int i = 0; i < mData.getWalletCount(); i++) {
+            mData.getWallet(i).setPosition(i);
+        }
+        mMainInteractor.updateWallets(mData.getWallets(), false)
+                .compose(mRxSchedulerProvider.ioToMainTransformer())
+                .subscribe();
     }
 
     private void onError(Throwable e) {
+        L.e(e);
         getView().hideLoader();
+        getView().setErrorViewVisible(mData == null);
         if (!mSystemManager.isConnected()) {
             getView().showError(R.string.error_connection);
         } else {
             getView().showError(R.string.error_unknown);
         }
-        L.e(e);
     }
 
 }

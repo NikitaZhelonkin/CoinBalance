@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +31,9 @@ import ru.nikitazhelonkin.cryptobalance.di.DaggerPresenterComponent;
 import ru.nikitazhelonkin.cryptobalance.mvp.MvpActivity;
 import ru.nikitazhelonkin.cryptobalance.presentation.add.AddWalletActivity;
 import ru.nikitazhelonkin.cryptobalance.ui.widget.InputAlertDialogBuilder;
+import ru.nikitazhelonkin.cryptobalance.ui.widget.itemtouchhelper.ItemTouchHelperCallback;
+import ru.nikitazhelonkin.cryptobalance.utils.AppNumberFormatter;
+import ru.nikitazhelonkin.cryptobalance.utils.L;
 
 public class MainActivity extends MvpActivity<MainPresenter, MainView> implements
         MainView,
@@ -44,6 +48,8 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     RecyclerView mRecyclerView;
     @BindView(R.id.empty_view)
     View mEmptyView;
+    @BindView(R.id.error_view)
+    View mErrorView;
     @BindView(R.id.progress_view)
     ProgressBar mProgressBar;
     @BindView(R.id.swipe_refresh_layout)
@@ -54,6 +60,7 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     TextView mTotalBalance;
 
     private MainAdapter mMainAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,13 +75,15 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         mRecyclerView.setHasFixedSize(true);
         mMainAdapter.setCallback(this);
 
+        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(mMainAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(mRecyclerView);
+
         setSupportActionBar(mToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setIcon(R.drawable.ic_wallet_24dp);
         }
         mToolbarTitle.setText(R.string.app_name);
-
-        setTotalBalance("USD", 0);
     }
 
     @Override
@@ -105,6 +114,16 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         getPresenter().onMenuItemClick(wallet, itemId);
     }
 
+    @Override
+    public void onStartDragging() {
+        //do nothing
+    }
+
+    @Override
+    public void onStopDragging() {
+        getPresenter().updateItemPositions();
+    }
+
     @OnClick(R.id.add_fab)
     public void onAddFabClick(View v) {
         getPresenter().onAddClick();
@@ -118,17 +137,24 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     @Override
     public void setData(MainViewModel data) {
         mMainAdapter.setData(data);
-        setTotalBalance(data.getCurrency(), data.getTotalBalance());
     }
 
     @Override
+    public void setTotalBalance(String currencyStr, float totalBalance) {
+        Currency currency = Currency.getInstance(currencyStr);
+        String currencyBalanceStr = AppNumberFormatter.format(totalBalance);
+        mTotalBalance.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), currencyBalanceStr));
+    }
+
+
+    @Override
     public void showError(int errorResId) {
-        showSnackBar(getString(errorResId));
+        showSnackBar(getString(errorResId), Snackbar.LENGTH_LONG);
     }
 
     @Override
     public void showMessage(int messageResId) {
-        showSnackBar(getString(messageResId));
+        showSnackBar(getString(messageResId), Snackbar.LENGTH_SHORT);
     }
 
     @Override
@@ -180,19 +206,8 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         Toast.makeText(this, "TODO", Toast.LENGTH_SHORT).show();
     }
 
-    private void setTotalBalance(String currencyStr, float totalBalance) {
-        Currency currency = Currency.getInstance(currencyStr);
-        NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
-        format.setCurrency(currency);
-
-        String currencyBalanceStr = format.format(totalBalance)
-                .replace(currency.getSymbol(), "");
-
-        mTotalBalance.setText(String.format(Locale.US, "%s %s", currencyBalanceStr, currency.getSymbol()));
-    }
-
-    private void showSnackBar(String text) {
-        Snackbar snackbar = Snackbar.make(mToolbar, text, Snackbar.LENGTH_SHORT);
+    private void showSnackBar(String text, int duration) {
+        Snackbar snackbar = Snackbar.make(mToolbar, text, duration);
         snackbar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         snackbar.show();
     }
@@ -201,5 +216,11 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     public void setEmptyViewVisible(boolean visible) {
         mEmptyView.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
+
+    @Override
+    public void setErrorViewVisible(boolean visible) {
+        mErrorView.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
 }
 

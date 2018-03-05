@@ -14,7 +14,7 @@ import org.parceler.ParcelConstructor;
 @Entity(indices =
 @Index(name = "index_name", value = "address", unique = true))
 @Parcel(Parcel.Serialization.BEAN)
-public class Wallet {
+public class Wallet implements Comparable {
 
     @PrimaryKey(autoGenerate = true)
     private int mId;
@@ -26,18 +26,24 @@ public class Wallet {
     private String mAlias;
     @ColumnInfo(name = "balance")
     private float mBalance;
+    @ColumnInfo(name = "position")
+    private int mPosition;
+    @ColumnInfo(name = "create_at")
+    private long mCreatedAt;
 
 
     public Wallet(@NonNull String coinTicker, @NonNull String address, @Nullable String alias) {
-        this(coinTicker, address, alias, 0);
+        this(coinTicker, address, alias, 0, -1, System.currentTimeMillis());
     }
 
     @ParcelConstructor
-    public Wallet(@NonNull String coinTicker, @NonNull String address, @Nullable String alias, float balance) {
+    public Wallet(@NonNull String coinTicker, @NonNull String address, @Nullable String alias, float balance, int position, long createdAt) {
         mCoinTicker = coinTicker;
         mAddress = address;
         mAlias = alias;
         mBalance = balance;
+        mPosition = position;
+        mCreatedAt = createdAt;
     }
 
     public Wallet() {
@@ -87,6 +93,22 @@ public class Wallet {
         return mBalance;
     }
 
+    public int getPosition() {
+        return mPosition;
+    }
+
+    public void setPosition(int position) {
+        mPosition = position;
+    }
+
+    public void setCreatedAt(long createdAt) {
+        mCreatedAt = createdAt;
+    }
+
+    public long getCreatedAt() {
+        return mCreatedAt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -100,5 +122,20 @@ public class Wallet {
     @Override
     public int hashCode() {
         return mId;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        if (o instanceof Wallet) {
+            Wallet w = (Wallet) o;
+            if (w.getPosition() != -1 && mPosition != -1) {
+                return mPosition - w.getPosition();
+            } else if (w.getPosition() == -1 || mPosition == -1) {
+                return mPosition == -1 ? 1 : -1;
+            } else {
+                return mCreatedAt > w.getCreatedAt() ? 1 : mCreatedAt == w.getCreatedAt() ? 0 : -1;
+            }
+        }
+        return 1;
     }
 }

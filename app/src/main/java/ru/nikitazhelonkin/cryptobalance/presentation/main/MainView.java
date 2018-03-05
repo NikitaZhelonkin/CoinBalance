@@ -9,7 +9,11 @@ public interface MainView extends MvpView {
 
     void setData(MainViewModel data);
 
+    void setTotalBalance(String currency, float balance);
+
     void setEmptyViewVisible(boolean visible);
+
+    void setErrorViewVisible(boolean visible);
 
     void showError(int errorResId);
 

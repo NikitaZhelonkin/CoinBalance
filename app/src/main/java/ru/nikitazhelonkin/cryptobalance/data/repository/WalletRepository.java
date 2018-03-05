@@ -26,22 +26,39 @@ public class WalletRepository {
     }
 
     public Single<List<Wallet>> getWallets() {
-        return mAppDatabase.userDao().getAll();
+        return mAppDatabase.userDao().getAll()
+                .toObservable()
+                .flatMap(Observable::fromIterable)
+                .toSortedList(Wallet::compareTo);
     }
 
-    public Completable insert(Wallet wallet) {
+    public Completable insert(Wallet wallet, boolean notify) {
         return Completable.fromAction(() -> mAppDatabase.userDao().insert(wallet))
-                .doOnComplete(this::notifyChange);
+                .doOnComplete(() -> {
+                    if (notify) notifyChange();
+                });
     }
 
-    public Completable update(Wallet wallet) {
+    public Completable update(List<Wallet> wallets, boolean notify) {
+        return Observable.fromIterable(wallets)
+                .flatMapCompletable(wallet -> Completable.fromAction(() -> mAppDatabase.userDao().update(wallet)))
+                .doOnComplete(() -> {
+                    if (notify) notifyChange();
+                });
+    }
+
+    public Completable update(Wallet wallet, boolean notify) {
         return Completable.fromAction(() -> mAppDatabase.userDao().update(wallet))
-                .doOnComplete(this::notifyChange);
+                .doOnComplete(() -> {
+                    if (notify) notifyChange();
+                });
     }
 
-    public Completable delete(Wallet wallet) {
+    public Completable delete(Wallet wallet, boolean notify) {
         return Completable.fromAction(() -> mAppDatabase.userDao().delete(wallet))
-                .doOnComplete(this::notifyChange);
+                .doOnComplete(() -> {
+                    if (notify) notifyChange();
+                });
     }
 
 

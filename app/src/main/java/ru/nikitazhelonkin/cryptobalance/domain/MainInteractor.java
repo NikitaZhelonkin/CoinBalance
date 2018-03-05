@@ -41,11 +41,11 @@ public class MainInteractor {
 
     public Completable editWalletName(Wallet wallet, String name){
         wallet.setAlias(name);
-        return mWalletRepository.update(wallet);
+        return mWalletRepository.update(wallet, true);
     }
 
     public Completable deleteWallet(Wallet wallet){
-        return mWalletRepository.delete(wallet);
+        return mWalletRepository.delete(wallet, true);
     }
 
     public Observable<Class<?>> observe() {
@@ -57,7 +57,7 @@ public class MainInteractor {
                  .toObservable()
                 .flatMap(Observable::fromIterable)
                 .doOnNext(wallet -> wallet.setBalance(Float.parseFloat(getBalance(wallet).blockingGet())))
-                .doOnNext(wallet -> mWalletRepository.update(wallet))
+                .doOnNext(wallet -> mWalletRepository.update(wallet, true))
                 .toList()
                 .toCompletable();
 
@@ -69,8 +69,12 @@ public class MainInteractor {
                         getCurrency(), wallets, coins, prices));
     }
 
-    private String getCurrency(){
+    public String getCurrency(){
         return "USD";
+    }
+
+    public Completable updateWallets(List<Wallet> wallets, boolean notify){
+        return  mWalletRepository.update(wallets, notify);
     }
 
     private Single<List<Wallet>> getWallets() {
@@ -88,10 +92,6 @@ public class MainInteractor {
                 .map(Coin::getTicker)
                 .toList().map(strings -> TextUtils.join(",", strings))
                 .flatMap(s -> mPriceApiService.getPrices(s, currency));
-    }
-
-    private Single<Coin> getCoin(String ticker) {
-        return mCoinRepository.getCoin(ticker);
     }
 
     private Single<String> getBalance(Wallet wallet) {

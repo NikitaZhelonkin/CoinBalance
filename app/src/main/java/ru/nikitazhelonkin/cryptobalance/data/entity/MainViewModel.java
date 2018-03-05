@@ -3,6 +3,7 @@ package ru.nikitazhelonkin.cryptobalance.data.entity;
 
 import android.support.annotation.NonNull;
 
+import java.util.Collections;
 import java.util.List;
 
 import ru.nikitazhelonkin.cryptobalance.data.api.response.Prices;
@@ -39,6 +40,10 @@ public class MainViewModel {
 
     public Coin getCoin(@NonNull String coin) {
         return ListUtils.find(mCoins, c -> c.getTicker().equals(coin));
+    }
+
+    public void  swapWallets(int fromPosition, int toPosition){
+        Collections.swap(mWallets, fromPosition, toPosition);
     }
 
     public float getPrice(String coin) {

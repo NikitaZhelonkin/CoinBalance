@@ -7,6 +7,7 @@
 
     <string name="success_add_wallet">Wallet successfully added</string>
     <string name="error_coin_not_supported">Coin not supported</string>
+    <string name="error_loading_wallets">Error, try again pls</string>
     <string name="error_add_wallet_already_exist">Error, that wallet already exist</string>
     <string name="error_unknown">Unknown error</string>
     <string name="error_connection">Connection error</string>

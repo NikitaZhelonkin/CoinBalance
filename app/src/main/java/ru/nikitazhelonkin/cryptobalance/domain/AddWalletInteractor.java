@@ -36,7 +36,7 @@ public class AddWalletInteractor {
                 .onErrorResumeNext(throwable -> Single.error(mapThrowable(throwable)))
                 .flatMap(coin -> getBalance(wallet))
                 .doOnSuccess(s -> wallet.setBalance(Float.parseFloat(s)))
-                .flatMapCompletable(balance -> mWalletRepository.insert(wallet));
+                .flatMapCompletable(balance -> mWalletRepository.insert(wallet, true));
 
     }
 
