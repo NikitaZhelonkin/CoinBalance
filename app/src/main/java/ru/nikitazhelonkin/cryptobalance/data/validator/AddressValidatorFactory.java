@@ -15,6 +15,8 @@ public class AddressValidatorFactory {
             return new DASHAddressValidator();
         } else if ("ETH".equalsIgnoreCase(coin)) {
             return new ETHAddressValidator();
+        } else if ("ETC".equalsIgnoreCase(coin)) {
+            return new ETHAddressValidator();
         } else if ("LTC".equalsIgnoreCase(coin)) {
             return new LTCAddressValidator();
         } else if ("NEO".equalsIgnoreCase(coin)) {

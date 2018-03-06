@@ -17,13 +17,18 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import ru.nikitazhelonkin.cryptobalance.BuildConfig;
+import ru.nikitazhelonkin.cryptobalance.data.api.BCHChainApiService;
 import ru.nikitazhelonkin.cryptobalance.data.api.BTCApiService;
 import ru.nikitazhelonkin.cryptobalance.data.api.ChainsoApiService;
 import ru.nikitazhelonkin.cryptobalance.data.api.ChainzApiService;
 import ru.nikitazhelonkin.cryptobalance.data.api.CryptoCompareApiService;
+import ru.nikitazhelonkin.cryptobalance.data.api.ETCApiService;
 import ru.nikitazhelonkin.cryptobalance.data.api.ETHApiService;
+import ru.nikitazhelonkin.cryptobalance.data.api.NEMApiService;
+import ru.nikitazhelonkin.cryptobalance.data.api.XLMApiService;
 import ru.nikitazhelonkin.cryptobalance.data.api.XRPApiService;
 import ru.nikitazhelonkin.cryptobalance.data.api.interceptor.LoggingInterceptor;
+import ru.nikitazhelonkin.cryptobalance.data.api.response.DogeApiService;
 import ru.nikitazhelonkin.cryptobalance.data.db.AppDatabase;
 import ru.nikitazhelonkin.cryptobalance.data.prefs.Prefs;
 import ru.nikitazhelonkin.cryptobalance.data.repository.CoinRepository;
@@ -75,72 +80,77 @@ public class AppModule {
     @Singleton
     @NonNull
     CryptoCompareApiService provideCryptocompareApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
-        return new Retrofit.Builder()
-                .baseUrl("https://min-api.cryptocompare.com")
-                .client(httpClient)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(JacksonConverterFactory.create(objectMapper)).build()
-                .create(CryptoCompareApiService.class);
+        return provideApiService("https://min-api.cryptocompare.com", CryptoCompareApiService.class, httpClient, objectMapper);
     }
 
     @Provides
     @Singleton
     @NonNull
     BTCApiService provideBTCApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
-        return new Retrofit.Builder()
-                .baseUrl("https://blockchain.info")
-                .client(httpClient)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(JacksonConverterFactory.create(objectMapper)).build()
-                .create(BTCApiService.class);
+        return provideApiService("https://blockchain.info", BTCApiService.class, httpClient, objectMapper);
     }
 
     @Provides
     @Singleton
     @NonNull
     ETHApiService provideETHApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
-        return new Retrofit.Builder()
-                .baseUrl("https://api.etherscan.io")
-                .client(httpClient)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(JacksonConverterFactory.create(objectMapper)).build()
-                .create(ETHApiService.class);
+        return provideApiService("https://api.etherscan.io", ETHApiService.class, httpClient, objectMapper);
     }
 
     @Provides
     @Singleton
     @NonNull
     ChainzApiService provideChainzApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
-        return new Retrofit.Builder()
-                .baseUrl("https://chainz.cryptoid.info")
-                .client(httpClient)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(JacksonConverterFactory.create(objectMapper)).build()
-                .create(ChainzApiService.class);
+        return provideApiService("https://chainz.cryptoid.info", ChainzApiService.class, httpClient, objectMapper);
     }
 
     @Provides
     @Singleton
     @NonNull
     ChainsoApiService provideChainSoApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
-        return new Retrofit.Builder()
-                .baseUrl("https://chain.so")
-                .client(httpClient)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(JacksonConverterFactory.create(objectMapper)).build()
-                .create(ChainsoApiService.class);
+        return provideApiService("https://chain.so", ChainsoApiService.class, httpClient, objectMapper);
     }
 
     @Provides
     @Singleton
     @NonNull
     XRPApiService provideXRPApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
-        return new Retrofit.Builder()
-                .baseUrl("https://data.ripple.com")
-                .client(httpClient)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(JacksonConverterFactory.create(objectMapper)).build()
-                .create(XRPApiService.class);
+        return provideApiService("https://data.ripple.com", XRPApiService.class, httpClient, objectMapper);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    BCHChainApiService provideBCHChainApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
+        return provideApiService("https://bch-chain.api.btc.com/", BCHChainApiService.class, httpClient, objectMapper);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    ETCApiService provideETCApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
+        return provideApiService("https://etcchain.com", ETCApiService.class, httpClient, objectMapper);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    DogeApiService provideDogeApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
+        return provideApiService("https://dogechain.info", DogeApiService.class, httpClient, objectMapper);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    NEMApiService provideNemApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
+        return provideApiService("http://chain.nem.ninja/", NEMApiService.class, httpClient, objectMapper);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    XLMApiService provideXLMApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
+        return provideApiService("https://horizon.stellar.org", XLMApiService.class, httpClient, objectMapper);
     }
 
     @Provides
@@ -158,6 +168,15 @@ public class AppModule {
     @Provides
     Prefs providePrefs(Context context){
         return Prefs.get(context);
+    }
+
+    private <T> T provideApiService(String url, Class<T> tClass, OkHttpClient httpClient, ObjectMapper objectMapper){
+        return new Retrofit.Builder()
+                .baseUrl(url)
+                .client(httpClient)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(JacksonConverterFactory.create(objectMapper)).build()
+                .create(tClass);
     }
 
 }

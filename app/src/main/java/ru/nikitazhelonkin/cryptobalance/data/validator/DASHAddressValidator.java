@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class DASHAddressValidator implements AddressValidator {
 
-    private static final String DASH_REGEX = "^X[1-9A-HJ-NP-Za-km-z]{33}$";
+    private static final String DASH_REGEX = "^X[1-9A-HJ-NP-Za-km-z]{32,34}$";
 
     @Override
     public boolean isValid(String address) {

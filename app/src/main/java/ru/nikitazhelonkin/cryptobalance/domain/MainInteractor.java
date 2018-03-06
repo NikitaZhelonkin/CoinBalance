@@ -20,6 +20,7 @@ import ru.nikitazhelonkin.cryptobalance.data.entity.Wallet;
 import ru.nikitazhelonkin.cryptobalance.data.repository.CoinRepository;
 import ru.nikitazhelonkin.cryptobalance.data.repository.ObservableRepository;
 import ru.nikitazhelonkin.cryptobalance.data.repository.WalletRepository;
+import ru.nikitazhelonkin.cryptobalance.utils.L;
 
 public class MainInteractor {
 
@@ -71,6 +72,7 @@ public class MainInteractor {
                         wallet.setBalance(Float.parseFloat(getBalance(wallet).blockingGet()));
                         wallet.setStatus(Wallet.STATUS_OK);
                     }catch (Throwable e){
+                        L.e(e);
                         wallet.setStatus(Wallet.STATUS_ERROR);
                     }
                     mWalletRepository.update(wallet, false).blockingAwait();
