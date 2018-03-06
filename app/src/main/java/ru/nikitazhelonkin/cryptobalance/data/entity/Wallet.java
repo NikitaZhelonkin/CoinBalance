@@ -16,6 +16,10 @@ import org.parceler.ParcelConstructor;
 @Parcel(Parcel.Serialization.BEAN)
 public class Wallet implements Comparable {
 
+    public static final int STATUS_NONE = 0;
+    public static final int STATUS_ERROR = -1;
+    public static final int STATUS_OK = 1;
+
     @PrimaryKey(autoGenerate = true)
     private int mId;
     @ColumnInfo(name = "coin_ticker")
@@ -30,20 +34,29 @@ public class Wallet implements Comparable {
     private int mPosition;
     @ColumnInfo(name = "create_at")
     private long mCreatedAt;
+    @ColumnInfo(name = "status")
+    private int mStatus;
 
 
     public Wallet(@NonNull String coinTicker, @NonNull String address, @Nullable String alias) {
-        this(coinTicker, address, alias, 0, -1, System.currentTimeMillis());
+        this(coinTicker, address, alias, 0, -1, System.currentTimeMillis(), STATUS_NONE);
     }
 
     @ParcelConstructor
-    public Wallet(@NonNull String coinTicker, @NonNull String address, @Nullable String alias, float balance, int position, long createdAt) {
+    public Wallet(@NonNull String coinTicker,
+                  @NonNull String address,
+                  @Nullable String alias,
+                  float balance,
+                  int position,
+                  long createdAt,
+                  int status) {
         mCoinTicker = coinTicker;
         mAddress = address;
         mAlias = alias;
         mBalance = balance;
         mPosition = position;
         mCreatedAt = createdAt;
+        mStatus = status;
     }
 
     public Wallet() {
@@ -107,6 +120,14 @@ public class Wallet implements Comparable {
 
     public long getCreatedAt() {
         return mCreatedAt;
+    }
+
+    public void setStatus(int status) {
+        mStatus = status;
+    }
+
+    public int getStatus() {
+        return mStatus;
     }
 
     @Override

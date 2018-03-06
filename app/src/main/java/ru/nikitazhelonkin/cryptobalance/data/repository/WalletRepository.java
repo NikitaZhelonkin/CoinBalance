@@ -11,18 +11,12 @@ import io.reactivex.subjects.Subject;
 import ru.nikitazhelonkin.cryptobalance.data.db.AppDatabase;
 import ru.nikitazhelonkin.cryptobalance.data.entity.Wallet;
 
-public class WalletRepository {
-
-    private static final Subject<Class<?>> ON_CHANGE = PublishSubject.create();
+public class WalletRepository extends ObservableRepository {
 
     private AppDatabase mAppDatabase;
 
     public WalletRepository(AppDatabase database) {
         mAppDatabase = database;
-    }
-
-    public Observable<Class<?>> observe() {
-        return ON_CHANGE.filter(aClass -> aClass.equals(getClass()));
     }
 
     public Single<List<Wallet>> getWallets() {
@@ -35,7 +29,7 @@ public class WalletRepository {
     public Completable insert(Wallet wallet, boolean notify) {
         return Completable.fromAction(() -> mAppDatabase.userDao().insert(wallet))
                 .doOnComplete(() -> {
-                    if (notify) notifyChange();
+                    if (notify) notifyInsert();
                 });
     }
 
@@ -57,13 +51,8 @@ public class WalletRepository {
     public Completable delete(Wallet wallet, boolean notify) {
         return Completable.fromAction(() -> mAppDatabase.userDao().delete(wallet))
                 .doOnComplete(() -> {
-                    if (notify) notifyChange();
+                    if (notify) notifyDelete();
                 });
-    }
-
-
-    public void notifyChange() {
-        ON_CHANGE.onNext(getClass());
     }
 
 }

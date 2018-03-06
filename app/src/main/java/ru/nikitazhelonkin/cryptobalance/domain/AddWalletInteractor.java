@@ -12,8 +12,11 @@ import ru.nikitazhelonkin.cryptobalance.data.api.client.ApiClientProvider;
 import ru.nikitazhelonkin.cryptobalance.data.entity.Coin;
 import ru.nikitazhelonkin.cryptobalance.data.entity.Wallet;
 import ru.nikitazhelonkin.cryptobalance.data.exception.CoinNotSupportedException;
+import ru.nikitazhelonkin.cryptobalance.data.exception.InvalidAddressException;
 import ru.nikitazhelonkin.cryptobalance.data.repository.CoinRepository;
 import ru.nikitazhelonkin.cryptobalance.data.repository.WalletRepository;
+import ru.nikitazhelonkin.cryptobalance.data.validator.AddressValidator;
+import ru.nikitazhelonkin.cryptobalance.data.validator.AddressValidatorFactory;
 
 public class AddWalletInteractor {
 
@@ -34,8 +37,11 @@ public class AddWalletInteractor {
     public Completable addWallet(Wallet wallet) {
         return mCoinRepository.getCoin(wallet.getCoinTicker())
                 .onErrorResumeNext(throwable -> Single.error(mapThrowable(throwable)))
-                .flatMap(coin -> getBalance(wallet))
-                .doOnSuccess(s -> wallet.setBalance(Float.parseFloat(s)))
+                .doOnSuccess(coin -> {
+                    AddressValidator validator = AddressValidatorFactory.forCoin(coin.getTicker());
+                    if(validator!=null && !validator.isValid(wallet.getAddress()))
+                        throw new InvalidAddressException();
+                })
                 .flatMapCompletable(balance -> mWalletRepository.insert(wallet, true));
 
     }

@@ -10,6 +10,7 @@ import io.reactivex.disposables.Disposable;
 import ru.nikitazhelonkin.cryptobalance.R;
 import ru.nikitazhelonkin.cryptobalance.data.entity.MainViewModel;
 import ru.nikitazhelonkin.cryptobalance.data.entity.Wallet;
+import ru.nikitazhelonkin.cryptobalance.data.repository.ObservableRepository;
 import ru.nikitazhelonkin.cryptobalance.data.system.ClipboardManager;
 import ru.nikitazhelonkin.cryptobalance.data.system.SystemManager;
 import ru.nikitazhelonkin.cryptobalance.domain.MainInteractor;
@@ -58,6 +59,10 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         getView().navigateToAddWalletView();
     }
 
+    public void onErrorItemClick(Wallet wallet){
+        getView().showError(R.string.error_wallet_sync_balance);
+    }
+
     public void onMenuItemClick(Wallet wallet, int itemId) {
         switch (itemId) {
             case R.id.action_copy:
@@ -89,9 +94,19 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
     }
 
     private void observe() {
-        Disposable disposable = mMainInteractor.observe()
+        Disposable disposable = mMainInteractor.observeSettings()
                 .compose(mRxSchedulerProvider.ioToMainTransformer())
                 .subscribe(aClass -> loadWallets());
+        disposeOnDetach(disposable);
+
+        disposable = mMainInteractor.observeWallet()
+                .compose(mRxSchedulerProvider.ioToMainTransformer())
+                .subscribe(event -> {
+                    loadWallets();
+                    if(event.getEventType()== ObservableRepository.Event.INSERT){
+                        syncBalances();
+                    }
+                });
         disposeOnDetach(disposable);
 
     }

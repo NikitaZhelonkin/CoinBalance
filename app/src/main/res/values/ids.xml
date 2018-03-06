@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="settings_currency" type="id"/>
+    <item name="settings_export" type="id"/>
+    <item name="settings_import" type="id"/>
+    <item name="settings_report" type="id"/>
+    <item name="settings_share" type="id"/>
+    <item name="settings_rate" type="id"/>
+    <item name="settings_footer" type="id"/>
+</resources>

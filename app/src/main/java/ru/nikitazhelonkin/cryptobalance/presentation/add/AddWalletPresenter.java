@@ -11,6 +11,7 @@ import io.reactivex.disposables.Disposable;
 import ru.nikitazhelonkin.cryptobalance.R;
 import ru.nikitazhelonkin.cryptobalance.data.entity.Wallet;
 import ru.nikitazhelonkin.cryptobalance.data.exception.CoinNotSupportedException;
+import ru.nikitazhelonkin.cryptobalance.data.exception.InvalidAddressException;
 import ru.nikitazhelonkin.cryptobalance.data.system.SystemManager;
 import ru.nikitazhelonkin.cryptobalance.domain.AddWalletInteractor;
 import ru.nikitazhelonkin.cryptobalance.mvp.MvpBasePresenter;
@@ -69,6 +70,8 @@ public class AddWalletPresenter extends MvpBasePresenter<AddWalletView> {
             getView().showMessage(R.string.error_coin_not_supported);
         } else if (throwable instanceof SQLiteConstraintException) {
             getView().showMessage(R.string.error_add_wallet_already_exist);
+        } else if(throwable instanceof InvalidAddressException){
+            getView().showMessage(R.string.error_invalid_address);
         } else if (!mSystemManager.isConnected()) {
             getView().showMessage(R.string.error_connection);
         } else {

@@ -25,6 +25,7 @@ import ru.nikitazhelonkin.cryptobalance.data.api.ETHApiService;
 import ru.nikitazhelonkin.cryptobalance.data.api.XRPApiService;
 import ru.nikitazhelonkin.cryptobalance.data.api.interceptor.LoggingInterceptor;
 import ru.nikitazhelonkin.cryptobalance.data.db.AppDatabase;
+import ru.nikitazhelonkin.cryptobalance.data.prefs.Prefs;
 import ru.nikitazhelonkin.cryptobalance.data.repository.CoinRepository;
 import ru.nikitazhelonkin.cryptobalance.data.repository.WalletRepository;
 
@@ -152,6 +153,11 @@ public class AppModule {
     @Singleton
     WalletRepository provideWalletRepository(AppDatabase database) {
         return new WalletRepository(database);
+    }
+
+    @Provides
+    Prefs providePrefs(Context context){
+        return Prefs.get(context);
     }
 
 }

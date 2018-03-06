@@ -13,6 +13,7 @@ import ru.nikitazhelonkin.cryptobalance.data.api.CryptoCompareApiService;
 import ru.nikitazhelonkin.cryptobalance.data.api.ETHApiService;
 import ru.nikitazhelonkin.cryptobalance.data.api.XRPApiService;
 import ru.nikitazhelonkin.cryptobalance.data.db.AppDatabase;
+import ru.nikitazhelonkin.cryptobalance.data.prefs.Prefs;
 import ru.nikitazhelonkin.cryptobalance.data.repository.CoinRepository;
 import ru.nikitazhelonkin.cryptobalance.data.repository.WalletRepository;
 
@@ -21,6 +22,8 @@ import ru.nikitazhelonkin.cryptobalance.data.repository.WalletRepository;
 public interface AppComponent {
 
     Context context();
+
+    Prefs prefs();
 
     AppDatabase appDatabase();
 

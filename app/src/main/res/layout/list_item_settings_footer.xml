@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:contentPadding="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/colorDivider"
+            android:layout_height="1dp"/>
+
+        <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/settings_donate_text"
+            android:textColor="@color/colorText" />
+
+        <LinearLayout
+            android:id="@+id/btc_address_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp">
+
+            <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:text="BTC"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+
+
+            <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:ellipsize="middle"
+                android:drawableRight="@drawable/ic_copy_light_16dp"
+                android:text="@string/btc_address"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/eth_address_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp">
+
+            <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:text="ETH"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+
+            <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:ellipsize="middle"
+                android:drawableRight="@drawable/ic_copy_light_16dp"
+                android:text="@string/eth_address"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ltc_address_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp">
+
+            <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:text="LTC"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+
+            <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:ellipsize="middle"
+                android:drawableRight="@drawable/ic_copy_light_16dp"
+                android:text="@string/ltc_address"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

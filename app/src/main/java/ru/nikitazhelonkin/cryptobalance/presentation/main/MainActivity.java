@@ -30,6 +30,7 @@ import ru.nikitazhelonkin.cryptobalance.data.entity.Wallet;
 import ru.nikitazhelonkin.cryptobalance.di.DaggerPresenterComponent;
 import ru.nikitazhelonkin.cryptobalance.mvp.MvpActivity;
 import ru.nikitazhelonkin.cryptobalance.presentation.add.AddWalletActivity;
+import ru.nikitazhelonkin.cryptobalance.presentation.settings.SettingsActivity;
 import ru.nikitazhelonkin.cryptobalance.ui.widget.InputAlertDialogBuilder;
 import ru.nikitazhelonkin.cryptobalance.ui.widget.itemtouchhelper.ItemTouchHelperCallback;
 import ru.nikitazhelonkin.cryptobalance.utils.AppNumberFormatter;
@@ -112,6 +113,11 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     @Override
     public void onMenuItemClick(Wallet wallet, int itemId) {
         getPresenter().onMenuItemClick(wallet, itemId);
+    }
+
+    @Override
+    public void onErrorItemClick(Wallet wallet) {
+        getPresenter().onErrorItemClick(wallet);
     }
 
     @Override
@@ -203,7 +209,7 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
 
     @Override
     public void navigateToSettingsView() {
-        Toast.makeText(this, "TODO", Toast.LENGTH_SHORT).show();
+        startActivity(SettingsActivity.createIntent(this));
     }
 
     private void showSnackBar(String text, int duration) {

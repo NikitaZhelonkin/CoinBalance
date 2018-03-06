@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import ru.nikitazhelonkin.cryptobalance.data.AppSettings;
 import ru.nikitazhelonkin.cryptobalance.data.api.CryptoCompareApiService;
 import ru.nikitazhelonkin.cryptobalance.data.api.client.ApiClientProvider;
 import ru.nikitazhelonkin.cryptobalance.data.api.response.Prices;
@@ -17,6 +18,7 @@ import ru.nikitazhelonkin.cryptobalance.data.entity.Coin;
 import ru.nikitazhelonkin.cryptobalance.data.entity.MainViewModel;
 import ru.nikitazhelonkin.cryptobalance.data.entity.Wallet;
 import ru.nikitazhelonkin.cryptobalance.data.repository.CoinRepository;
+import ru.nikitazhelonkin.cryptobalance.data.repository.ObservableRepository;
 import ru.nikitazhelonkin.cryptobalance.data.repository.WalletRepository;
 
 public class MainInteractor {
@@ -28,15 +30,19 @@ public class MainInteractor {
 
     private CryptoCompareApiService mPriceApiService;
 
+    private AppSettings mAppSettings;
+
     @Inject
     public MainInteractor(CoinRepository coinRepository,
                           WalletRepository walletRepository,
                           ApiClientProvider apiClientProvider,
-                          CryptoCompareApiService cryptoCompareApiService) {
+                          CryptoCompareApiService cryptoCompareApiService,
+                          AppSettings settings) {
         mCoinRepository = coinRepository;
         mWalletRepository = walletRepository;
         mApiClientProvider = apiClientProvider;
         mPriceApiService = cryptoCompareApiService;
+        mAppSettings = settings;
     }
 
     public Completable editWalletName(Wallet wallet, String name){
@@ -48,18 +54,30 @@ public class MainInteractor {
         return mWalletRepository.delete(wallet, true);
     }
 
-    public Observable<Class<?>> observe() {
+    public Observable<ObservableRepository.Event> observeWallet() {
         return mWalletRepository.observe();
+    }
+
+    public Observable<Class<?>> observeSettings(){
+        return mAppSettings.observe();
     }
 
     public Completable syncBalances(){
         return mWalletRepository.getWallets()
                  .toObservable()
                 .flatMap(Observable::fromIterable)
-                .doOnNext(wallet -> wallet.setBalance(Float.parseFloat(getBalance(wallet).blockingGet())))
-                .doOnNext(wallet -> mWalletRepository.update(wallet, true))
+                .doOnNext(wallet -> {
+                    try{
+                        wallet.setBalance(Float.parseFloat(getBalance(wallet).blockingGet()));
+                        wallet.setStatus(Wallet.STATUS_OK);
+                    }catch (Throwable e){
+                        wallet.setStatus(Wallet.STATUS_ERROR);
+                    }
+                    mWalletRepository.update(wallet, false).blockingAwait();
+                })
                 .toList()
-                .toCompletable();
+                .toCompletable()
+                .doOnComplete(() -> mWalletRepository.notifyChange());
 
     }
 
@@ -70,7 +88,7 @@ public class MainInteractor {
     }
 
     public String getCurrency(){
-        return "USD";
+        return mAppSettings.getCurrency();
     }
 
     public Completable updateWallets(List<Wallet> wallets, boolean notify){

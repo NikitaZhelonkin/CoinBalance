@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
 
@@ -26,9 +25,7 @@ import ru.nikitazhelonkin.cryptobalance.R;
 import ru.nikitazhelonkin.cryptobalance.data.entity.Coin;
 import ru.nikitazhelonkin.cryptobalance.data.entity.MainViewModel;
 import ru.nikitazhelonkin.cryptobalance.data.entity.Wallet;
-import ru.nikitazhelonkin.cryptobalance.ui.text.FontSpan;
 import ru.nikitazhelonkin.cryptobalance.ui.text.Spanner;
-import ru.nikitazhelonkin.cryptobalance.ui.text.Typefaces;
 import ru.nikitazhelonkin.cryptobalance.ui.widget.MyPopupMenu;
 import ru.nikitazhelonkin.cryptobalance.ui.widget.itemtouchhelper.ItemTouchHelperAdapter;
 import ru.nikitazhelonkin.cryptobalance.ui.widget.itemtouchhelper.ItemTouchHelperViewHolder;
@@ -42,6 +39,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> im
 
     public interface Callback {
         void onMenuItemClick(Wallet wallet, int itemId);
+
+        void onErrorItemClick(Wallet wallet);
 
         void onStartDragging();
 
@@ -94,6 +93,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> im
         TextView balanceView;
         @BindView(R.id.wallet_name)
         TextView walletName;
+        @BindView(R.id.error_indicator)
+        View errorIndicator;
         @BindColor(R.color.colorTextSecondary)
         int mTextColorSecondary;
 
@@ -105,6 +106,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> im
         private void bind(Wallet wallet) {
             Coin coin = mData.getCoin(wallet.getCoinTicker());
             Currency currency = Currency.getInstance(mData.getCurrency());
+            boolean haveError = wallet.getStatus() == Wallet.STATUS_ERROR;
 
             float balance = mData.getPrice(coin.getTicker()) * wallet.getBalance();
             String currencyBalanceStr = AppNumberFormatter.format(balance);
@@ -115,10 +117,22 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> im
                     .style(coin.getTicker(), new ForegroundColorSpan(mTextColorSecondary))
                     .applyTo(balanceView);
 
-            walletName.setText(TextUtils.isEmpty(wallet.getAlias()) ? wallet.getAddress() : wallet.getAlias());
+            walletName.setText(TextUtils.isEmpty(wallet.getAlias()) ?
+                    getContext().getString(R.string.my_wallet_format, coin.getName()) :
+                    wallet.getAlias());
             walletName.setEllipsize(TextUtils.isEmpty(wallet.getAlias()) ? TextUtils.TruncateAt.MIDDLE :
                     TextUtils.TruncateAt.END);
             imageView.setImageResource(coin.getIconResId());
+            errorIndicator.setVisibility(haveError ? View.VISIBLE : View.GONE);
+            itemView.setOnClickListener(haveError ? this::onItemClick : null);
+        }
+
+        public void onItemClick(View v) {
+            if (getAdapterPosition() == RecyclerView.NO_POSITION)
+                return;
+            if (mCallback != null) {
+                mCallback.onErrorItemClick(mData.getWallet(getAdapterPosition()));
+            }
         }
 
         @OnClick(R.id.context_menu)
