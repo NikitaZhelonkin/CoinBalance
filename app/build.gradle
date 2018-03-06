@@ -11,6 +11,7 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        archivesBaseName = "coinbalance-${versionName}.${versionCode}"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "YANDEX_METRICA_API_KEY", '"3b1bb4cf-e707-4a22-bdc2-f87a69f29128"'
@@ -33,6 +34,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
