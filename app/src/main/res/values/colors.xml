@@ -8,6 +8,7 @@
     <color name="colorTextSecondary">#9b9b9b</color>
     <color name="colorDivider">#efefef</color>
     <color name="color_wallet_error">#F44336</color>
+    <color name="color_wallet_pending">#FFEB3B</color>
 
     <color name="ic_launcher_background">#000000</color>
 

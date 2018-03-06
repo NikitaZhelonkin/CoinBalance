@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.nikitazhelonkin.cryptobalance.presentation.main.MainActivity">
+    tools:context="ru.nikitazhelonkin.coinbalance.presentation.main.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -19,7 +19,7 @@
             android:layout_height="?actionBarSize"
             app:layout_collapseMode="pin" >
 
-            <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+            <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
                 android:id="@+id/toolbar_title"
                 style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
                 android:layout_width="match_parent"
@@ -31,7 +31,7 @@
         </android.support.v7.widget.Toolbar>
 
 
-        <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
             android:layout_width="wrap_content"
             tools:text="18,000.05 $"
             android:textSize="42sp"

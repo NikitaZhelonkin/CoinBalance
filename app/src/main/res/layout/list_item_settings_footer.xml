@@ -16,7 +16,7 @@
             android:background="@color/colorDivider"
             android:layout_height="1dp"/>
 
-        <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -34,7 +34,7 @@
             android:paddingBottom="4dp"
             android:paddingTop="4dp">
 
-            <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+            <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="4dp"
@@ -44,7 +44,7 @@
                 tools:ignore="HardcodedText" />
 
 
-            <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+            <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
@@ -66,7 +66,7 @@
             android:paddingBottom="4dp"
             android:paddingTop="4dp">
 
-            <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+            <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="4dp"
@@ -75,7 +75,7 @@
                 android:textSize="12sp"
                 tools:ignore="HardcodedText" />
 
-            <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+            <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
@@ -97,7 +97,7 @@
             android:paddingBottom="4dp"
             android:paddingTop="4dp">
 
-            <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+            <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="4dp"
@@ -106,7 +106,7 @@
                 android:textSize="12sp"
                 tools:ignore="HardcodedText" />
 
-            <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+            <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"

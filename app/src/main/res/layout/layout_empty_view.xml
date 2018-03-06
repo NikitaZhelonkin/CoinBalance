@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
     
-    <ru.nikitazhelonkin.cryptobalance.ui.widget.TFTextView
+    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
         android:layout_width="wrap_content"
         android:drawableTop="@drawable/ic_wallet_empty_72dp"
         android:text="@string/wallet_empty_message"

@@ -25,7 +25,8 @@
     <string name="settings">Settings</string>
     <string name="total_value">Total value</string>
     <string name="address_copied">Address copied to clipboard</string>
-    <string name="error_wallet_sync_balance">An error occurred while refreshing balance of that wallet, check address and try again pls</string>
+    <string name="wallet_status_error">An error occurred while refreshing balance of that wallet, check address and try again pls</string>
+    <string name="wallet_status_none">Loading wallet balance, wait pls</string>
     <string name="my_wallet_format">My %s wallet</string>
     <string name="wallet_public_address">Wallet Public Address</string>
     <string name="wallet_name">Wallet Name</string>

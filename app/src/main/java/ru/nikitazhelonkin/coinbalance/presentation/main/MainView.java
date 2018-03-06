@@ -1,0 +1,37 @@
+package ru.nikitazhelonkin.coinbalance.presentation.main;
+
+
+import ru.nikitazhelonkin.coinbalance.data.entity.MainViewModel;
+import ru.nikitazhelonkin.coinbalance.data.entity.Wallet;
+import ru.nikitazhelonkin.coinbalance.mvp.MvpView;
+
+public interface MainView extends MvpView {
+
+    void setData(MainViewModel data);
+
+    void setTotalBalance(String currency, float balance);
+
+    void setEmptyViewVisible(boolean visible);
+
+    void setErrorViewVisible(boolean visible);
+
+    void showError(int errorResId);
+
+    void showMessage(int message);
+
+    void showLoader();
+
+    void hideLoader();
+
+    void showQRCodeView(Wallet wallet);
+
+    void showEditNameView(Wallet wallet);
+
+    void showDeleteView(Wallet wallet);
+
+    void navigateToAddWalletView();
+
+    void navigateToSettingsView();
+
+
+}
