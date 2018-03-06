@@ -62,7 +62,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> im
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new ViewHolder(inflater.inflate(R.layout.list_item_wallet_new, parent, false));
+        return new ViewHolder(inflater.inflate(R.layout.list_item_wallet, parent, false));
     }
 
     @Override

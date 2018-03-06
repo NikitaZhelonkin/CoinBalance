@@ -79,7 +79,7 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
 
         setSupportActionBar(mToolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setIcon(R.drawable.ic_wallet_24dp);
+            getSupportActionBar().setIcon(R.drawable.ic_app);
         }
         mToolbarTitle.setText(R.string.app_name);
     }

@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(file("keystore.properties")))
+
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -9,7 +12,19 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "YANDEX_METRICA_API_KEY", '"3b1bb4cf-e707-4a22-bdc2-f87a69f29128"'
     }
+
+    signingConfigs {
+        release {
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -37,6 +52,8 @@ dependencies {
     implementation "com.android.support:design:$versions.androidSupport"
     implementation "com.android.support:cardview-v7:$versions.androidSupport"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    compile 'com.yandex.android:mobmetricalib:2.80'
 
     //parceler
     implementation "org.parceler:parceler-api:$versions.parceler"

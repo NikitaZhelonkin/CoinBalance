@@ -4,6 +4,8 @@ package ru.nikitazhelonkin.coinbalance;
 import android.app.Application;
 import android.content.Context;
 
+import com.yandex.metrica.YandexMetrica;
+
 import ru.nikitazhelonkin.coinbalance.di.AppComponent;
 import ru.nikitazhelonkin.coinbalance.di.AppModule;
 import ru.nikitazhelonkin.coinbalance.di.DaggerAppComponent;
@@ -19,6 +21,8 @@ public class App extends Application {
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
+        YandexMetrica.activate(getApplicationContext(), BuildConfig.YANDEX_METRICA_API_KEY);
+        YandexMetrica.enableActivityAutoTracking(this);
     }
 
     public static App get(Context context) {
