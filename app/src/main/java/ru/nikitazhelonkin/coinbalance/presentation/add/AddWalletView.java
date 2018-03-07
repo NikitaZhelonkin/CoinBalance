@@ -15,4 +15,6 @@ public interface AddWalletView extends MvpView {
     void scanQRCode();
 
     void exit();
+
+    void setSubmitEnabled(boolean enabled);
 }

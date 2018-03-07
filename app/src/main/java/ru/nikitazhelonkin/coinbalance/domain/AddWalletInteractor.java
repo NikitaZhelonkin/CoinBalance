@@ -39,11 +39,19 @@ public class AddWalletInteractor {
                 .onErrorResumeNext(throwable -> Single.error(mapThrowable(throwable)))
                 .doOnSuccess(coin -> {
                     AddressValidator validator = AddressValidatorFactory.forCoin(coin.getTicker());
-                    if(validator!=null && !validator.isValid(wallet.getAddress()))
+                    if (validator != null && !validator.isValid(wallet.getAddress()))
                         throw new InvalidAddressException();
                 })
-                .flatMapCompletable(balance -> mWalletRepository.insert(wallet, true));
-
+                .doOnSuccess(coin -> {
+                    try {
+                        wallet.setBalance(Float.parseFloat(getBalance(wallet).blockingGet()));
+                        wallet.setStatus(Wallet.STATUS_OK);
+                    } catch (Throwable e) {
+                        wallet.setStatus(Wallet.STATUS_ERROR);
+                    }
+                })
+                .flatMapCompletable(balance -> mWalletRepository.insert(wallet, false))
+                .doOnComplete(() -> mWalletRepository.notifyChange());
     }
 
     public Single<List<Coin>> getCoins() {

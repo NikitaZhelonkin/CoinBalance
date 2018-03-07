@@ -49,6 +49,8 @@ public class AddWalletActivity extends MvpActivity<AddWalletPresenter, AddWallet
     View mAliasClearButton;
     @BindView(R.id.qr_code_btn)
     View mQRCodeButton;
+    @BindView(R.id.submit_btn)
+    View mSubmitButton;
 
 
     private CoinSpinnerAdapter mCoinSpinnerAdapter;
@@ -175,6 +177,11 @@ public class AddWalletActivity extends MvpActivity<AddWalletPresenter, AddWallet
     @Override
     public void exit() {
         finish();
+    }
+
+    @Override
+    public void setSubmitEnabled(boolean enabled) {
+        mSubmitButton.setEnabled(enabled);
     }
 
     private void clearInputs() {
