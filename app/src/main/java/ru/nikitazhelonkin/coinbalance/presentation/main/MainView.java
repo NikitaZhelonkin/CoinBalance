@@ -1,6 +1,7 @@
 package ru.nikitazhelonkin.coinbalance.presentation.main;
 
 
+import ru.nikitazhelonkin.coinbalance.data.entity.Exchange;
 import ru.nikitazhelonkin.coinbalance.data.entity.MainViewModel;
 import ru.nikitazhelonkin.coinbalance.data.entity.Wallet;
 import ru.nikitazhelonkin.coinbalance.mvp.MvpView;
@@ -29,7 +30,11 @@ public interface MainView extends MvpView {
 
     void showDeleteView(Wallet wallet);
 
+    void showDeleteView(Exchange exchange);
+
     void navigateToAddWalletView();
+
+    void navigateToAddExchangeView();
 
     void navigateToSettingsView();
 

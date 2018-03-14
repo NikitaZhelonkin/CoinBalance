@@ -2,7 +2,8 @@ package ru.nikitazhelonkin.coinbalance.di;
 
 
 import dagger.Component;
-import ru.nikitazhelonkin.coinbalance.presentation.add.AddWalletPresenter;
+import ru.nikitazhelonkin.coinbalance.presentation.addexchange.AddExchangePresenter;
+import ru.nikitazhelonkin.coinbalance.presentation.addwallet.AddWalletPresenter;
 import ru.nikitazhelonkin.coinbalance.presentation.main.MainPresenter;
 import ru.nikitazhelonkin.coinbalance.presentation.settings.SettingsPresenter;
 
@@ -14,7 +15,10 @@ public interface PresenterComponent {
 
     AddWalletPresenter addWalletPresenter();
 
+    AddExchangePresenter addExchangePresenter();
+
     SettingsPresenter settingsPresenter();
+
 
 
 }

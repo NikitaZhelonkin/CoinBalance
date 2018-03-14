@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">CoinBalance</string>
     <string name="title_add_wallet">Add wallet</string>
+    <string name="title_add_exchange">Add exchange</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="submit">Submit</string>
+    <string name="wallet">Wallet</string>
+    <string name="exchange">Exchange</string>
 
     <string name="report_email">coinbalance.supp@gmail.com</string>
     <string name="report_subject">CoinBalance %1$s.%2$d </string>
@@ -13,9 +16,12 @@
     <string name="ltc_address">LR2JdjmMwhjzG6BGF2sGeDm6p9RqcUCcWo</string>
 
     <string name="success_add_wallet">Wallet successfully added</string>
+    <string name="success_add_exchange">Exchange successfully added</string>
     <string name="error_coin_not_supported">Coin not supported</string>
+    <string name="error_service_not_supported">Service not supported</string>
     <string name="error_loading_wallets">Error, try again ps</string>
     <string name="error_add_wallet_already_exist">Error, that wallet already exist</string>
+    <string name="error_add_exchange_already_exist">Error, that exchange already exist</string>
     <string name="error_unknown">Unknown error</string>
     <string name="error_connection">Connection error</string>
     <string name="error_invalid_address">Invalid address</string>
@@ -27,10 +33,15 @@
     <string name="address_copied">Address copied to clipboard</string>
     <string name="wallet_status_error">An error occurred while refreshing balance of that wallet, check address and try again pls</string>
     <string name="wallet_status_none">Loading wallet balance, wait pls</string>
+    <string name="exchange_status_error">An error occurred while refreshing balance of that exchange, try again pls</string>
+    <string name="exchange_status_none">Loading exchange balance, wait pls</string>
     <string name="my_wallet_format">My %s wallet</string>
     <string name="wallet_public_address">Wallet Public Address</string>
     <string name="wallet_name">Wallet Name</string>
+    <string name="exchange_api_key">Api Key</string>
+    <string name="exchange_api_secret">Api Secret</string>
     <string name="dialog_delete_wallet_message">Delete wallet?</string>
+    <string name="dialog_delete_exchange_message">Delete exchange?</string>
     <string name="wallet_empty_message">No wallets available</string>
     <string name="permission_storage_rationale">App needs storage access to import/export config</string>
 

@@ -3,6 +3,7 @@ package ru.nikitazhelonkin.coinbalance.data.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
@@ -14,7 +15,7 @@ import org.parceler.ParcelConstructor;
 @Entity(indices =
 @Index(name = "index_name", value = "address", unique = true))
 @Parcel(Parcel.Serialization.BEAN)
-public class Wallet implements Comparable {
+public class Wallet implements ListItem {
 
     public static final int STATUS_NONE = 0;
     public static final int STATUS_ERROR = -1;
@@ -37,12 +38,17 @@ public class Wallet implements Comparable {
     @ColumnInfo(name = "status")
     private int mStatus;
 
+    public Wallet() {
 
+    }
+
+    @Ignore
     public Wallet(@NonNull String coinTicker, @NonNull String address, @Nullable String alias) {
         this(coinTicker, address, alias, 0, -1, System.currentTimeMillis(), STATUS_NONE);
     }
 
     @ParcelConstructor
+    @Ignore
     public Wallet(@NonNull String coinTicker,
                   @NonNull String address,
                   @Nullable String alias,
@@ -57,10 +63,6 @@ public class Wallet implements Comparable {
         mPosition = position;
         mCreatedAt = createdAt;
         mStatus = status;
-    }
-
-    public Wallet() {
-
     }
 
     public void setId(int id) {
@@ -145,18 +147,4 @@ public class Wallet implements Comparable {
         return mId;
     }
 
-    @Override
-    public int compareTo(@NonNull Object o) {
-        if (o instanceof Wallet) {
-            Wallet w = (Wallet) o;
-            if (w.getPosition() != -1 && mPosition != -1) {
-                return mPosition - w.getPosition();
-            } else if (w.getPosition() == -1 || mPosition == -1) {
-                return mPosition == -1 ? 1 : -1;
-            } else {
-                return mCreatedAt > w.getCreatedAt() ? 1 : mCreatedAt == w.getCreatedAt() ? 0 : -1;
-            }
-        }
-        return 1;
-    }
 }

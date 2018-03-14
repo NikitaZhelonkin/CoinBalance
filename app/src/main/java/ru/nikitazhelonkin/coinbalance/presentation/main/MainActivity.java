@@ -23,12 +23,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.nikitazhelonkin.coinbalance.App;
 import ru.nikitazhelonkin.coinbalance.R;
+import ru.nikitazhelonkin.coinbalance.data.entity.Exchange;
 import ru.nikitazhelonkin.coinbalance.data.entity.MainViewModel;
 import ru.nikitazhelonkin.coinbalance.data.entity.Wallet;
 import ru.nikitazhelonkin.coinbalance.di.DaggerPresenterComponent;
 import ru.nikitazhelonkin.coinbalance.mvp.MvpActivity;
-import ru.nikitazhelonkin.coinbalance.presentation.add.AddWalletActivity;
+import ru.nikitazhelonkin.coinbalance.presentation.addexchange.AddExchangeActivity;
+import ru.nikitazhelonkin.coinbalance.presentation.addwallet.AddWalletActivity;
 import ru.nikitazhelonkin.coinbalance.presentation.settings.SettingsActivity;
+import ru.nikitazhelonkin.coinbalance.ui.widget.FloatingActionMenu;
 import ru.nikitazhelonkin.coinbalance.ui.widget.InputAlertDialogBuilder;
 import ru.nikitazhelonkin.coinbalance.ui.widget.itemtouchhelper.ItemTouchHelperCallback;
 import ru.nikitazhelonkin.coinbalance.utils.AppNumberFormatter;
@@ -56,6 +59,9 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     AppBarLayout mAppBarLayout;
     @BindView(R.id.total_balance)
     TextView mTotalBalance;
+    @BindView(R.id.add_fam)
+    FloatingActionMenu mFam;
+
 
     private MainAdapter mMainAdapter;
 
@@ -108,13 +114,23 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
 
 
     @Override
-    public void onMenuItemClick(Wallet wallet, int itemId) {
-        getPresenter().onMenuItemClick(wallet, itemId);
+    public void onWalletMenuItemClick(Wallet wallet, int itemId) {
+        getPresenter().onWalletMenuItemClick(wallet, itemId);
     }
 
     @Override
-    public void onItemClick(Wallet wallet) {
-        getPresenter().onItemClick(wallet);
+    public void onExchangeMenuItemClick(Exchange exchange, int itemId) {
+        getPresenter().onExchangeMenuItemClick(exchange, itemId);
+    }
+
+    @Override
+    public void onWalletItemClick(Wallet wallet) {
+        getPresenter().onWalletItemClick(wallet);
+    }
+
+    @Override
+    public void onExchangeItemClick(Exchange exchange) {
+        getPresenter().onExchangeItemClick(exchange);
     }
 
     @Override
@@ -127,9 +143,16 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         getPresenter().updateItemPositions();
     }
 
-    @OnClick(R.id.add_fab)
-    public void onAddFabClick(View v) {
-        getPresenter().onAddClick();
+    @OnClick(R.id.add_wallet_fab)
+    public void onAddWalletFabClick(View v) {
+        mFam.collapse();
+        getPresenter().onAddWalletClick();
+    }
+
+    @OnClick(R.id.add_exchange_fab)
+    public void onAddExchangeFabClick(View v) {
+        mFam.collapse();
+        getPresenter().onAddExchangeClick();
     }
 
     @Override
@@ -198,10 +221,24 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
                 .show();
     }
 
+    @Override
+    public void showDeleteView(Exchange exchange) {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.dialog_delete_exchange_message)
+                .setPositiveButton(R.string.ok, (dialogInterface, i) -> getPresenter().deleteExchange(exchange))
+                .setNegativeButton(R.string.cancel, null)
+                .create()
+                .show();
+    }
 
     @Override
     public void navigateToAddWalletView() {
         startActivity(AddWalletActivity.createIntent(this));
+    }
+
+    @Override
+    public void navigateToAddExchangeView() {
+        startActivity(AddExchangeActivity.createIntent(this));
     }
 
     @Override

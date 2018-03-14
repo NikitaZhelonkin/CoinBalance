@@ -14,36 +14,36 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            app:layout_collapseMode="pin" >
+            android:gravity="center"
+            app:layout_collapseMode="pin">
 
             <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
                 android:id="@+id/toolbar_title"
                 style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
                 android:layout_width="match_parent"
-                app:font="@string/font_roboto_regular"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="@string/app_name" />
+                android:text="@string/app_name"
+                app:font="@string/font_roboto_regular" />
 
         </android.support.v7.widget.Toolbar>
 
 
         <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
-            android:layout_width="wrap_content"
-            tools:text="18,000.05 $"
-            android:textSize="42sp"
-            android:layout_gravity="center_horizontal"
             android:id="@+id/total_balance"
-            app:font="@string/font_roboto_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:singleLine="true"
             android:textColor="@android:color/white"
-            android:layout_marginLeft="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_height="wrap_content" />
+            android:textSize="42sp"
+            app:font="@string/font_roboto_medium"
+            tools:text="18,000.05 $" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -72,21 +72,15 @@
 
     <include
         android:id="@+id/empty_view"
-        android:visibility="gone"
-        layout="@layout/layout_empty_view"/>
+        layout="@layout/layout_empty_view"
+        android:visibility="gone" />
 
     <include
         android:id="@+id/error_view"
-        android:visibility="gone"
-        layout="@layout/layout_error_view"/>
+        layout="@layout/layout_error_view"
+        android:visibility="gone" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add_24dp"
-        android:tint="@android:color/white" />
+    <include layout="@layout/fam_main" />
+
 
 </android.support.design.widget.CoordinatorLayout>

@@ -5,4 +5,11 @@
         <attr name="font"/>
     </declare-styleable>
 
+    <declare-styleable name="FloatingActionMenu">
+        <attr name="add_btn" format="reference"/>
+        <attr name="add_btn_spacing" format="dimension"/>
+        <attr name="btn_spacing" format="dimension"/>
+        <attr name="dimColor" format="color"/>
+    </declare-styleable>
+
 </resources>

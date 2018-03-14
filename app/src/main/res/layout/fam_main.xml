@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ru.nikitazhelonkin.coinbalance.ui.widget.FloatingActionMenu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_fam"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:add_btn="@+id/add_fab"
+    app:add_btn_spacing="6dp"
+    app:dimColor="@android:color/transparent"
+    app:layout_dodgeInsetEdges="bottom"
+    tools:ignore="RtlSymmetry">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add_24dp"
+        android:tint="@android:color/white" />
+
+    <Button
+        android:id="@+id/add_wallet_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:backgroundTint="@android:color/black"
+        android:minWidth="100dp"
+        android:text="@string/wallet"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/add_exchange_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:backgroundTint="@android:color/black"
+        android:minWidth="100dp"
+        android:text="@string/exchange"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+</ru.nikitazhelonkin.coinbalance.ui.widget.FloatingActionMenu>
