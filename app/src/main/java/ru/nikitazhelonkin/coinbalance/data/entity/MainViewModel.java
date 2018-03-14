@@ -83,16 +83,15 @@ public class MainViewModel {
     }
 
     private float getExchangeBalances() {
-        return getBalances(mExchangeBalances);
+        return getBalance(mExchangeBalances);
     }
 
-    public float getExchangeBalances(long exchangeId) {
-        List<ExchangeBalance> filtered = ListUtils.filter(mExchangeBalances,
+    public List<ExchangeBalance> getExchangeBalances(long exchangeId) {
+        return ListUtils.filter(mExchangeBalances,
                 exchangeBalance -> exchangeBalance.getExchangeId() == exchangeId);
-        return getBalances(filtered);
     }
 
-    private float getBalances(List<ExchangeBalance> balances) {
+    public float getBalance(List<ExchangeBalance> balances) {
         return ListUtils.reduce(balances, 0f,
                 (b, exchangeBalance) -> b + exchangeBalance.getBalance() * getPrice(exchangeBalance.getCoinTicker())
         );

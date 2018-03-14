@@ -32,6 +32,8 @@ public interface MainView extends MvpView {
 
     void showDeleteView(Exchange exchange);
 
+    void showEditTitleView(Exchange exchange);
+
     void navigateToAddWalletView();
 
     void navigateToAddExchangeView();

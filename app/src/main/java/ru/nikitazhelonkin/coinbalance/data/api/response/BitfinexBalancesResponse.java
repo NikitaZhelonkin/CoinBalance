@@ -26,6 +26,16 @@ public class BitfinexBalancesResponse {
         return mBalances;
     }
 
+    public HashMap<String, Float> getNonZeroBalances() {
+        HashMap<String, Float> nonZeroBalance = new HashMap<>();
+        for (String key : mBalances.keySet()) {
+            Float value = mBalances.get(key);
+            if (value != 0)
+                nonZeroBalance.put(key, value);
+        }
+        return nonZeroBalance;
+    }
+
     public static class Deserializer extends JsonDeserializer<BitfinexBalancesResponse> {
 
         @Override

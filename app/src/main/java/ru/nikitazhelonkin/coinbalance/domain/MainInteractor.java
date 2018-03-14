@@ -22,6 +22,7 @@ import ru.nikitazhelonkin.coinbalance.data.entity.Exchange;
 import ru.nikitazhelonkin.coinbalance.data.entity.ExchangeBalance;
 import ru.nikitazhelonkin.coinbalance.data.entity.MainViewModel;
 import ru.nikitazhelonkin.coinbalance.data.entity.Wallet;
+import ru.nikitazhelonkin.coinbalance.data.exception.NoPermissionException;
 import ru.nikitazhelonkin.coinbalance.data.repository.ExchangeBalancesRepository;
 import ru.nikitazhelonkin.coinbalance.data.repository.ExchangeRepository;
 import ru.nikitazhelonkin.coinbalance.data.repository.ObservableRepository;
@@ -65,6 +66,11 @@ public class MainInteractor {
 
     public Completable deleteWallet(Wallet wallet) {
         return mWalletRepository.delete(wallet, true);
+    }
+
+    public Completable editExchangeTitle(Exchange exchange, String title) {
+        exchange.setTitle(title);
+        return mExchangeRepository.update(exchange, true);
     }
 
     public Completable deleteExchange(Exchange exchange) {
@@ -113,11 +119,14 @@ public class MainInteractor {
                         List<ExchangeBalance> balances = getBalances(exchange).blockingGet();
                         mExchangeBalancesRepository.delete(exchange.getId()).blockingAwait();
                         mExchangeBalancesRepository.insert(balances).blockingAwait();
-                        exchange.setStatus(Wallet.STATUS_OK);
+                        exchange.setStatus(Exchange.STATUS_OK);
                     } catch (Throwable e) {
                         L.e(e);
-                        e.printStackTrace();
-                        exchange.setStatus(Wallet.STATUS_ERROR);
+                        if(e instanceof NoPermissionException){
+                            exchange.setStatus(Exchange.STATUS_ERROR_NO_PERMISSION);
+                        }else {
+                            exchange.setStatus(Exchange.STATUS_ERROR);
+                        }
                     }
                     mExchangeRepository.update(exchange, false).blockingAwait();
                 })

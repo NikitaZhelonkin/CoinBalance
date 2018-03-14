@@ -232,6 +232,19 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     }
 
     @Override
+    public void showEditTitleView(Exchange exchange) {
+        new InputAlertDialogBuilder(this)
+                .input(null, exchange.getTitle(), (dialog, text) ->
+                        getPresenter().editExchangeTitle(exchange, text.toString()))
+                .softInputVisible(true)
+                .setPositiveButton(R.string.ok, null)
+                .setNegativeButton(R.string.cancel, null)
+                .setTitle(R.string.exchange_title)
+                .create()
+                .show();
+    }
+
+    @Override
     public void navigateToAddWalletView() {
         startActivity(AddWalletActivity.createIntent(this));
     }

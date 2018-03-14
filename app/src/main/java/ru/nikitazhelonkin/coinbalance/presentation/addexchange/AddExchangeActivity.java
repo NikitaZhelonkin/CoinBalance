@@ -44,6 +44,10 @@ public class AddExchangeActivity extends MvpActivity<AddExchangePresenter, AddEx
     EditText mApiSecretInput;
     @BindView(R.id.api_secret_clear_btn)
     View mApiSecretClearButton;
+    @BindView(R.id.title_input)
+    EditText mTitleInput;
+    @BindView(R.id.title_clear_btn)
+    View mTitleClearButton;
     @BindView(R.id.submit_btn)
     View mSubmitButton;
 
@@ -77,6 +81,7 @@ public class AddExchangeActivity extends MvpActivity<AddExchangePresenter, AddEx
         mServiceSpinner.setOnItemSelectedListener(this);
         mApiKeyInput.addTextChangedListener(this);
         mApiSecretInput.addTextChangedListener(this);
+        mTitleInput.addTextChangedListener(this);
     }
 
 
@@ -118,7 +123,7 @@ public class AddExchangeActivity extends MvpActivity<AddExchangePresenter, AddEx
         Exchange exchange = new Exchange(service,
                 mApiKeyInput.getText().toString(),
                 mApiSecretInput.getText().toString(),
-                null);
+                mTitleInput.getText().toString());
         getPresenter().onSubmitClick(exchange);
     }
 
@@ -130,6 +135,11 @@ public class AddExchangeActivity extends MvpActivity<AddExchangePresenter, AddEx
     @OnClick(R.id.api_secret_clear_btn)
     public void onAliasClearClick(View v) {
         mApiSecretInput.setText(null);
+    }
+
+    @OnClick(R.id.title_clear_btn)
+    public void onTitleClearClick(View v) {
+        mTitleInput.setText(null);
     }
 
     @Override
@@ -151,11 +161,13 @@ public class AddExchangeActivity extends MvpActivity<AddExchangePresenter, AddEx
     private void clearInputs() {
         mApiKeyInput.setText(null);
         mApiSecretInput.setText(null);
+        mTitleInput.setText(null);
     }
 
     private void invalidateInput() {
         mApiKeyClearButton.setVisibility(mApiKeyInput.getText().length() == 0 ? View.GONE : View.VISIBLE);
         mApiSecretClearButton.setVisibility(mApiSecretInput.getText().length() == 0 ? View.GONE : View.VISIBLE);
+        mTitleClearButton.setVisibility(mTitleInput.getText().length() == 0 ? View.GONE : View.VISIBLE);
     }
 
     private void showSnackBar(String text) {

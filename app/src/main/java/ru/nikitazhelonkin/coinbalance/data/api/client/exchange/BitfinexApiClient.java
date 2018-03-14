@@ -9,9 +9,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 import io.reactivex.Single;
-import ru.nikitazhelonkin.coinbalance.utils.DigestUtil;
+import retrofit2.HttpException;
 import ru.nikitazhelonkin.coinbalance.data.api.response.BitfinexBalancesResponse;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BitfinexApiService;
+import ru.nikitazhelonkin.coinbalance.data.exception.NoPermissionException;
+import ru.nikitazhelonkin.coinbalance.utils.DigestUtil;
 
 public class BitfinexApiClient implements ExchangeApiClient {
 
@@ -34,6 +36,13 @@ public class BitfinexApiClient implements ExchangeApiClient {
         }
         String payloadBase64 = Base64.encodeToString(payload.getBytes(), Base64.NO_WRAP);
         String payloadSha384hmac = DigestUtil.hmacString(payloadBase64, apiSecret, "HmacSHA384");
-        return mApiService.balances(apiKey, payloadBase64, payloadSha384hmac).map(BitfinexBalancesResponse::getBalances);
+        return mApiService.balances(apiKey, payloadBase64, payloadSha384hmac)
+                .map(BitfinexBalancesResponse::getNonZeroBalances)
+                .onErrorResumeNext(throwable -> {
+                    if (throwable instanceof HttpException && ((HttpException) throwable).code() == 403) {
+                        return Single.error(new NoPermissionException());
+                    }
+                    return Single.error(throwable);
+                });
     }
 }

@@ -21,6 +21,6 @@ public class BinanceApiClient implements ExchangeApiClient {
         String timeStamp = String.valueOf(System.currentTimeMillis());
         String queryString = String.format("timestamp=%s",  timeStamp);
         String signature = DigestUtil.hmacString(queryString, apiSecret, "HmacSHA256");
-        return mApiService.balances(timeStamp, signature, apiKey).map(BinanceBalancesResponse::toMap);
+        return mApiService.balances(timeStamp, signature, apiKey).map(BinanceBalancesResponse::getNonZeroBalances);
     }
 }

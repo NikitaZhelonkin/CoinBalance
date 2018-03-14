@@ -18,6 +18,7 @@ public class Exchange implements ListItem {
 
     public static final int STATUS_NONE = 0;
     public static final int STATUS_ERROR = -1;
+    public static final int STATUS_ERROR_NO_PERMISSION = -2;
     public static final int STATUS_OK = 1;
 
     @PrimaryKey(autoGenerate = true)

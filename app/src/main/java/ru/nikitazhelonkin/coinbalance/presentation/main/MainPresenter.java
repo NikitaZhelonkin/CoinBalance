@@ -74,9 +74,11 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
     }
 
     public void onExchangeItemClick(Exchange exchange) {
-        if (exchange.getStatus() == Wallet.STATUS_ERROR) {
+        if (exchange.getStatus() == Exchange.STATUS_ERROR) {
             getView().showError(R.string.exchange_status_error);
-        } else if (exchange.getStatus() == Wallet.STATUS_NONE) {
+        } else if (exchange.getStatus() == Exchange.STATUS_ERROR_NO_PERMISSION) {
+            getView().showError(R.string.exchange_status_error_no_permission);
+        } else if (exchange.getStatus() == Exchange.STATUS_NONE) {
             getView().showMessage(R.string.exchange_status_none);
         }
     }
@@ -104,6 +106,9 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
             case R.id.action_delete:
                 getView().showDeleteView(exchange);
                 break;
+            case R.id.action_edit:
+                getView().showEditTitleView(exchange);
+                break;
         }
     }
 
@@ -115,6 +120,12 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
 
     public void deleteWallet(Wallet wallet) {
         mMainInteractor.deleteWallet(wallet)
+                .compose(mRxSchedulerProvider.ioToMainTransformer())
+                .subscribe();
+    }
+
+    public void editExchangeTitle(Exchange exchange, String title) {
+        mMainInteractor.editExchangeTitle(exchange, title)
                 .compose(mRxSchedulerProvider.ioToMainTransformer())
                 .subscribe();
     }
@@ -179,7 +190,6 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
     }
 
     private void onError(Throwable e) {
-        L.e("Error:", e);
         getView().hideLoader();
         getView().setErrorViewVisible(mData == null);
         if (!mSystemManager.isConnected()) {

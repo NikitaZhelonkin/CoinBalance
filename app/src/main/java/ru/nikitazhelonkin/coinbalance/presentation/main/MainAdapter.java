@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Currency;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindColor;
@@ -24,6 +25,7 @@ import butterknife.OnClick;
 import ru.nikitazhelonkin.coinbalance.R;
 import ru.nikitazhelonkin.coinbalance.data.entity.Coin;
 import ru.nikitazhelonkin.coinbalance.data.entity.Exchange;
+import ru.nikitazhelonkin.coinbalance.data.entity.ExchangeBalance;
 import ru.nikitazhelonkin.coinbalance.data.entity.MainViewModel;
 import ru.nikitazhelonkin.coinbalance.data.entity.Wallet;
 import ru.nikitazhelonkin.coinbalance.ui.text.Spanner;
@@ -143,13 +145,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             Coin coin = mData.getCoin(wallet.getCoinTicker());
             Currency currency = Currency.getInstance(mData.getCurrency());
             boolean statusOk = wallet.getStatus() == Wallet.STATUS_OK;
-            boolean statusError = wallet.getStatus() == Wallet.STATUS_ERROR;
+            boolean statusPending = wallet.getStatus() == Wallet.STATUS_NONE;
 
             float currencyBalance = mData.getPrice(coin.getTicker()) * wallet.getBalance();
             String currencyBalanceStr = AppNumberFormatter.format(currencyBalance);
 
             currencyBalanceView.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), currencyBalanceStr));
-
             Spanner.from(String.format(Locale.US, "%.4f %s", wallet.getBalance(), coin.getTicker()))
                     .style(coin.getTicker(), new ForegroundColorSpan(mTextColorSecondary))
                     .applyTo(balanceView);
@@ -162,7 +163,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             imageView.setImageResource(coin.getIconResId());
 
             statusIndicator.setVisibility(statusOk ? View.GONE : View.VISIBLE);
-            statusIndicator.setBackgroundColor(statusError ? mErrorColor : mPendingColor);
+            statusIndicator.setBackgroundColor(statusPending ? mPendingColor : mErrorColor);
             itemView.setOnClickListener(statusOk ? null : this::onItemClick);
         }
 
@@ -204,6 +205,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView balanceView;
         @BindView(R.id.exchange_name)
         TextView walletName;
+        @BindView(R.id.exchange_assets)
+        TextView exchangeAssets;
         @BindView(R.id.status_indicator)
         View statusIndicator;
         @BindColor(R.color.colorTextSecondary)
@@ -220,25 +223,31 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         private void bind(Exchange exchange) {
             Currency currency = Currency.getInstance(mData.getCurrency());
             boolean statusOk = exchange.getStatus() == Wallet.STATUS_OK;
-            boolean statusError = exchange.getStatus() == Wallet.STATUS_ERROR;
+            boolean statusPending = exchange.getStatus() == Wallet.STATUS_NONE;
 
-            float currencyBalance = mData.getExchangeBalances(exchange.getId());
+            List<ExchangeBalance> balanceList = mData.getExchangeBalances(exchange.getId());
+            float currencyBalance = mData.getBalance(balanceList);
             float balance = currencyBalance / mData.getPrice(Coin.BTC.getTicker());
             String currencyBalanceStr = AppNumberFormatter.format(currencyBalance);
-
+            int assetsCount = balanceList != null ? balanceList.size() : 0;
+            String assetCountString = getContext().getResources().getQuantityString(R.plurals.assets_count, assetsCount, assetsCount);
+            exchangeAssets.setText(getContext().getString(R.string.estimated_value_of, assetCountString));
             currencyBalanceView.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), currencyBalanceStr));
 
             Spanner.from(String.format(Locale.US, "%.4f %s", balance, Coin.BTC.getTicker()))
                     .style(Coin.BTC.getTicker(), new ForegroundColorSpan(mTextColorSecondary))
                     .applyTo(balanceView);
 
-            walletName.setText(exchange.getService().getName());
+            walletName.setText(TextUtils.isEmpty(exchange.getTitle()) ?
+                    exchange.getService().getName() :
+                    exchange.getTitle());
+
             walletName.setEllipsize(TextUtils.TruncateAt.END);
 
             imageView.setImageResource(exchange.getService().getIconResId());
 
             statusIndicator.setVisibility(statusOk ? View.GONE : View.VISIBLE);
-            statusIndicator.setBackgroundColor(statusError ? mErrorColor : mPendingColor);
+            statusIndicator.setBackgroundColor(statusPending ? mPendingColor : mErrorColor);
             itemView.setOnClickListener(statusOk ? null : this::onItemClick);
         }
 

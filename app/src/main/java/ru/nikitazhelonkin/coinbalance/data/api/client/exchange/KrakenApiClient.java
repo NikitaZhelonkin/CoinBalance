@@ -4,11 +4,13 @@ package ru.nikitazhelonkin.coinbalance.data.api.client.exchange;
 import android.util.Base64;
 
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import io.reactivex.Single;
-import ru.nikitazhelonkin.coinbalance.data.api.response.KrakenBalancesResponse;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.KrakenApiService;
+import ru.nikitazhelonkin.coinbalance.data.exception.NoPermissionException;
+import ru.nikitazhelonkin.coinbalance.data.exception.UnknownException;
 import ru.nikitazhelonkin.coinbalance.utils.DigestUtil;
 
 public class KrakenApiClient implements ExchangeApiClient {
@@ -27,7 +29,17 @@ public class KrakenApiClient implements ExchangeApiClient {
         byte[] hash256Bytes = DigestUtil.sha256(nonce + "nonce=" + nonce);
         byte[] signature = DigestUtil.hmac(concat(pathBytes, hash256Bytes), decodedSecret, "HmacSHA512");
         String signatureEncoded = Base64.encodeToString(signature, Base64.NO_WRAP);
-        return mApiService.getBalances(nonce, apiKey, signatureEncoded).map(KrakenBalancesResponse::getBalances);
+        return mApiService.getBalances(nonce, apiKey, signatureEncoded)
+                .map(response -> {
+                    if (response.getError() != null && response.getError().length > 0) {
+                        if (Arrays.asList(response.getError()).contains("EGeneral:Permission denied")) {
+                            throw new NoPermissionException();
+                        }
+                        throw new UnknownException();
+                    } else {
+                        return response.getBalances();
+                    }
+                });
     }
 
     private static byte[] concat(byte[] a, byte[] b) {
