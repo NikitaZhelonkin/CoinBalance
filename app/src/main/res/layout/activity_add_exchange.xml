@@ -157,5 +157,13 @@
         android:text="@string/submit"
         android:textColor="@android:color/white" />
 
+    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        android:layout_width="match_parent"
+        android:gravity="bottom"
+        android:layout_margin="16dp"
+        android:text="@string/exchange_add_warning"
+        android:textColor="@color/colorTextSecondary"
+        android:layout_height="match_parent" />
+
 
 </LinearLayout>

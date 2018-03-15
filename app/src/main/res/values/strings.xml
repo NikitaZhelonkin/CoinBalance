@@ -40,8 +40,9 @@
     <string name="wallet_public_address">Wallet Public Address</string>
     <string name="wallet_name">Wallet Name</string>
     <string name="exchange_title">Exchange Title</string>
-    <string name="exchange_api_key">Api Key</string>
-    <string name="exchange_api_secret">Api Secret</string>
+    <string name="exchange_api_key">API Key</string>
+    <string name="exchange_api_secret">API Secret</string>
+    <string name="exchange_add_warning">For security, add API keys with ONLY READ permissions</string>
     <string name="dialog_delete_wallet_message">Delete wallet?</string>
     <string name="dialog_delete_exchange_message">Delete exchange?</string>
     <string name="wallet_empty_message">No wallets available</string>
