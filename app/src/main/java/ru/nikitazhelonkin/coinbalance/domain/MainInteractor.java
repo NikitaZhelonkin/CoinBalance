@@ -3,6 +3,8 @@ package ru.nikitazhelonkin.coinbalance.domain;
 
 import android.text.TextUtils;
 
+import com.yandex.metrica.YandexMetrica;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -101,7 +103,8 @@ public class MainInteractor {
                         wallet.setBalance(Float.parseFloat(getBalance(wallet).blockingGet()));
                         wallet.setStatus(Wallet.STATUS_OK);
                     } catch (Throwable e) {
-                        L.e(e);
+                        L.e("Error", e);
+                        YandexMetrica.reportError("syncWallet.error", e);
                         wallet.setStatus(Wallet.STATUS_ERROR);
                     }
                     mWalletRepository.update(wallet, false).blockingAwait();
@@ -121,7 +124,8 @@ public class MainInteractor {
                         mExchangeBalancesRepository.insert(balances).blockingAwait();
                         exchange.setStatus(Exchange.STATUS_OK);
                     } catch (Throwable e) {
-                        L.e(e);
+                        L.e("Error", e);
+                        YandexMetrica.reportError("syncExchange.error", e);
                         if(e instanceof NoPermissionException){
                             exchange.setStatus(Exchange.STATUS_ERROR_NO_PERMISSION);
                         }else {

@@ -4,6 +4,8 @@ package ru.nikitazhelonkin.coinbalance.presentation.main;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.yandex.metrica.YandexMetrica;
+
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
@@ -190,6 +192,8 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
     }
 
     private void onError(Throwable e) {
+        L.e("Error", e);
+        YandexMetrica.reportError("MainPresenter.onError", e);
         getView().hideLoader();
         getView().setErrorViewVisible(mData == null);
         if (!mSystemManager.isConnected()) {
