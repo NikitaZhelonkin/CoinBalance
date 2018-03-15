@@ -4,10 +4,14 @@ package ru.nikitazhelonkin.coinbalance.presentation.main;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.yandex.metrica.YandexMetrica;
+
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
 import io.reactivex.disposables.Disposable;
 import ru.nikitazhelonkin.coinbalance.R;
+import ru.nikitazhelonkin.coinbalance.data.entity.Exchange;
 import ru.nikitazhelonkin.coinbalance.data.entity.MainViewModel;
 import ru.nikitazhelonkin.coinbalance.data.entity.Wallet;
 import ru.nikitazhelonkin.coinbalance.data.repository.ObservableRepository;
@@ -55,11 +59,15 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         syncBalances();
     }
 
-    public void onAddClick() {
+    public void onAddWalletClick() {
         getView().navigateToAddWalletView();
     }
 
-    public void onItemClick(Wallet wallet) {
+    public void onAddExchangeClick() {
+        getView().navigateToAddExchangeView();
+    }
+
+    public void onWalletItemClick(Wallet wallet) {
         if (wallet.getStatus() == Wallet.STATUS_ERROR) {
             getView().showError(R.string.wallet_status_error);
         } else if (wallet.getStatus() == Wallet.STATUS_NONE) {
@@ -67,7 +75,17 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         }
     }
 
-    public void onMenuItemClick(Wallet wallet, int itemId) {
+    public void onExchangeItemClick(Exchange exchange) {
+        if (exchange.getStatus() == Exchange.STATUS_ERROR) {
+            getView().showError(R.string.exchange_status_error);
+        } else if (exchange.getStatus() == Exchange.STATUS_ERROR_NO_PERMISSION) {
+            getView().showError(R.string.exchange_status_error_no_permission);
+        } else if (exchange.getStatus() == Exchange.STATUS_NONE) {
+            getView().showMessage(R.string.exchange_status_none);
+        }
+    }
+
+    public void onWalletMenuItemClick(Wallet wallet, int itemId) {
         switch (itemId) {
             case R.id.action_copy:
                 mClipboardManager.copyToClipboard(wallet.getAddress());
@@ -85,6 +103,17 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         }
     }
 
+    public void onExchangeMenuItemClick(Exchange exchange, int itemId) {
+        switch (itemId) {
+            case R.id.action_delete:
+                getView().showDeleteView(exchange);
+                break;
+            case R.id.action_edit:
+                getView().showEditTitleView(exchange);
+                break;
+        }
+    }
+
     public void editWalletName(Wallet wallet, String name) {
         mMainInteractor.editWalletName(wallet, name)
                 .compose(mRxSchedulerProvider.ioToMainTransformer())
@@ -97,17 +126,29 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
                 .subscribe();
     }
 
+    public void editExchangeTitle(Exchange exchange, String title) {
+        mMainInteractor.editExchangeTitle(exchange, title)
+                .compose(mRxSchedulerProvider.ioToMainTransformer())
+                .subscribe();
+    }
+
+    public void deleteExchange(Exchange exchange) {
+        mMainInteractor.deleteExchange(exchange)
+                .compose(mRxSchedulerProvider.ioToMainTransformer())
+                .subscribe();
+    }
+
     private void observe() {
         Disposable disposable = mMainInteractor.observeSettings()
                 .compose(mRxSchedulerProvider.ioToMainTransformer())
                 .subscribe(aClass -> loadWallets());
         disposeOnDetach(disposable);
 
-        disposable = mMainInteractor.observeWallet()
+        disposable = mMainInteractor.observeData()
                 .compose(mRxSchedulerProvider.ioToMainTransformer())
                 .subscribe(event -> {
                     loadWallets();
-                    if(event.getEventType()== ObservableRepository.Event.INSERT){
+                    if (event.getEventType() == ObservableRepository.Event.INSERT) {
                         syncBalances();
                     }
                 });
@@ -134,23 +175,25 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         mData = data;
         getView().setData(data);
         getView().setTotalBalance(data.getCurrency(), data.getTotalBalance());
-        getView().setEmptyViewVisible(data.getWalletCount() == 0);
+        getView().setEmptyViewVisible(data.getItems().size() == 0);
         getView().setErrorViewVisible(false);
     }
 
     public void updateItemPositions() {
         if (mData == null)
             return;
-        for (int i = 0; i < mData.getWalletCount(); i++) {
-            mData.getWallet(i).setPosition(i);
+        for (int i = 0; i < mData.getItems().size(); i++) {
+            mData.getItem(i).setPosition(i);
         }
-        mMainInteractor.updateWallets(mData.getWallets(), false)
-                .compose(mRxSchedulerProvider.ioToMainTransformer())
-                .subscribe();
+        Completable.mergeArray(
+                mMainInteractor.updateWallets(mData.getWallets(), false),
+                mMainInteractor.updateExchanges(mData.getExchanges(), false)
+        ).compose(mRxSchedulerProvider.ioToMainTransformer()).subscribe();
     }
 
     private void onError(Throwable e) {
-        L.e(e);
+        L.e("Error", e);
+        YandexMetrica.reportError("MainPresenter.onError", e);
         getView().hideLoader();
         getView().setErrorViewVisible(mData == null);
         if (!mSystemManager.isConnected()) {

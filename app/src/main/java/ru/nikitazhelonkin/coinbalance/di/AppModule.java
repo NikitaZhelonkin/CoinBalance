@@ -17,22 +17,26 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import ru.nikitazhelonkin.coinbalance.BuildConfig;
-import ru.nikitazhelonkin.coinbalance.data.api.BCHChainApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.BTCApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.ChainsoApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.ChainzApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.CryptoCompareApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.ETCApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.ETHApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.NEMApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.XLMApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.XRPApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.interceptor.LoggingInterceptor;
 import ru.nikitazhelonkin.coinbalance.data.api.response.DogeApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.CryptoCompareApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.BCHChainApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.BTCApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ChainsoApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ChainzApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETCApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETHApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.NEMApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XLMApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XRPApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BinanceApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BitfinexApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BittrexApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.KrakenApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.PoloniexApiService;
 import ru.nikitazhelonkin.coinbalance.data.db.AppDatabase;
+import ru.nikitazhelonkin.coinbalance.data.db.migration.Migration1_2;
 import ru.nikitazhelonkin.coinbalance.data.prefs.Prefs;
-import ru.nikitazhelonkin.coinbalance.data.repository.CoinRepository;
-import ru.nikitazhelonkin.coinbalance.data.repository.WalletRepository;
 
 @Module
 public class AppModule {
@@ -62,7 +66,9 @@ public class AppModule {
     @Singleton
     @NonNull
     AppDatabase provideAppDatabase() {
-        return Room.databaseBuilder(mContext, AppDatabase.class, "app-database").build();
+        return Room.databaseBuilder(mContext, AppDatabase.class, "app-database")
+                .addMigrations(new Migration1_2())
+                .build();
     }
 
     @Provides
@@ -155,15 +161,41 @@ public class AppModule {
 
     @Provides
     @Singleton
-    CoinRepository provideCoinRepository() {
-        return new CoinRepository();
+    @NonNull
+    BitfinexApiService provideBitfinexApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+        return provideApiService("https://api.bitfinex.com", BitfinexApiService.class, httpClient, objectMapper);
     }
 
     @Provides
     @Singleton
-    WalletRepository provideWalletRepository(AppDatabase database) {
-        return new WalletRepository(database);
+    @NonNull
+    BittrexApiService provideBittrexApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+        return provideApiService("https://bittrex.com", BittrexApiService.class, httpClient, objectMapper);
     }
+
+    @Provides
+    @Singleton
+    @NonNull
+    BinanceApiService provideBinanceApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+        return provideApiService("https://api.binance.com", BinanceApiService.class, httpClient, objectMapper);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    KrakenApiService provideKrakenApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+        return provideApiService("https://api.kraken.com", KrakenApiService.class, httpClient, objectMapper);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    PoloniexApiService providePoloniexApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+        return provideApiService("https://poloniex.com", PoloniexApiService.class, httpClient, objectMapper);
+    }
+
+
+
 
     @Provides
     Prefs providePrefs(Context context){

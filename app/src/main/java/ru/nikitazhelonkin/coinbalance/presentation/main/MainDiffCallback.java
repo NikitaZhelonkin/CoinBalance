@@ -17,17 +17,17 @@ public class MainDiffCallback extends DiffUtil.Callback {
 
     @Override
     public int getOldListSize() {
-        return oldModel != null ? oldModel.getWalletCount() : 0;
+        return oldModel != null ? oldModel.getItems().size() : 0;
     }
 
     @Override
     public int getNewListSize() {
-        return newModel != null ? newModel.getWalletCount() : 0;
+        return newModel != null ? newModel.getItems().size() : 0;
     }
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldModel.getWallet(oldItemPosition).equals(newModel.getWallet(newItemPosition));
+        return oldModel.getItem(oldItemPosition).equals(newModel.getItem(newItemPosition));
     }
 
     @Override

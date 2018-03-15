@@ -24,11 +24,9 @@ import org.parceler.Parcels;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import ru.nikitazhelonkin.coinbalance.App;
 import ru.nikitazhelonkin.coinbalance.R;
 import ru.nikitazhelonkin.coinbalance.data.entity.Coin;
 import ru.nikitazhelonkin.coinbalance.data.entity.Wallet;
-import ru.nikitazhelonkin.coinbalance.data.repository.CoinRepository;
 import ru.nikitazhelonkin.coinbalance.data.system.ClipboardManager;
 
 public class QRCodeBottomSheetFragment extends BottomSheetDialogFragment {
@@ -66,8 +64,7 @@ public class QRCodeBottomSheetFragment extends BottomSheetDialogFragment {
         ButterKnife.bind(this, view);
         mWallet = Parcels.unwrap(getArguments().getParcelable(EXTRA_WALLET));
 
-        CoinRepository coinRepository = App.get(getContext()).getAppComponent().coinRepository();
-        Coin coin = coinRepository.getCoin(mWallet.getCoinTicker()).blockingGet();
+        Coin coin = Coin.forTicker(mWallet.getCoinTicker());
 
         mWalletNameView.setText(TextUtils.isEmpty(mWallet.getAlias()) ?
                 getString(R.string.my_wallet_format, coin.getName()) :
@@ -79,11 +76,10 @@ public class QRCodeBottomSheetFragment extends BottomSheetDialogFragment {
             mQRCodeView.setImageBitmap(bitmap);
         }
         mErrorView.setVisibility(bitmap == null ? View.VISIBLE : View.GONE);
-
     }
 
     @OnClick(R.id.wallet_address)
-    public void onWalletClick(){
+    public void onWalletClick() {
         ClipboardManager clipboardManager = new ClipboardManager(getContext());
         clipboardManager.copyToClipboard(mWallet.getAddress());
         Toast.makeText(getContext(), R.string.address_copied, Toast.LENGTH_SHORT).show();

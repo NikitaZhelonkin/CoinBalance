@@ -6,20 +6,26 @@ import android.content.Context;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import ru.nikitazhelonkin.coinbalance.data.api.BCHChainApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.BTCApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.ChainsoApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.ChainzApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.CryptoCompareApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.ETCApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.ETHApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.NEMApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.XLMApiService;
-import ru.nikitazhelonkin.coinbalance.data.api.XRPApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.response.DogeApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.CryptoCompareApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.BCHChainApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.BTCApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ChainsoApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ChainzApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETCApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETHApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.NEMApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XLMApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XRPApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BinanceApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BitfinexApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BittrexApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.KrakenApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.PoloniexApiService;
 import ru.nikitazhelonkin.coinbalance.data.db.AppDatabase;
 import ru.nikitazhelonkin.coinbalance.data.prefs.Prefs;
-import ru.nikitazhelonkin.coinbalance.data.repository.CoinRepository;
+import ru.nikitazhelonkin.coinbalance.data.repository.ExchangeBalancesRepository;
+import ru.nikitazhelonkin.coinbalance.data.repository.ExchangeRepository;
 import ru.nikitazhelonkin.coinbalance.data.repository.WalletRepository;
 
 @Singleton
@@ -54,8 +60,18 @@ public interface AppComponent {
 
     XLMApiService xlmApiService();
 
-    WalletRepository walletRepository();
+    BitfinexApiService bitfinexApiService();
 
-    CoinRepository coinRepository();
+    BittrexApiService bittrexApiService();
+
+    BinanceApiService binanceApiService();
+
+    KrakenApiService krakenApiService();
+
+    PoloniexApiService poloniexApiService();
+
+    WalletRepository walletRepository();
+    ExchangeRepository exchangeRepository();
+    ExchangeBalancesRepository exchangeBalancesRepository();
 
 }
