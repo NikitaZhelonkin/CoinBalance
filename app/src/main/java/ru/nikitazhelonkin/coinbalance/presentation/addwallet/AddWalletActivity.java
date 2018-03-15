@@ -175,8 +175,8 @@ public class AddWalletActivity extends MvpActivity<AddWalletPresenter, AddWallet
     }
 
     @Override
-    public void setSubmitEnabled(boolean enabled) {
-        mSubmitButton.setEnabled(enabled);
+    public void setLoading(boolean loading) {
+        mSubmitButton.setEnabled(!loading);
     }
 
     private void clearInputs() {

@@ -51,14 +51,14 @@ public class AddWalletPresenter extends MvpBasePresenter<AddWalletView> {
     }
 
     private void addWallet(Wallet wallet) {
-        getView().setSubmitEnabled(false);
+        getView().setLoading(true);
         mAddWalletInteractor.addWallet(wallet)
                 .compose(mRxSchedulerProvider.ioToMainTransformer())
                 .subscribe(this::onSuccess, this::onError);
     }
 
     private void onSuccess() {
-        getView().setSubmitEnabled(true);
+        getView().setLoading(false);
         getView().showMessage(R.string.success_add_wallet);
         getView().exit();
     }
@@ -68,7 +68,7 @@ public class AddWalletPresenter extends MvpBasePresenter<AddWalletView> {
     }
 
     private void onError(Throwable throwable) {
-        getView().setSubmitEnabled(true);
+        getView().setLoading(false);
         if (throwable instanceof CoinNotSupportedException) {
             getView().showMessage(R.string.error_coin_not_supported);
         } else if (throwable instanceof SQLiteConstraintException) {

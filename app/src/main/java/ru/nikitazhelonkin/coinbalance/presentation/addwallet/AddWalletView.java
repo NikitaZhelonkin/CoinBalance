@@ -16,5 +16,5 @@ public interface AddWalletView extends MvpView {
 
     void exit();
 
-    void setSubmitEnabled(boolean enabled);
+    void setLoading(boolean loading);
 }
