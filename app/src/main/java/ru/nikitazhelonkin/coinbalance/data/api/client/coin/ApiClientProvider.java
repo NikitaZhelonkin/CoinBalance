@@ -10,6 +10,7 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ChainsoApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ChainzApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETHApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.EthplorerApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.NEMApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XLMApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XRPApiService;
@@ -19,6 +20,7 @@ public class ApiClientProvider {
 
     private BTCApiService mBTCApiService;
     private ETHApiService mETHApiService;
+    private EthplorerApiService mEthplorerApiService;
     private ChainsoApiService mChainsoApiService;
     private ChainzApiService mChainzApiService;
     private XRPApiService mXRPApiService;
@@ -31,6 +33,7 @@ public class ApiClientProvider {
     @Inject
     public ApiClientProvider(BTCApiService btcApiService,
                              ETHApiService ethApiService,
+                             EthplorerApiService ethplorerApiService,
                              ChainsoApiService chainsoApiService,
                              ChainzApiService chainzApiService,
                              XRPApiService xrpApiService,
@@ -41,6 +44,7 @@ public class ApiClientProvider {
                              XLMApiService xlmApiService) {
         mBTCApiService = btcApiService;
         mETHApiService = ethApiService;
+        mEthplorerApiService = ethplorerApiService;
         mChainsoApiService = chainsoApiService;
         mChainzApiService = chainzApiService;
         mXRPApiService = xrpApiService;
@@ -56,7 +60,7 @@ public class ApiClientProvider {
             case "BTC":
                 return new BTCApiClient(mBTCApiService);
             case "ETH":
-                return new ETHApiClient(mETHApiService);
+                return new ETHApiClient(mEthplorerApiService);
             case "LTC":
                 return new LTCApiClient(mChainzApiService);
             case "XRP":

@@ -26,6 +26,7 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ChainsoApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ChainzApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETHApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.EthplorerApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.NEMApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XLMApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XRPApiService;
@@ -101,6 +102,13 @@ public class AppModule {
     @NonNull
     ETHApiService provideETHApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
         return provideApiService("https://api.etherscan.io", ETHApiService.class, httpClient, objectMapper);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    EthplorerApiService provideEthplorerApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
+        return provideApiService("https://api.ethplorer.io", EthplorerApiService.class, httpClient, objectMapper);
     }
 
     @Provides
