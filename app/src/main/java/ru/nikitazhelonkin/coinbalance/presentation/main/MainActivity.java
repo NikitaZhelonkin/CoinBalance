@@ -192,18 +192,18 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     @Override
     public void setMode(int mode, boolean animate) {
         if (mode == MainPresenter.MODE_MAIN) {
+            mAppBarBehavior.setDragEnabled(false);
             mModeButton.setImageResource(R.drawable.ic_pie_chart_24dp);
             mAppBarLayout.setExpanded(false, animate);
             mRecyclerView.setAdapter(mMainAdapter);
-            mAppBarBehavior.setDragEnabled(false);
-            mRecyclerView.setNestedScrollingEnabled(false);
         } else {
             mAppBarBehavior.setDragEnabled(true);
-            mRecyclerView.setNestedScrollingEnabled(true);
             mModeButton.setImageResource(R.drawable.ic_view_list_24dp);
             mAppBarLayout.setExpanded(true, animate);
             mRecyclerView.setAdapter(mAssetsAdapter);
         }
+        mRecyclerView.stopNestedScroll();
+        mRecyclerView.stopScroll();
     }
 
     @Override
