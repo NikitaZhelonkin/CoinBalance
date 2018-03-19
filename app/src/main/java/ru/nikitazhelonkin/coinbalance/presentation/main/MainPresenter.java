@@ -31,6 +31,10 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
 
     private MainViewModel mData;
 
+    public static final int MODE_MAIN = 0;
+    public static final int MODE_CHART = 1;
+    private int mMode = -1;
+
     @Inject
     public MainPresenter(MainInteractor mainInteractor,
                          RxSchedulerProvider rxSchedulerProvider,
@@ -48,11 +52,16 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         syncBalances();
         loadWallets();
         observe();
+        setMode(MODE_MAIN, false);
         getView().setTotalBalance(mMainInteractor.getCurrency(), 0);
     }
 
     public void onSettingsClick() {
         getView().navigateToSettingsView();
+    }
+
+    public void onModeClick() {
+        setMode(mMode == MODE_CHART ? MODE_MAIN : MODE_CHART, true);
     }
 
     public void onRefresh() {
@@ -200,6 +209,13 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
             getView().showError(R.string.error_connection);
         } else {
             getView().showError(R.string.error_unknown);
+        }
+    }
+
+    private void setMode(int mode, boolean animate) {
+        if (mMode != mode) {
+            mMode = mode;
+            getView().setMode(mode, animate);
         }
     }
 

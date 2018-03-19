@@ -2,6 +2,8 @@ package ru.nikitazhelonkin.coinbalance.presentation.main;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -9,10 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.Currency;
@@ -31,16 +31,24 @@ import ru.nikitazhelonkin.coinbalance.mvp.MvpActivity;
 import ru.nikitazhelonkin.coinbalance.presentation.addexchange.AddExchangeActivity;
 import ru.nikitazhelonkin.coinbalance.presentation.addwallet.AddWalletActivity;
 import ru.nikitazhelonkin.coinbalance.presentation.settings.SettingsActivity;
+import ru.nikitazhelonkin.coinbalance.ui.widget.AppBarBehavior;
 import ru.nikitazhelonkin.coinbalance.ui.widget.FloatingActionMenu;
 import ru.nikitazhelonkin.coinbalance.ui.widget.InputAlertDialogBuilder;
+import ru.nikitazhelonkin.coinbalance.ui.widget.PieChartView;
 import ru.nikitazhelonkin.coinbalance.ui.widget.itemtouchhelper.ItemTouchHelperCallback;
 import ru.nikitazhelonkin.coinbalance.utils.AppNumberFormatter;
+import ru.nikitazhelonkin.coinbalance.utils.ColorGenerator;
+import ru.nikitazhelonkin.coinbalance.utils.ListUtils;
 
 public class MainActivity extends MvpActivity<MainPresenter, MainView> implements
         MainView,
         SwipeRefreshLayout.OnRefreshListener,
         MainAdapter.Callback {
 
+    @BindView(R.id.coordinator_layout)
+    CoordinatorLayout mCoordinatorLayout;
+    @BindView(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.toolbar_title)
@@ -51,19 +59,28 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     View mEmptyView;
     @BindView(R.id.error_view)
     View mErrorView;
-    @BindView(R.id.progress_view)
-    ProgressBar mProgressBar;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.appbar)
     AppBarLayout mAppBarLayout;
     @BindView(R.id.total_balance)
     TextView mTotalBalance;
+    @BindView(R.id.total_balance_chart)
+    TextView mTotalBalanceChart;
     @BindView(R.id.add_fam)
     FloatingActionMenu mFam;
-
+    @BindView(R.id.action_mode)
+    ImageButton mModeButton;
+    @BindView(R.id.chart_layout)
+    View mChartLayout;
+    @BindView(R.id.chart_view)
+    PieChartView mChartView;
 
     private MainAdapter mMainAdapter;
+
+    private AssetsAdapter mAssetsAdapter;
+
+    private AppBarBehavior mAppBarBehavior;
 
 
     @Override
@@ -73,36 +90,30 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
 
         ButterKnife.bind(this);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(mMainAdapter = new MainAdapter());
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mRecyclerView.setHasFixedSize(true);
+        mAssetsAdapter = new AssetsAdapter();
+        mMainAdapter = new MainAdapter();
         mMainAdapter.setCallback(this);
 
-        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(mMainAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mRecyclerView.setHasFixedSize(true);
+
+        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(mRecyclerView);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mRecyclerView);
 
         setSupportActionBar(mToolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setIcon(R.drawable.ic_app);
-        }
         mToolbarTitle.setText(R.string.app_name);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_settings) {
-            getPresenter().onSettingsClick();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        mAppBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            float fraction = verticalOffset / (float) (mToolbar.getHeight() - mAppBarLayout.getHeight());
+            mChartLayout.setAlpha(1 - fraction);
+            mChartLayout.setScaleX(Math.max(0.3f, 1 - fraction));
+            mChartLayout.setScaleY(Math.max(0.3f, 1 - fraction));
+            mChartLayout.setPivotY(mChartLayout.getHeight());
+            mTotalBalance.setAlpha(fraction);
+        });
+        mAppBarBehavior = (AppBarBehavior) ((CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams()).getBehavior();
     }
 
     @Override
@@ -143,6 +154,16 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         getPresenter().updateItemPositions();
     }
 
+    @OnClick(R.id.action_mode)
+    public void onModeClick(View v) {
+        getPresenter().onModeClick();
+    }
+
+    @OnClick(R.id.action_settings)
+    public void onSettingsClick(View v) {
+        getPresenter().onSettingsClick();
+    }
+
     @OnClick(R.id.add_wallet_fab)
     public void onAddWalletFabClick(View v) {
         mFam.collapse();
@@ -163,6 +184,26 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     @Override
     public void setData(MainViewModel data) {
         mMainAdapter.setData(data);
+        mAssetsAdapter.setData(data.getAllAssets());
+        mChartView.setData(ListUtils.map(data.getAllAssets(), (i, asset) ->
+                new PieChartView.PieEntry(asset.getCoin(), asset.getCurrencyBalance(), ColorGenerator.colorForPosition(i))));
+    }
+
+    @Override
+    public void setMode(int mode, boolean animate) {
+        if (mode == MainPresenter.MODE_MAIN) {
+            mModeButton.setImageResource(R.drawable.ic_pie_chart_24dp);
+            mAppBarLayout.setExpanded(false, animate);
+            mRecyclerView.setAdapter(mMainAdapter);
+            mAppBarBehavior.setDragEnabled(false);
+            mRecyclerView.setNestedScrollingEnabled(false);
+        } else {
+            mAppBarBehavior.setDragEnabled(true);
+            mRecyclerView.setNestedScrollingEnabled(true);
+            mModeButton.setImageResource(R.drawable.ic_view_list_24dp);
+            mAppBarLayout.setExpanded(true, animate);
+            mRecyclerView.setAdapter(mAssetsAdapter);
+        }
     }
 
     @Override
@@ -170,6 +211,7 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         Currency currency = Currency.getInstance(currencyStr);
         String currencyBalanceStr = AppNumberFormatter.format(totalBalance);
         mTotalBalance.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), currencyBalanceStr));
+        mTotalBalanceChart.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), currencyBalanceStr));
     }
 
 

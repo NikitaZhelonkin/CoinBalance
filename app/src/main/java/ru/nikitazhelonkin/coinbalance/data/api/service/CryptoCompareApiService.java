@@ -9,7 +9,7 @@ import ru.nikitazhelonkin.coinbalance.data.api.response.Prices;
 public interface CryptoCompareApiService {
 
 
-    @GET("data/pricemulti")
+    @GET("data/pricemultifull")
     Single<Prices> getPrices(@Query("fsyms") String fsyms, @Query("tsyms") String tsyms);
 
 

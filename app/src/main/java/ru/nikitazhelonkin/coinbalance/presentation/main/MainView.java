@@ -10,6 +10,8 @@ public interface MainView extends MvpView {
 
     void setData(MainViewModel data);
 
+    void setMode(int mode, boolean animate);
+
     void setTotalBalance(String currency, float balance);
 
     void setEmptyViewVisible(boolean visible);
