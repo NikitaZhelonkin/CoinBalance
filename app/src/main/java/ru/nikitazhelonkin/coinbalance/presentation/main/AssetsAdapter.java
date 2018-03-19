@@ -1,8 +1,6 @@
 package ru.nikitazhelonkin.coinbalance.presentation.main;
 
 
-import android.content.res.ColorStateList;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,14 +19,13 @@ import ru.nikitazhelonkin.coinbalance.data.entity.AssetItem;
 import ru.nikitazhelonkin.coinbalance.ui.widget.PieChartView;
 import ru.nikitazhelonkin.coinbalance.ui.widget.TintDrawableTextView;
 import ru.nikitazhelonkin.coinbalance.utils.AppNumberFormatter;
-import ru.nikitazhelonkin.coinbalance.utils.ColorGenerator;
+import ru.nikitazhelonkin.coinbalance.utils.ChartColorPallet;
 
 public class AssetsAdapter extends RecyclerView.Adapter<AssetsAdapter.ViewHolder> {
 
     private List<AssetItem> mData;
 
     public AssetsAdapter() {
-        setHasStableIds(true);
     }
 
     public void setData(List<AssetItem> data) {
@@ -99,7 +96,7 @@ public class AssetsAdapter extends RecyclerView.Adapter<AssetsAdapter.ViewHolder
             mAssetCoinValueView.setText(String.format(Locale.US, "%.4f", assetItem.getBalance()));
             mAssetPercentView.setText(String.format(Locale.getDefault(), "%.1f %%", assetItem.getPercent()));
             mAssetColorView.setBackgroundColor(assetItem.getPercent() >= PieChartView.MIN_PERCENT ?
-                    ColorGenerator.colorForPosition(position) : PieChartView.OTHER_COLOR);
+                    ChartColorPallet.colorForPosition(position) : PieChartView.OTHER_COLOR);
 
             String priceStr = AppNumberFormatter.format(assetItem.getPrice());
             mAssetPriceView.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), priceStr));

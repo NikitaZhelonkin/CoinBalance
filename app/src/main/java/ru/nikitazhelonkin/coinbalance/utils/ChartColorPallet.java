@@ -1,7 +1,7 @@
 package ru.nikitazhelonkin.coinbalance.utils;
 
 
-public class ColorGenerator {
+public class ChartColorPallet {
 
     private static final int[] COLORS = {
             0xfffd7773,

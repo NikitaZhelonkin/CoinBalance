@@ -37,7 +37,7 @@ import ru.nikitazhelonkin.coinbalance.ui.widget.InputAlertDialogBuilder;
 import ru.nikitazhelonkin.coinbalance.ui.widget.PieChartView;
 import ru.nikitazhelonkin.coinbalance.ui.widget.itemtouchhelper.ItemTouchHelperCallback;
 import ru.nikitazhelonkin.coinbalance.utils.AppNumberFormatter;
-import ru.nikitazhelonkin.coinbalance.utils.ColorGenerator;
+import ru.nikitazhelonkin.coinbalance.utils.ChartColorPallet;
 import ru.nikitazhelonkin.coinbalance.utils.ListUtils;
 
 public class MainActivity extends MvpActivity<MainPresenter, MainView> implements
@@ -186,7 +186,7 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         mMainAdapter.setData(data);
         mAssetsAdapter.setData(data.getAllAssets());
         mChartView.setData(ListUtils.map(data.getAllAssets(), (i, asset) ->
-                new PieChartView.PieEntry(asset.getCoin(), asset.getCurrencyBalance(), ColorGenerator.colorForPosition(i))));
+                new PieChartView.PieEntry(asset.getCoin(), asset.getCurrencyBalance(), ChartColorPallet.colorForPosition(i))));
     }
 
     @Override

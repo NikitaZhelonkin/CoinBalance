@@ -58,7 +58,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     public MainAdapter(){
-        setHasStableIds(true);
     }
 
     private Callback mCallback;
