@@ -57,6 +57,9 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         void onStopDragging();
     }
 
+    public MainAdapter(){
+    }
+
     private Callback mCallback;
 
     public void setCallback(Callback callback) {
@@ -95,6 +98,13 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             default:
                 throw new IllegalArgumentException("Unsupported viewType:" + viewType);
         }
+    }
+
+    @Override
+    public long getItemId(int position) {
+        int result = mData.getItem(position).getId();
+        result = 31 * result +  getItemViewType(position);
+        return result;
     }
 
     @Override
@@ -147,7 +157,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             boolean statusOk = wallet.getStatus() == Wallet.STATUS_OK;
             boolean statusPending = wallet.getStatus() == Wallet.STATUS_NONE;
 
-            float currencyBalance = mData.getPrice(coin.getTicker()) * wallet.getBalance();
+            float currencyBalance = mData.getPriceValue(coin.getTicker()) * wallet.getBalance();
             String currencyBalanceStr = AppNumberFormatter.format(currencyBalance);
 
             currencyBalanceView.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), currencyBalanceStr));
@@ -227,11 +237,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
             List<ExchangeBalance> balanceList = mData.getExchangeBalances(exchange.getId());
             float currencyBalance = mData.getBalance(balanceList);
-            float balance = currencyBalance / mData.getPrice(Coin.BTC.getTicker());
+            float balance = currencyBalance / mData.getPriceValue(Coin.BTC.getTicker());
             String currencyBalanceStr = AppNumberFormatter.format(currencyBalance);
             int assetsCount = balanceList != null ? balanceList.size() : 0;
             String assetCountString = getContext().getResources().getQuantityString(R.plurals.assets_count, assetsCount, assetsCount);
-            exchangeAssets.setText(getContext().getString(R.string.estimated_value_of, assetCountString));
+            exchangeAssets.setText(assetCountString);
             currencyBalanceView.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), currencyBalanceStr));
 
             Spanner.from(String.format(Locale.US, "%.4f %s", balance, Coin.BTC.getTicker()))

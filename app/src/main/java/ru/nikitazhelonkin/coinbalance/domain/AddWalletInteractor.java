@@ -2,7 +2,6 @@ package ru.nikitazhelonkin.coinbalance.domain;
 
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import javax.inject.Inject;
 
@@ -17,6 +16,7 @@ import ru.nikitazhelonkin.coinbalance.data.exception.InvalidAddressException;
 import ru.nikitazhelonkin.coinbalance.data.repository.WalletRepository;
 import ru.nikitazhelonkin.coinbalance.data.validator.AddressValidator;
 import ru.nikitazhelonkin.coinbalance.data.validator.AddressValidatorFactory;
+import ru.nikitazhelonkin.coinbalance.utils.L;
 
 public class AddWalletInteractor {
 

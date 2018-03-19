@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.IBinder;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -65,6 +67,20 @@ public class AndroidUtils {
             // Potentially direct the user to the Market with a Dialog
             Toast.makeText(activity, "Please install a File Manager.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public static void onPreDraw(final View view, final Runnable runnable) {
+        view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                final ViewTreeObserver observer = view.getViewTreeObserver();
+                if (observer.isAlive()) {
+                    observer.removeOnPreDrawListener(this);
+                }
+                runnable.run();
+                return true;
+            }
+        });
     }
 
 }

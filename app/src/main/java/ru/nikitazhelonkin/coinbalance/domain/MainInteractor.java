@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.yandex.metrica.YandexMetrica;
 
+import java.io.InterruptedIOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -103,6 +104,10 @@ public class MainInteractor {
                         wallet.setBalance(Float.parseFloat(getBalance(wallet).blockingGet()));
                         wallet.setStatus(Wallet.STATUS_OK);
                     } catch (Throwable e) {
+                        if (e.getCause() instanceof InterruptedIOException) {
+                            //ignore interruption
+                            return;
+                        }
                         L.e("Error", e);
                         YandexMetrica.reportError("syncWallet.error", e);
                         wallet.setStatus(Wallet.STATUS_ERROR);
@@ -124,11 +129,15 @@ public class MainInteractor {
                         mExchangeBalancesRepository.insert(balances).blockingAwait();
                         exchange.setStatus(Exchange.STATUS_OK);
                     } catch (Throwable e) {
+                        if (e.getCause() instanceof InterruptedIOException) {
+                            //ignore interruption
+                            return;
+                        }
                         L.e("Error", e);
                         YandexMetrica.reportError("syncExchange.error", e);
-                        if(e instanceof NoPermissionException){
+                        if (e instanceof NoPermissionException) {
                             exchange.setStatus(Exchange.STATUS_ERROR_NO_PERMISSION);
-                        }else {
+                        } else {
                             exchange.setStatus(Exchange.STATUS_ERROR);
                         }
                     }
@@ -145,8 +154,7 @@ public class MainInteractor {
                 getExchanges(),
                 getExchangeBalances(),
                 getPrices(getCurrency()),
-                (wallets, exchanges, balances, prices) -> new MainViewModel(
-                        getCurrency(), wallets, exchanges, balances, prices));
+                MainViewModel::new);
     }
 
     public String getCurrency() {
@@ -178,7 +186,8 @@ public class MainInteractor {
     private Single<Prices> getPrices(String currency) {
         return getCoinForPrices()
                 .map(strings -> TextUtils.join(",", strings))
-                .flatMap(s -> mPriceApiService.getPrices(s, currency));
+                .flatMap(s -> mPriceApiService.getPrices(s, currency))
+                .doOnSuccess(prices -> prices.setCurrency(currency));
     }
 
     private Single<List<String>> getCoinForPrices() {

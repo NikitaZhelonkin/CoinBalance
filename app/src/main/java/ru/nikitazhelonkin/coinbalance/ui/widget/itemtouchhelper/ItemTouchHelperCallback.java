@@ -6,15 +6,15 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
-    private final ItemTouchHelperAdapter mAdapter;
+    private final RecyclerView mRecyclerView;
 
-    public ItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
-        mAdapter = adapter;
+    public ItemTouchHelperCallback(RecyclerView recyclerView) {
+        mRecyclerView = recyclerView;
     }
 
     @Override
     public boolean isLongPressDragEnabled() {
-        return true;
+        return mRecyclerView.getAdapter() instanceof ItemTouchHelperAdapter;
     }
 
     @Override
@@ -30,10 +30,11 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder source, RecyclerView.ViewHolder target) {
-//        if (source.getItemViewType() != target.getItemViewType()) {
+//            if (source.getItemViewType() != target.getItemViewType()) {
 //            return false;
 //        }
-        mAdapter.onItemMove(source.getAdapterPosition(), target.getAdapterPosition());
+        ((ItemTouchHelperAdapter) mRecyclerView.getAdapter())
+                .onItemMove(source.getAdapterPosition(), target.getAdapterPosition());
         return true;
     }
 

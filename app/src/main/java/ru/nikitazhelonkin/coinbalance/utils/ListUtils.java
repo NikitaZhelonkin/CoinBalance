@@ -10,11 +10,11 @@ public class ListUtils {
         boolean check(T object);
     }
 
-    public interface Map<T, P>{
-        P map(T object);
+    public interface Map<T, P> {
+        P map(int i, T object);
     }
 
-    public interface Filter<T>{
+    public interface Filter<T> {
         boolean accept(T t);
     }
 
@@ -38,7 +38,7 @@ public class ListUtils {
         if (list == null) {
             return -1;
         }
-        for (int i=0;i<list.size();i++) {
+        for (int i = 0; i < list.size(); i++) {
             if (criteria.check(list.get(i))) {
                 return i;
             }
@@ -60,8 +60,8 @@ public class ListUtils {
         return count;
     }
 
-    public static <R,T> R reduce(List<T> list, R seed, Reducer<R, T> reducer) {
-        for(T t:list){
+    public static <R, T> R reduce(List<T> list, R seed, Reducer<R, T> reducer) {
+        for (T t : list) {
             seed = reducer.reduce(seed, t);
         }
         return seed;
@@ -85,13 +85,13 @@ public class ListUtils {
             return null;
         }
         List<P> result = new ArrayList<>(list.size());
-        for (T t : list) {
-            result.add(map.map(t));
+        for (int i = 0; i < list.size(); i++) {
+            result.add(map.map(i, list.get(i)));
         }
         return result;
     }
 
-    public static <T> List<T> distinct(List<T> list){
+    public static <T> List<T> distinct(List<T> list) {
         return new ArrayList<>(new LinkedHashSet<>(list));
     }
 }
