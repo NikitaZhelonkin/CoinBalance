@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 import ru.nikitazhelonkin.coinbalance.data.api.response.DogeApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.CryptoCompareApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.AdaApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.BCHChainApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.BTCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ChainsoApiService;
@@ -16,8 +17,10 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETHApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.EthplorerApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.NEMApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.NeoScanApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XLMApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XRPApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ZChainApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BinanceApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BitfinexApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BittrexApiService;
@@ -62,6 +65,12 @@ public interface AppComponent {
     NEMApiService nemApiService();
 
     XLMApiService xlmApiService();
+
+    AdaApiService adaApiService();
+
+    NeoScanApiService neoScanApiService();
+
+    ZChainApiService zChainApiService();
 
     BitfinexApiService bitfinexApiService();
 

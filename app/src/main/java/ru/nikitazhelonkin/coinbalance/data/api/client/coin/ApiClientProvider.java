@@ -4,6 +4,7 @@ package ru.nikitazhelonkin.coinbalance.data.api.client.coin;
 import javax.inject.Inject;
 
 import ru.nikitazhelonkin.coinbalance.data.api.response.DogeApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.AdaApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.BCHChainApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.BTCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ChainsoApiService;
@@ -12,8 +13,10 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETHApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.EthplorerApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.NEMApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.NeoScanApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XLMApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XRPApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ZChainApiService;
 
 public class ApiClientProvider {
 
@@ -29,6 +32,9 @@ public class ApiClientProvider {
     private DogeApiService mDogeApiService;
     private NEMApiService mNEMApiService;
     private XLMApiService mXLMApiService;
+    private AdaApiService mAdaApiService;
+    private NeoScanApiService mNeoScanApiService;
+    private ZChainApiService mZChainApiService;
 
     @Inject
     public ApiClientProvider(BTCApiService btcApiService,
@@ -41,7 +47,10 @@ public class ApiClientProvider {
                              ETCApiService etcApiService,
                              DogeApiService dogeApiService,
                              NEMApiService nemApiService,
-                             XLMApiService xlmApiService) {
+                             XLMApiService xlmApiService,
+                             AdaApiService adaApiService,
+                             NeoScanApiService neoScanApiService,
+                             ZChainApiService zChainApiService) {
         mBTCApiService = btcApiService;
         mETHApiService = ethApiService;
         mEthplorerApiService = ethplorerApiService;
@@ -53,6 +62,9 @@ public class ApiClientProvider {
         mDogeApiService = dogeApiService;
         mNEMApiService = nemApiService;
         mXLMApiService = xlmApiService;
+        mAdaApiService = adaApiService;
+        mNeoScanApiService = neoScanApiService;
+        mZChainApiService = zChainApiService;
     }
 
     public ApiClient provide(String coinTicker) {
@@ -77,6 +89,12 @@ public class ApiClientProvider {
                 return new NEMApiClient(mNEMApiService);
             case "XLM":
                 return new XLMApiClient(mXLMApiService);
+            case "ADA":
+                return new AdaApiClient(mAdaApiService);
+            case "NEO":
+                return new NeoApiClient(mNeoScanApiService);
+            case "ZEC":
+                return new ZECApiClient(mZChainApiService);
         }
         throw new IllegalArgumentException("Coin " + coinTicker + " is unsupported");
     }
