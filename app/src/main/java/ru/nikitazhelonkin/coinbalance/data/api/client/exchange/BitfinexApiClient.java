@@ -14,6 +14,7 @@ import ru.nikitazhelonkin.coinbalance.data.api.response.BitfinexBalancesResponse
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BitfinexApiService;
 import ru.nikitazhelonkin.coinbalance.data.exception.NoPermissionException;
 import ru.nikitazhelonkin.coinbalance.utils.DigestUtil;
+import ru.nikitazhelonkin.coinbalance.utils.L;
 
 public class BitfinexApiClient implements ExchangeApiClient {
 
@@ -41,6 +42,9 @@ public class BitfinexApiClient implements ExchangeApiClient {
                 .onErrorResumeNext(throwable -> {
                     if (throwable instanceof HttpException && ((HttpException) throwable).code() == 403) {
                         return Single.error(new NoPermissionException());
+                    }
+                    if(throwable instanceof HttpException){
+                       L.e (((HttpException) throwable).response().errorBody().string());
                     }
                     return Single.error(throwable);
                 });
