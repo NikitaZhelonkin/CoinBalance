@@ -16,7 +16,6 @@ public class ETHApiClient implements ApiClient {
     @Override
     public Single<String> getBalance(String address) {
         return mApiService.balance(address, "freekey")
-                .doOnSuccess(ethplorerApiResponse -> L.e(""+ethplorerApiResponse.toString()))
                 .map(ethResponse -> ethResponse.ETH.balance);
     }
 

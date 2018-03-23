@@ -20,6 +20,7 @@ import ru.nikitazhelonkin.coinbalance.BuildConfig;
 import ru.nikitazhelonkin.coinbalance.data.api.interceptor.LoggingInterceptor;
 import ru.nikitazhelonkin.coinbalance.data.api.response.DogeApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.CryptoCompareApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.AdaApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.BCHChainApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.BTCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ChainsoApiService;
@@ -28,8 +29,10 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETHApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.EthplorerApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.NEMApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.NeoScanApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XLMApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XRPApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ZChainApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BinanceApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BitfinexApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BittrexApiService;
@@ -165,6 +168,27 @@ public class AppModule {
     @NonNull
     XLMApiService provideXLMApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
         return provideApiService("https://horizon.stellar.org", XLMApiService.class, httpClient, objectMapper);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    AdaApiService provideAdaApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
+        return provideApiService("https://cardanoexplorer.com", AdaApiService.class, httpClient, objectMapper);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    NeoScanApiService provideNeoScanApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
+        return provideApiService("https://neoscan.io", NeoScanApiService.class, httpClient, objectMapper);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    ZChainApiService provideZChainApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
+        return provideApiService("https://api.zcha.in", ZChainApiService.class, httpClient, objectMapper);
     }
 
     @Provides

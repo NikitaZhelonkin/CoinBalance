@@ -23,6 +23,10 @@ public class AddressValidatorFactory {
             return new NEOAddressValidator();
         } else if ("XRP".equalsIgnoreCase(coin)) {
             return new XRPAddressValidator();
+        }else if("ADA".equalsIgnoreCase(coin)){
+            return new CardanoAddressValidator();
+        }else if("ZEC".equalsIgnoreCase(coin)){
+            return new ZECAddressValidator();
         }
         return null;
     }
