@@ -12,6 +12,7 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ChainzApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETHApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.EthplorerApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.GasTrackerApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.NEMApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.NeoScanApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XLMApiService;
@@ -29,6 +30,7 @@ public class ApiClientProvider {
     private XRPApiService mXRPApiService;
     private BCHChainApiService mBCHChainApiService;
     private ETCApiService mETCApiService;
+    private GasTrackerApiService mGasTrackerApiService;
     private DogeApiService mDogeApiService;
     private NEMApiService mNEMApiService;
     private XLMApiService mXLMApiService;
@@ -45,6 +47,7 @@ public class ApiClientProvider {
                              XRPApiService xrpApiService,
                              BCHChainApiService bchChainApiService,
                              ETCApiService etcApiService,
+                             GasTrackerApiService gasTrackerApiService,
                              DogeApiService dogeApiService,
                              NEMApiService nemApiService,
                              XLMApiService xlmApiService,
@@ -65,6 +68,7 @@ public class ApiClientProvider {
         mAdaApiService = adaApiService;
         mNeoScanApiService = neoScanApiService;
         mZChainApiService = zChainApiService;
+        mGasTrackerApiService = gasTrackerApiService;
     }
 
     public ApiClient provide(String coinTicker) {
@@ -82,7 +86,7 @@ public class ApiClientProvider {
             case "BCH":
                 return new BCHApiClient(mBCHChainApiService);
             case "ETC":
-                return new ETCApiClient(mETCApiService);
+                return new GasTrackerApiClient(mGasTrackerApiService);
             case "DOGE":
                 return new DogeApiClient(mDogeApiService);
             case "XEM":
