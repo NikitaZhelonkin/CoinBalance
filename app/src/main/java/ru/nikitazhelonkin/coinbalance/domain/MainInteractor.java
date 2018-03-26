@@ -104,7 +104,7 @@ public class MainInteractor {
                         wallet.setBalance(Float.parseFloat(getBalance(wallet).blockingGet()));
                         wallet.setStatus(Wallet.STATUS_OK);
                     } catch (Throwable e) {
-                        if (e.getCause() instanceof InterruptedIOException) {
+                        if (e.getCause().getClass() == InterruptedIOException.class) {
                             //ignore interruption
                             return;
                         }

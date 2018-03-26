@@ -28,6 +28,7 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ChainzApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETHApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.EthplorerApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.GasTrackerApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.NEMApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.NeoScanApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XLMApiService;
@@ -147,6 +148,13 @@ public class AppModule {
     @NonNull
     ETCApiService provideETCApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
         return provideApiService("https://etcchain.com", ETCApiService.class, httpClient, objectMapper);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    GasTrackerApiService provideGasTrackerApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
+        return provideApiService("https://api.gastracker.io", GasTrackerApiService.class, httpClient, objectMapper);
     }
 
     @Provides

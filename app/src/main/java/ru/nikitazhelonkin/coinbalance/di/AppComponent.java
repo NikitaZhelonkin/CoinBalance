@@ -16,6 +16,7 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ChainzApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ETHApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.EthplorerApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.coin.GasTrackerApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.NEMApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.NeoScanApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XLMApiService;
@@ -59,6 +60,8 @@ public interface AppComponent {
     BCHChainApiService bchChainApiService();
 
     ETCApiService etcApiService();
+
+    GasTrackerApiService gastrackerApiService();
 
     DogeApiService dogeApiService();
 
