@@ -20,16 +20,6 @@ public class SettingsAdapter extends RecyclerItemsAdapter {
     private static final int ITEM_DEFAULT = 0;
     private static final int ITEM_FOOTER = 1;
 
-    public interface Callback {
-        void onAddressClick(String address);
-    }
-
-    private Callback mCallback;
-
-    public void setCallback(Callback callback) {
-        mCallback = callback;
-    }
-
     public SettingsAdapter() {
 
     }
@@ -51,7 +41,6 @@ public class SettingsAdapter extends RecyclerItemsAdapter {
                 context.getString(R.string.settings_share_app)));
         items.add(new DefaultItem(R.id.settings_rate, R.drawable.ic_rate_24dp,
                 context.getString(R.string.settings_rate_app)));
-        items.add(new FooterItem());
         setData(items);
     }
 
@@ -148,27 +137,6 @@ public class SettingsAdapter extends RecyclerItemsAdapter {
             public void bind(IListItem iListItem) {
                 super.bind(iListItem);
 
-            }
-
-            @OnClick(R.id.btc_address_layout)
-            public void onBTCClick(View v) {
-                onAddressClick(v.getContext().getString(R.string.btc_address));
-            }
-
-            @OnClick(R.id.eth_address_layout)
-            public void onETHClick(View v) {
-                onAddressClick(v.getContext().getString(R.string.eth_address));
-            }
-
-            @OnClick(R.id.ltc_address_layout)
-            public void onLTCClick(View v) {
-                onAddressClick(v.getContext().getString(R.string.ltc_address));
-            }
-
-            public void onAddressClick(String address) {
-                if (mCallback != null) {
-                    mCallback.onAddressClick(address);
-                }
             }
 
         }

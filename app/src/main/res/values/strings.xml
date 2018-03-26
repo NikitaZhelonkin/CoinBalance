@@ -10,10 +10,6 @@
 
     <string name="report_email">coinbalance.supp@gmail.com</string>
     <string name="report_subject">CoinBalance %1$s.%2$d </string>
-    <string name="settings_donate_text">If you like this app, you can donate a bit to support project:</string>
-    <string name="btc_address">3QDZdZi3tRCxexxhgmHS2UNb6mxPdKCYxu</string>
-    <string name="eth_address">0xe25dc741ec46278390270db9d5434c2d799cd7df</string>
-    <string name="ltc_address">LR2JdjmMwhjzG6BGF2sGeDm6p9RqcUCcWo</string>
 
     <string name="success_add_wallet">Wallet successfully added</string>
     <string name="success_add_exchange">Exchange successfully added</string>

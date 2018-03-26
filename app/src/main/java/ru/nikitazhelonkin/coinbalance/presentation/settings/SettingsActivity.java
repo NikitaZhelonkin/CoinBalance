@@ -32,8 +32,7 @@ import ru.nikitazhelonkin.coinbalance.utils.AndroidUtils;
 
 public class SettingsActivity extends MvpActivity<SettingsPresenter, SettingsView> implements
         SettingsView,
-        SettingsAdapter.OnItemClickListener,
-        SettingsAdapter.Callback {
+        SettingsAdapter.OnItemClickListener{
 
     private static final int RC_FILE = 1;
     private static final int RC_PERMISSIONS = 2;
@@ -72,7 +71,6 @@ public class SettingsActivity extends MvpActivity<SettingsPresenter, SettingsVie
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mSettingsAdapter = new SettingsAdapter());
         mSettingsAdapter.setOnItemClickListener(this);
-        mSettingsAdapter.setCallback(this);
         updateItems();
     }
 
@@ -173,13 +171,6 @@ public class SettingsActivity extends MvpActivity<SettingsPresenter, SettingsVie
                 getString(R.string.report_email),
                 getString(R.string.report_subject, BuildConfig.VERSION_NAME,
                         BuildConfig.VERSION_CODE));
-    }
-
-    @Override
-    public void onAddressClick(String address) {
-        ClipboardManager clipboardManager = new ClipboardManager(this);
-        clipboardManager.copyToClipboard(address);
-        Toast.makeText(this, R.string.address_copied, Toast.LENGTH_SHORT).show();
     }
 
     private void showTODO() {
