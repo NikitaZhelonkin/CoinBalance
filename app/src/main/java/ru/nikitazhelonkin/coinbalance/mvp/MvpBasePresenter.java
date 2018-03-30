@@ -31,9 +31,7 @@ public class MvpBasePresenter<V extends MvpView> implements MvpPresenter<V> {
 
     @Override
     public void onDetach() {
-        if (mCompositeDisposable != null) {
-            mCompositeDisposable.dispose();
-        }
+        dispose();
         mView = null;
     }
 
@@ -50,7 +48,16 @@ public class MvpBasePresenter<V extends MvpView> implements MvpPresenter<V> {
         if (mCompositeDisposable == null) {
             return;
         }
+        if (mCompositeDisposable.isDisposed()) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
         mCompositeDisposable.add(disposable);
+    }
+
+    private void dispose() {
+        if (mCompositeDisposable != null) {
+            mCompositeDisposable.dispose();
+        }
     }
 
 }

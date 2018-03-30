@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -156,12 +157,12 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
 
     @Override
     public void onStartDragging() {
-        //do nothing
+        getPresenter().onStartDragging();
     }
 
     @Override
     public void onStopDragging() {
-        getPresenter().updateItemPositions();
+        getPresenter().onStopDragging();
     }
 
     @OnClick(R.id.action_mode)

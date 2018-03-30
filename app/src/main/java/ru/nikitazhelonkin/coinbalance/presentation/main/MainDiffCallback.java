@@ -1,6 +1,7 @@
 package ru.nikitazhelonkin.coinbalance.presentation.main;
 
 
+import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 
 import ru.nikitazhelonkin.coinbalance.data.entity.MainViewModel;
@@ -33,5 +34,11 @@ public class MainDiffCallback extends DiffUtil.Callback {
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
         return false;
+    }
+
+    @Nullable
+    @Override
+    public Object getChangePayload(int oldItemPosition, int newItemPosition) {
+        return "";
     }
 }

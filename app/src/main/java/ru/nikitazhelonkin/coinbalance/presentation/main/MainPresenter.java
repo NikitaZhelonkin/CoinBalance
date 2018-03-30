@@ -2,9 +2,12 @@ package ru.nikitazhelonkin.coinbalance.presentation.main;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 
 import com.yandex.metrica.YandexMetrica;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -34,6 +37,8 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
 
     private MainViewModel mData;
 
+    private Handler mHandler;
+
     public static final int MODE_MAIN = 0;
     public static final int MODE_CHART = 1;
     private int mMode = -1;
@@ -49,6 +54,7 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         mClipboardManager = clipboardManager;
         mSystemManager = systemManager;
         mPrefs = prefs;
+        mHandler = new Handler();
     }
 
     @Override
@@ -69,6 +75,12 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
                 getView().showRateDialog();
             }
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        stopUpdates();
     }
 
     public void onSettingsClick() {
@@ -207,9 +219,20 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         getView().setProfitLoss(data.calculateChange24Hours());
         getView().setEmptyViewVisible(data.getItems().size() == 0);
         getView().setErrorViewVisible(false);
+
+        postUpdate();
     }
 
-    public void updateItemPositions() {
+    public void onStartDragging() {
+        stopUpdates();
+    }
+
+    public void onStopDragging() {
+        postUpdate();
+        updateItemPositions();
+    }
+
+    private void updateItemPositions() {
         if (mData == null)
             return;
         for (int i = 0; i < mData.getItems().size(); i++) {
@@ -222,7 +245,7 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
     }
 
     private void onError(Throwable e) {
-        L.e( e);
+        L.e(e);
         YandexMetrica.reportError("MainPresenter.onError", e);
         getView().hideLoader();
         getView().setErrorViewVisible(mData == null);
@@ -238,6 +261,15 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
             mMode = mode;
             getView().setMode(mode, animate);
         }
+    }
+
+    private void postUpdate() {
+       stopUpdates();
+        mHandler.postDelayed(this::loadWallets, TimeUnit.SECONDS.toMillis(10));
+    }
+
+    private void stopUpdates() {
+        mHandler.removeCallbacksAndMessages(null);
     }
 
 }
