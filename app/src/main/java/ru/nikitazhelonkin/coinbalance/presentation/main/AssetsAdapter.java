@@ -94,13 +94,13 @@ public class AssetsAdapter extends RecyclerView.Adapter<AssetsAdapter.ViewHolder
             String currencyBalanceStr = AppNumberFormatter.format(assetItem.getCurrencyBalance());
             mAssetValueView.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), currencyBalanceStr));
             mAssetCoinValueView.setText(String.format(Locale.US, "%.4f", assetItem.getBalance()));
-            mAssetPercentView.setText(String.format(Locale.getDefault(), "%.1f %%", assetItem.getPercent()));
+            mAssetPercentView.setText(String.format(Locale.US, "%.1f %%", assetItem.getPercent()));
             mAssetColorView.setBackgroundColor(assetItem.getPercent() >= PieChartView.MIN_PERCENT ?
                     ChartColorPallet.colorForPosition(position) : PieChartView.OTHER_COLOR);
 
             String priceStr = AppNumberFormatter.format(assetItem.getPrice());
             mAssetPriceView.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), priceStr));
-            mAssetChange24View.setText(String.format(Locale.getDefault(), "%.1f %%", assetItem.getChange24()));
+            mAssetChange24View.setText(String.format(Locale.US, "%.1f %%", Math.abs(assetItem.getChange24())));
             mAssetChange24View.setTextColor(trendColor);
             mAssetChange24View.setCompoundDrawableTint(trendColor);
             mAssetChange24View.setCompoundDrawablesWithIntrinsicBounds(trendIcon, 0, 0, 0);

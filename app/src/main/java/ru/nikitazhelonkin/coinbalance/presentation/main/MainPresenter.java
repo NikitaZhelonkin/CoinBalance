@@ -54,6 +54,7 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         observe();
         setMode(MODE_MAIN, false);
         getView().setTotalBalance(mMainInteractor.getCurrency(), 0);
+        getView().setProfitLoss(0);
     }
 
     public void onSettingsClick() {
@@ -184,6 +185,7 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         mData = data;
         getView().setData(data);
         getView().setTotalBalance(data.getCurrency(), data.getTotalBalance());
+        getView().setProfitLoss(data.calculateChange24Hours());
         getView().setEmptyViewVisible(data.getItems().size() == 0);
         getView().setErrorViewVisible(false);
     }
@@ -201,7 +203,7 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
     }
 
     private void onError(Throwable e) {
-        L.e("Error", e);
+        L.e( e);
         YandexMetrica.reportError("MainPresenter.onError", e);
         getView().hideLoader();
         getView().setErrorViewVisible(mData == null);

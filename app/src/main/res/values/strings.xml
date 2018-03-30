@@ -68,6 +68,8 @@
     <string name="share_text_format">Try CoinBalance app %s</string>
     <string name="send_email">Send email</string>
 
+    <string name="change_24">24h</string>
+
     <string name="estimated_value_of">Est. value of %s</string>
     <plurals name="assets_count">
         <item quantity="one">%d asset</item>

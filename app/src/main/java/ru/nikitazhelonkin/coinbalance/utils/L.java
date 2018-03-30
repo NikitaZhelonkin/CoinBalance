@@ -15,7 +15,7 @@ public class L {
         }
     }
 
-    public static void e(@Nullable final Exception e) {
+    public static void e(@Nullable final Throwable e) {
         if (BuildConfig.DEBUG) {
             e("error <> ", e);
         }
@@ -31,7 +31,7 @@ public class L {
         }
     }
 
-    private static void e(@Nullable final String message, @Nullable final Exception e) {
+    private static void e(@Nullable final String message, @Nullable final Throwable e) {
         if (BuildConfig.DEBUG) {
             StackTraceElement element = trace("e");
             String className;

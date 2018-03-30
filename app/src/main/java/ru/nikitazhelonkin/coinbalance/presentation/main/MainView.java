@@ -14,6 +14,8 @@ public interface MainView extends MvpView {
 
     void setTotalBalance(String currency, float balance);
 
+    void setProfitLoss(float pl);
+
     void setEmptyViewVisible(boolean visible);
 
     void setErrorViewVisible(boolean visible);

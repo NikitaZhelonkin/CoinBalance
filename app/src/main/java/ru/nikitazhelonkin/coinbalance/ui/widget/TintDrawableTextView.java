@@ -11,7 +11,6 @@ import ru.nikitazhelonkin.coinbalance.R;
 public class TintDrawableTextView extends TFTextView {
 
     private int mCompoundDrawableTint;
-    private boolean mHaveCompoundDrawableTint;
 
     public TintDrawableTextView(Context context) {
         super(context);
@@ -31,7 +30,6 @@ public class TintDrawableTextView extends TFTextView {
     private void init(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, new int[]{R.attr.iconTint});
         mCompoundDrawableTint = a.getColor(0, -1);
-        mHaveCompoundDrawableTint = mCompoundDrawableTint != -1;
 
         applyTint();
 
@@ -50,7 +48,7 @@ public class TintDrawableTextView extends TFTextView {
     }
 
     private void applyTint() {
-        if (mHaveCompoundDrawableTint) {
+        if (mCompoundDrawableTint != -1) {
             Drawable[] drawables = getCompoundDrawables();
             super.setCompoundDrawablesWithIntrinsicBounds(
                     TintHelper.applyTint(drawables[0], mCompoundDrawableTint),

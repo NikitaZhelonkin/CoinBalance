@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import ru.nikitazhelonkin.coinbalance.data.api.response.Prices;
+import ru.nikitazhelonkin.coinbalance.utils.L;
 import ru.nikitazhelonkin.coinbalance.utils.ListUtils;
 
 public class MainViewModel {
@@ -21,7 +22,9 @@ public class MainViewModel {
 
     private List<ExchangeBalance> mExchangeBalances;
 
-    private List<ListItem> mItems;
+    private List<ListItem> mDataItems;
+
+    private List<AssetItem> mAssetItems;
 
     public MainViewModel(List<Wallet> wallets,
                          List<Exchange> exchanges,
@@ -32,13 +35,20 @@ public class MainViewModel {
         mExchangeBalances = exchangeBalances;
         mPrices = prices;
 
-        mItems = new ArrayList<>();
-        mItems.addAll(mWallets);
-        mItems.addAll(mExchanges);
-        Collections.sort(mItems, new ListItemComparator());
+        mDataItems = buildDataList();
+        mAssetItems = buildAssetList();
     }
 
-    public List<AssetItem> getAllAssets() {
+
+    private List<ListItem> buildDataList(){
+        List<ListItem> items = new ArrayList<>();
+        items.addAll(mWallets);
+        items.addAll(mExchanges);
+        Collections.sort(items, new ListItemComparator());
+        return items;
+    }
+
+    private List<AssetItem> buildAssetList() {
         HashMap<String, Float> balances = new HashMap<>();
         for (Wallet w : getWallets()) {
             Float balance = balances.get(w.getCoinTicker());
@@ -75,6 +85,18 @@ public class MainViewModel {
         return items;
     }
 
+    public List<AssetItem> getAssets() {
+        return mAssetItems;
+    }
+
+    public float calculateChange24Hours() {
+        float totalValue24Hours = ListUtils.reduce(mAssetItems, 0f,
+                (t, assetItem) -> t + assetItem.getCurrencyBalance() / (1 + assetItem.getChange24() / 100f));
+        float totalValue = ListUtils.reduce(mAssetItems, 0f,
+                (t, assetItem) -> t + assetItem.getCurrencyBalance());
+        return (totalValue - totalValue24Hours) / totalValue24Hours * 100;
+    }
+
     public List<Wallet> getWallets() {
         return mWallets;
     }
@@ -84,11 +106,11 @@ public class MainViewModel {
     }
 
     public List<ListItem> getItems() {
-        return mItems;
+        return mDataItems;
     }
 
     public ListItem getItem(int position) {
-        return mItems.get(position);
+        return mDataItems.get(position);
     }
 
     public Coin getCoin(@NonNull String coin) {
@@ -96,7 +118,7 @@ public class MainViewModel {
     }
 
     public void swapItems(int fromPosition, int toPosition) {
-        Collections.swap(mItems, fromPosition, toPosition);
+        Collections.swap(mDataItems, fromPosition, toPosition);
     }
 
     public String getCurrency() {

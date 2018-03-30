@@ -5,6 +5,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,6 +36,7 @@ import ru.nikitazhelonkin.coinbalance.ui.widget.AppBarBehavior;
 import ru.nikitazhelonkin.coinbalance.ui.widget.FloatingActionMenu;
 import ru.nikitazhelonkin.coinbalance.ui.widget.InputAlertDialogBuilder;
 import ru.nikitazhelonkin.coinbalance.ui.widget.PieChartView;
+import ru.nikitazhelonkin.coinbalance.ui.widget.TintDrawableTextView;
 import ru.nikitazhelonkin.coinbalance.ui.widget.itemtouchhelper.ItemTouchHelperCallback;
 import ru.nikitazhelonkin.coinbalance.utils.AppNumberFormatter;
 import ru.nikitazhelonkin.coinbalance.utils.ChartColorPallet;
@@ -67,6 +69,12 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     TextView mTotalBalance;
     @BindView(R.id.total_balance_chart)
     TextView mTotalBalanceChart;
+    @BindView(R.id.profit_loss)
+    TintDrawableTextView mProfitLoss;
+    @BindView(R.id.profit_loss_chart)
+    TintDrawableTextView mProfitLossChart;
+    @BindView(R.id.profit_loss_layout)
+    View mProfitLossLayout;
     @BindView(R.id.add_fam)
     FloatingActionMenu mFam;
     @BindView(R.id.action_mode)
@@ -112,6 +120,7 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
             mChartLayout.setScaleY(Math.max(0.3f, 1 - fraction));
             mChartLayout.setPivotY(mChartLayout.getHeight());
             mTotalBalance.setAlpha(fraction);
+            mProfitLossLayout.setAlpha(fraction);
         });
         mAppBarBehavior = (AppBarBehavior) ((CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams()).getBehavior();
     }
@@ -184,8 +193,8 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     @Override
     public void setData(MainViewModel data) {
         mMainAdapter.setData(data);
-        mAssetsAdapter.setData(data.getAllAssets());
-        mChartView.setData(ListUtils.map(data.getAllAssets(), (i, asset) ->
+        mAssetsAdapter.setData(data.getAssets());
+        mChartView.setData(ListUtils.map(data.getAssets(), (i, asset) ->
                 new PieChartView.PieEntry(asset.getCoin(), asset.getCurrencyBalance(), ChartColorPallet.colorForPosition(i))));
     }
 
@@ -214,6 +223,19 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         mTotalBalanceChart.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), currencyBalanceStr));
     }
 
+    @Override
+    public void setProfitLoss(float pl) {
+        setProfitLoss(mProfitLoss, pl);
+        setProfitLoss(mProfitLossChart, pl);
+    }
+
+    private void setProfitLoss(TintDrawableTextView textView, float pl){
+        int trendColor = pl > 0 ? R.color.color_trend_up : pl < 0 ? R.color.color_trend_down : android.R.color.black;
+        int trendIcon = pl > 0 ? R.drawable.ic_trending_up_24dp : R.drawable.ic_trending_down_24dp;
+        textView.setText(String.format(Locale.US, "%.1f %%", Math.abs(pl)));
+        textView.setCompoundDrawableTint(ContextCompat.getColor(this, trendColor));
+        textView.setCompoundDrawablesWithIntrinsicBounds(trendIcon, 0, 0, 0);
+    }
 
     @Override
     public void showError(int errorResId) {
