@@ -38,6 +38,7 @@ import ru.nikitazhelonkin.coinbalance.ui.widget.InputAlertDialogBuilder;
 import ru.nikitazhelonkin.coinbalance.ui.widget.PieChartView;
 import ru.nikitazhelonkin.coinbalance.ui.widget.TintDrawableTextView;
 import ru.nikitazhelonkin.coinbalance.ui.widget.itemtouchhelper.ItemTouchHelperCallback;
+import ru.nikitazhelonkin.coinbalance.utils.AndroidUtils;
 import ru.nikitazhelonkin.coinbalance.utils.AppNumberFormatter;
 import ru.nikitazhelonkin.coinbalance.utils.ChartColorPallet;
 import ru.nikitazhelonkin.coinbalance.utils.ListUtils;
@@ -323,6 +324,11 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         startActivity(SettingsActivity.createIntent(this));
     }
 
+    @Override
+    public void navigateToMarket() {
+        AndroidUtils.openMarket(this);
+    }
+
     private void showSnackBar(String text, int duration) {
         Snackbar snackbar = Snackbar.make(mToolbar, text, duration);
         snackbar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -339,5 +345,16 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         mErrorView.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
+    @Override
+    public void showRateDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.dialog_rate_title)
+                .setMessage(R.string.dialog_rate_message)
+                .setPositiveButton(R.string.dialog_rate_ok, (dialog, which) -> {
+                    getPresenter().onRateClick();
+                })
+                .setNegativeButton(R.string.dialog_rate_later, null)
+                .create().show();
+    }
 }
 

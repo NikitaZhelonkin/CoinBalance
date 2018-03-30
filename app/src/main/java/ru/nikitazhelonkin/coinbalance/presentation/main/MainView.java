@@ -38,11 +38,14 @@ public interface MainView extends MvpView {
 
     void showEditTitleView(Exchange exchange);
 
+    void showRateDialog();
+
+    void navigateToMarket();
+
     void navigateToAddWalletView();
 
     void navigateToAddExchangeView();
 
     void navigateToSettingsView();
-
 
 }

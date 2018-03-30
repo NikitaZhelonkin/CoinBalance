@@ -22,8 +22,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.nikitazhelonkin.coinbalance.App;
 import ru.nikitazhelonkin.coinbalance.BuildConfig;
+import ru.nikitazhelonkin.coinbalance.Const;
 import ru.nikitazhelonkin.coinbalance.R;
 import ru.nikitazhelonkin.coinbalance.data.AppSettings;
+import ru.nikitazhelonkin.coinbalance.data.prefs.Prefs;
 import ru.nikitazhelonkin.coinbalance.data.system.ClipboardManager;
 import ru.nikitazhelonkin.coinbalance.di.DaggerPresenterComponent;
 import ru.nikitazhelonkin.coinbalance.mvp.MvpActivity;
@@ -158,6 +160,7 @@ public class SettingsActivity extends MvpActivity<SettingsPresenter, SettingsVie
     }
 
     private void onRateClick() {
+        Prefs.get(this).putBoolean(Const.PREFS_APP_RATED, true);
         AndroidUtils.openMarket(this);
     }
 

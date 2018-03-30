@@ -74,6 +74,11 @@
     <string name="price">Price</string>
     <string name="holdings">Holdings</string>
 
+    <string name="dialog_rate_ok">Rate</string>
+    <string name="dialog_rate_later">Ask later</string>
+    <string name="dialog_rate_message">If you enjoy using this app, would you mind to take a moment to rate it? Please support project and let other people to know about this app. Thank you!</string>
+    <string name="dialog_rate_title">Rate App</string>
+
     <string name="estimated_value_of">Est. value of %s</string>
     <plurals name="assets_count">
         <item quantity="one">%d asset</item>

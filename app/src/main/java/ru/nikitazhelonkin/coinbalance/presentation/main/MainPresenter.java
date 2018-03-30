@@ -10,10 +10,12 @@ import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.disposables.Disposable;
+import ru.nikitazhelonkin.coinbalance.Const;
 import ru.nikitazhelonkin.coinbalance.R;
 import ru.nikitazhelonkin.coinbalance.data.entity.Exchange;
 import ru.nikitazhelonkin.coinbalance.data.entity.MainViewModel;
 import ru.nikitazhelonkin.coinbalance.data.entity.Wallet;
+import ru.nikitazhelonkin.coinbalance.data.prefs.Prefs;
 import ru.nikitazhelonkin.coinbalance.data.repository.ObservableRepository;
 import ru.nikitazhelonkin.coinbalance.data.system.ClipboardManager;
 import ru.nikitazhelonkin.coinbalance.data.system.SystemManager;
@@ -28,6 +30,7 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
     private RxSchedulerProvider mRxSchedulerProvider;
     private ClipboardManager mClipboardManager;
     private SystemManager mSystemManager;
+    private Prefs mPrefs;
 
     private MainViewModel mData;
 
@@ -39,11 +42,13 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
     public MainPresenter(MainInteractor mainInteractor,
                          RxSchedulerProvider rxSchedulerProvider,
                          ClipboardManager clipboardManager,
-                         SystemManager systemManager) {
+                         SystemManager systemManager,
+                         Prefs prefs) {
         mMainInteractor = mainInteractor;
         mRxSchedulerProvider = rxSchedulerProvider;
         mClipboardManager = clipboardManager;
         mSystemManager = systemManager;
+        mPrefs = prefs;
     }
 
     @Override
@@ -55,6 +60,15 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         setMode(MODE_MAIN, false);
         getView().setTotalBalance(mMainInteractor.getCurrency(), 0);
         getView().setProfitLoss(0);
+
+        if (savedInstanceState == null) {
+            int appOpenCount = mPrefs.getInt(Const.PREFS_APP_OPEN_COUNT, 0) + 1;
+            boolean appRated = mPrefs.getBoolean(Const.PREFS_APP_RATED, false);
+            mPrefs.putInt(Const.PREFS_APP_OPEN_COUNT, appOpenCount);
+            if (!appRated && appOpenCount % Const.APP_OPEN_COUNT_TO_RATE == 0) {
+                getView().showRateDialog();
+            }
+        }
     }
 
     public void onSettingsClick() {
@@ -122,6 +136,11 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
                 getView().showEditTitleView(exchange);
                 break;
         }
+    }
+
+    public void onRateClick() {
+        mPrefs.putBoolean(Const.PREFS_APP_RATED, true);
+        getView().navigateToMarket();
     }
 
     public void editWalletName(Wallet wallet, String name) {
