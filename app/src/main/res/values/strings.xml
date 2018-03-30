@@ -84,4 +84,9 @@
         <item quantity="one">%d asset</item>
         <item quantity="other">%d assets</item>
     </plurals>
+
+    <plurals name="token_count">
+        <item quantity="one">%d token</item>
+        <item quantity="other">%d tokens</item>
+    </plurals>
 </resources>

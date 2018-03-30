@@ -3,6 +3,7 @@ package ru.nikitazhelonkin.coinbalance.data.api.client.coin;
 
 import io.reactivex.Single;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.BCHChainApiService;
+import ru.nikitazhelonkin.coinbalance.data.entity.WalletBalance;
 
 public class BCHApiClient implements ApiClient {
 
@@ -13,8 +14,10 @@ public class BCHApiClient implements ApiClient {
     }
 
     @Override
-    public Single<String> getBalance(String address) {
-        return mApiService.balance(address).map(bchChainResponse -> convert(bchChainResponse.getData().balance));
+    public Single<WalletBalance> getBalance(String address) {
+        return mApiService.balance(address)
+                .map(bchChainResponse -> convert(bchChainResponse.getData().balance))
+                .map(WalletBalance::new);
     }
 
     private String convert(String s) {

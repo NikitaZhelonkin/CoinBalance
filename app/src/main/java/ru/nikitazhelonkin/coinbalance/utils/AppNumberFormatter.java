@@ -7,6 +7,9 @@ import java.util.Locale;
 public class AppNumberFormatter {
 
     public static String format(double number) {
+        if (number < 0.1) {
+            return String.format(Locale.US, "%.4f", number);
+        }
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
         numberFormat.setMinimumFractionDigits(2);
         numberFormat.setMaximumFractionDigits(2);

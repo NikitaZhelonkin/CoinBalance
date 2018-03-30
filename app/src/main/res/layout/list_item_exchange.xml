@@ -43,17 +43,16 @@
 
             <TextView
                 android:id="@+id/exchange_assets"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
                 android:singleLine="true"
                 android:textColor="@color/colorTextSecondary"
-                android:textSize="14sp"
-                android:layout_marginTop="6dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/balance"
-                app:layout_constraintTop_toBottomOf="@+id/exchange_icon"
-                tools:text="Est. value of 5 assets:" />
+                android:textSize="12sp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="2dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/balance"
+                tools:text="5 assets" />
 
             <ImageView
                 android:id="@+id/context_menu"
@@ -88,7 +87,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="16dp"
                 android:singleLine="true"
                 android:textColor="@color/colorText"
                 android:textSize="24sp"
@@ -96,7 +95,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/balance"
-                app:layout_constraintTop_toBottomOf="@+id/exchange_assets"
+                app:layout_constraintTop_toBottomOf="@+id/exchange_icon"
                 tools:text="$ 551.11 k" />
 
             <View

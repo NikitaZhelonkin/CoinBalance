@@ -24,17 +24,21 @@ import ru.nikitazhelonkin.coinbalance.data.entity.Coin;
 import ru.nikitazhelonkin.coinbalance.data.entity.Exchange;
 import ru.nikitazhelonkin.coinbalance.data.entity.ExchangeBalance;
 import ru.nikitazhelonkin.coinbalance.data.entity.MainViewModel;
+import ru.nikitazhelonkin.coinbalance.data.entity.Token;
 import ru.nikitazhelonkin.coinbalance.data.entity.Wallet;
+import ru.nikitazhelonkin.coinbalance.data.entity.WalletBalance;
 import ru.nikitazhelonkin.coinbalance.data.exception.NoPermissionException;
 import ru.nikitazhelonkin.coinbalance.data.repository.ExchangeBalancesRepository;
 import ru.nikitazhelonkin.coinbalance.data.repository.ExchangeRepository;
 import ru.nikitazhelonkin.coinbalance.data.repository.ObservableRepository;
+import ru.nikitazhelonkin.coinbalance.data.repository.TokenRepository;
 import ru.nikitazhelonkin.coinbalance.data.repository.WalletRepository;
 import ru.nikitazhelonkin.coinbalance.utils.L;
 
 public class MainInteractor {
 
     private WalletRepository mWalletRepository;
+    private TokenRepository mTokenRepository;
     private ExchangeRepository mExchangeRepository;
     private ExchangeBalancesRepository mExchangeBalancesRepository;
 
@@ -47,6 +51,7 @@ public class MainInteractor {
 
     @Inject
     public MainInteractor(WalletRepository walletRepository,
+                          TokenRepository tokenRepository,
                           ExchangeRepository exchangeRepository,
                           ExchangeBalancesRepository exchangeBalancesRepository,
                           ApiClientProvider apiClientProvider,
@@ -54,6 +59,7 @@ public class MainInteractor {
                           CryptoCompareApiService cryptoCompareApiService,
                           AppSettings settings) {
         mWalletRepository = walletRepository;
+        mTokenRepository = tokenRepository;
         mExchangeRepository = exchangeRepository;
         mExchangeBalancesRepository = exchangeBalancesRepository;
         mApiClientProvider = apiClientProvider;
@@ -101,8 +107,10 @@ public class MainInteractor {
                 .flatMapObservable(Observable::fromIterable)
                 .doOnNext(wallet -> {
                     try {
-                        wallet.setBalance(Float.parseFloat(getBalance(wallet).blockingGet()));
+                        WalletBalance walletBalance = getBalance(wallet).blockingGet();
+                        wallet.setBalance(Float.parseFloat(walletBalance.getBalance()));
                         wallet.setStatus(Wallet.STATUS_OK);
+                        addTokens(wallet, walletBalance.getTokenList());
                     } catch (Throwable e) {
                         if (e.getCause().getClass() == InterruptedIOException.class) {
                             //ignore interruption
@@ -117,6 +125,11 @@ public class MainInteractor {
                 .toList()
                 .toCompletable();
 
+    }
+
+    private void addTokens(Wallet wallet, List<Token> tokenList) {
+        mTokenRepository.delete(wallet.getAddress()).blockingAwait();
+        if (tokenList != null) mTokenRepository.insert(tokenList).blockingAwait();
     }
 
     private Completable syncExchanges() {
@@ -151,6 +164,7 @@ public class MainInteractor {
 
     public Single<MainViewModel> loadData() {
         return Single.zip(getWallets(),
+                getTokens(),
                 getExchanges(),
                 getExchangeBalances(),
                 getPrices(getCurrency()),
@@ -174,6 +188,10 @@ public class MainInteractor {
         return mWalletRepository.getWallets();
     }
 
+    private Single<List<Token>> getTokens(){
+        return mTokenRepository.getTokens();
+    }
+
 
     private Single<List<Exchange>> getExchanges() {
         return mExchangeRepository.getExchanges();
@@ -194,15 +212,18 @@ public class MainInteractor {
         Observable<String> privateCoins = Observable.fromArray(Coin.values()).toList()
                 .flatMapObservable(Observable::fromIterable)
                 .map(Coin::getTicker);
+        Observable<String> tokens = getTokens()
+                .flatMapObservable(Observable::fromIterable)
+                .map(Token::getTokenTicker);
         Observable<String> exchangeCoins = getExchangeBalances()
                 .flatMapObservable(Observable::fromIterable)
                 .map(ExchangeBalance::getCoinTicker);
-        return Observable.merge(privateCoins, exchangeCoins)
+        return Observable.merge(privateCoins, exchangeCoins, tokens)
                 .distinct()
                 .toList();
     }
 
-    private Single<String> getBalance(Wallet wallet) {
+    private Single<WalletBalance> getBalance(Wallet wallet) {
         return mApiClientProvider.provide(wallet.getCoinTicker()).getBalance(wallet.getAddress());
     }
 

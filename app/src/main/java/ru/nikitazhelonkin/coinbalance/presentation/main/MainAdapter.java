@@ -27,6 +27,7 @@ import ru.nikitazhelonkin.coinbalance.data.entity.Coin;
 import ru.nikitazhelonkin.coinbalance.data.entity.Exchange;
 import ru.nikitazhelonkin.coinbalance.data.entity.ExchangeBalance;
 import ru.nikitazhelonkin.coinbalance.data.entity.MainViewModel;
+import ru.nikitazhelonkin.coinbalance.data.entity.Token;
 import ru.nikitazhelonkin.coinbalance.data.entity.Wallet;
 import ru.nikitazhelonkin.coinbalance.ui.text.Spanner;
 import ru.nikitazhelonkin.coinbalance.ui.widget.MyPopupMenu;
@@ -138,6 +139,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView balanceView;
         @BindView(R.id.wallet_name)
         TextView walletName;
+        @BindView(R.id.wallet_tokens)
+        TextView walletTokens;
         @BindView(R.id.status_indicator)
         View statusIndicator;
         @BindColor(R.color.colorTextSecondary)
@@ -157,7 +160,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             boolean statusOk = wallet.getStatus() == Wallet.STATUS_OK;
             boolean statusPending = wallet.getStatus() == Wallet.STATUS_NONE;
 
-            float currencyBalance = mData.getPriceValue(coin.getTicker()) * wallet.getBalance();
+            float currencyBalance = mData.getWalletBalanceWithTokens(wallet);
             String currencyBalanceStr = AppNumberFormatter.format(currencyBalance);
 
             currencyBalanceView.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), currencyBalanceStr));
@@ -171,6 +174,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             walletName.setEllipsize(TextUtils.isEmpty(wallet.getAlias()) ? TextUtils.TruncateAt.MIDDLE :
                     TextUtils.TruncateAt.END);
             imageView.setImageResource(coin.getIconResId());
+
+            List<Token> tokenList = mData.getTokens(wallet.getAddress());
+            int tokenCount = tokenList != null ? tokenList.size() : 0;
+            String tokenCountString = getContext().getResources().getQuantityString(R.plurals.token_count, tokenCount, tokenCount);
+            walletTokens.setVisibility(tokenCount == 0 ? View.INVISIBLE : View.VISIBLE);
+            walletTokens.setText(tokenCountString);
 
             statusIndicator.setVisibility(statusOk ? View.GONE : View.VISIBLE);
             statusIndicator.setBackgroundColor(statusPending ? mPendingColor : mErrorColor);

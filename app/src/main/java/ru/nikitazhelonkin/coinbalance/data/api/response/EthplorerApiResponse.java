@@ -43,6 +43,7 @@ public class EthplorerApiResponse {
 
     public static class TokenInfo {
         public String symbol;
+        public int decimals;
         public String name;
 
         @Override

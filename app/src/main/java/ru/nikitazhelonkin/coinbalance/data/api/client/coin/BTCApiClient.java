@@ -3,6 +3,7 @@ package ru.nikitazhelonkin.coinbalance.data.api.client.coin;
 
 import io.reactivex.Single;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.BTCApiService;
+import ru.nikitazhelonkin.coinbalance.data.entity.WalletBalance;
 
 public class BTCApiClient implements ApiClient {
 
@@ -14,8 +15,10 @@ public class BTCApiClient implements ApiClient {
     }
 
     @Override
-    public Single<String> getBalance(String address) {
-        return mBTCApiService.balance(address).map(responseBody -> convert(responseBody.string()));
+    public Single<WalletBalance> getBalance(String address) {
+        return mBTCApiService.balance(address)
+                .map(responseBody -> convert(responseBody.string()))
+                .map(WalletBalance::new);
     }
 
     private String convert(String s) {

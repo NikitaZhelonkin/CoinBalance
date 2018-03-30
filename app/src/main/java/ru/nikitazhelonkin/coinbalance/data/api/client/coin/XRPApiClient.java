@@ -3,6 +3,7 @@ package ru.nikitazhelonkin.coinbalance.data.api.client.coin;
 
 import io.reactivex.Single;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.XRPApiService;
+import ru.nikitazhelonkin.coinbalance.data.entity.WalletBalance;
 
 public class XRPApiClient implements ApiClient {
 
@@ -14,7 +15,9 @@ public class XRPApiClient implements ApiClient {
 
 
     @Override
-    public Single<String> getBalance(String address) {
-        return mXRPApiService.balance(address).map(xrpResponse -> xrpResponse.accountData.balance);
+    public Single<WalletBalance> getBalance(String address) {
+        return mXRPApiService.balance(address)
+                .map(xrpResponse -> xrpResponse.accountData.balance)
+                .map(WalletBalance::new);
     }
 }

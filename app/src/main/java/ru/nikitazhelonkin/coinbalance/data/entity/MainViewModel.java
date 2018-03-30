@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import ru.nikitazhelonkin.coinbalance.data.api.response.Prices;
-import ru.nikitazhelonkin.coinbalance.utils.L;
 import ru.nikitazhelonkin.coinbalance.utils.ListUtils;
 
 public class MainViewModel {
@@ -17,6 +16,8 @@ public class MainViewModel {
     private Prices mPrices;
 
     private List<Wallet> mWallets;
+
+    private List<Token> mTokens;
 
     private List<Exchange> mExchanges;
 
@@ -27,10 +28,12 @@ public class MainViewModel {
     private List<AssetItem> mAssetItems;
 
     public MainViewModel(List<Wallet> wallets,
+                         List<Token> tokens,
                          List<Exchange> exchanges,
                          List<ExchangeBalance> exchangeBalances,
                          Prices prices) {
         mWallets = wallets;
+        mTokens = tokens;
         mExchanges = exchanges;
         mExchangeBalances = exchangeBalances;
         mPrices = prices;
@@ -40,7 +43,7 @@ public class MainViewModel {
     }
 
 
-    private List<ListItem> buildDataList(){
+    private List<ListItem> buildDataList() {
         List<ListItem> items = new ArrayList<>();
         items.addAll(mWallets);
         items.addAll(mExchanges);
@@ -53,6 +56,12 @@ public class MainViewModel {
         for (Wallet w : getWallets()) {
             Float balance = balances.get(w.getCoinTicker());
             balances.put(w.getCoinTicker(), balance == null ? w.getBalance() : balance + w.getBalance());
+
+            List<Token> tokenList = getTokens(w.getAddress());
+            for (Token t : tokenList) {
+                Float tBalance = balances.get(t.getTokenTicker());
+                balances.put(t.getTokenTicker(), tBalance == null ? t.getBalance() : tBalance + t.getBalance());
+            }
         }
         for (Exchange e : getExchanges()) {
             List<ExchangeBalance> ebalances = getExchangeBalances(e.getId());
@@ -129,9 +138,23 @@ public class MainViewModel {
         return getWalletsBalance() + getExchangeBalances();
     }
 
+    public float getWalletBalanceWithTokens(Wallet wallet) {
+        return wallet.getBalance() * getPriceValue(wallet.getCoinTicker()) + getTokensBalance(wallet);
+    }
+
+    public List<Token> getTokens(String walletAddress) {
+        return ListUtils.filter(mTokens,
+                token -> walletAddress.equals(token.getWalletAddress()));
+    }
+
     private float getWalletsBalance() {
         return ListUtils.reduce(mWallets, 0f,
-                (b, wallet) -> b + wallet.getBalance() * getPriceValue(wallet.getCoinTicker()));
+                (b, wallet) -> b + getWalletBalanceWithTokens(wallet));
+    }
+
+    private float getTokensBalance(Wallet wallet) {
+        List<Token> tokenList = getTokens(wallet.getAddress());
+        return ListUtils.reduce(tokenList, 0f, (b, token) -> b + token.getBalance() * getPriceValue(token.getTokenTicker()));
     }
 
     private float getExchangeBalances() {

@@ -31,6 +31,7 @@ import ru.nikitazhelonkin.coinbalance.data.db.AppDatabase;
 import ru.nikitazhelonkin.coinbalance.data.prefs.Prefs;
 import ru.nikitazhelonkin.coinbalance.data.repository.ExchangeBalancesRepository;
 import ru.nikitazhelonkin.coinbalance.data.repository.ExchangeRepository;
+import ru.nikitazhelonkin.coinbalance.data.repository.TokenRepository;
 import ru.nikitazhelonkin.coinbalance.data.repository.WalletRepository;
 
 @Singleton
@@ -86,6 +87,7 @@ public interface AppComponent {
     PoloniexApiService poloniexApiService();
 
     WalletRepository walletRepository();
+    TokenRepository tokenRepository();
     ExchangeRepository exchangeRepository();
     ExchangeBalancesRepository exchangeBalancesRepository();
 

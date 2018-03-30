@@ -41,6 +41,7 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.KrakenApiService
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.PoloniexApiService;
 import ru.nikitazhelonkin.coinbalance.data.db.AppDatabase;
 import ru.nikitazhelonkin.coinbalance.data.db.migration.Migration1_2;
+import ru.nikitazhelonkin.coinbalance.data.db.migration.Migration2_3;
 import ru.nikitazhelonkin.coinbalance.data.prefs.Prefs;
 
 @Module
@@ -72,7 +73,7 @@ public class AppModule {
     @NonNull
     AppDatabase provideAppDatabase() {
         return Room.databaseBuilder(mContext, AppDatabase.class, "app-database")
-                .addMigrations(new Migration1_2())
+                .addMigrations(new Migration1_2(), new Migration2_3())
                 .build();
     }
 
