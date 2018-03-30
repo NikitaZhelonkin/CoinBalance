@@ -69,6 +69,10 @@
     <string name="send_email">Send email</string>
 
     <string name="change_24">24h</string>
+    <string name="percent">%</string>
+    <string name="asset">Asset</string>
+    <string name="price">Price</string>
+    <string name="holdings">Holdings</string>
 
     <string name="estimated_value_of">Est. value of %s</string>
     <plurals name="assets_count">

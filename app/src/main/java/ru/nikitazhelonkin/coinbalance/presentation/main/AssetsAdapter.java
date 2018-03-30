@@ -21,11 +21,15 @@ import ru.nikitazhelonkin.coinbalance.ui.widget.TintDrawableTextView;
 import ru.nikitazhelonkin.coinbalance.utils.AppNumberFormatter;
 import ru.nikitazhelonkin.coinbalance.utils.ChartColorPallet;
 
-public class AssetsAdapter extends RecyclerView.Adapter<AssetsAdapter.ViewHolder> {
+public class AssetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
 
     private List<AssetItem> mData;
 
     public AssetsAdapter() {
+
     }
 
     public void setData(List<AssetItem> data) {
@@ -35,23 +39,37 @@ public class AssetsAdapter extends RecyclerView.Adapter<AssetsAdapter.ViewHolder
 
     @Override
     public long getItemId(int position) {
-        return mData.get(position).hashCode();
+        return position == 0 ? 0 : mData.get(position - 1).hashCode();
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public int getItemViewType(int position) {
+        return position == 0 ? TYPE_HEADER : TYPE_ITEM;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new ViewHolder(inflater.inflate(R.layout.list_item_asset, parent, false));
+        switch (viewType) {
+            case TYPE_HEADER:
+                return new HeaderViewHolder(inflater.inflate(R.layout.header_assets, parent, false));
+            case TYPE_ITEM:
+                return new ViewHolder(inflater.inflate(R.layout.list_item_asset, parent, false));
+            default:
+                throw new IllegalArgumentException("Unsupported viewType " + viewType);
+        }
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.bind(mData.get(position), position);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof ViewHolder) {
+            ((ViewHolder) holder).bind(mData.get(position - 1), position - 1);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mData != null ? mData.size() : 0;
+        return mData != null ? mData.size() + 1 : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -107,5 +125,12 @@ public class AssetsAdapter extends RecyclerView.Adapter<AssetsAdapter.ViewHolder
         }
 
 
+    }
+
+    public class HeaderViewHolder extends RecyclerView.ViewHolder {
+
+        public HeaderViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 }

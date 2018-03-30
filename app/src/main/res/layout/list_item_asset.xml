@@ -31,10 +31,10 @@
         android:id="@+id/asset_color"
         android:layout_width="2dp"
         android:layout_height="match_parent"
-        android:layout_marginBottom="-18dp"
+        android:layout_marginBottom="-8dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_marginTop="-18dp"
+        android:layout_marginTop="-8dp"
         android:background="#ccc"
         android:contentDescription="@null" />
 
