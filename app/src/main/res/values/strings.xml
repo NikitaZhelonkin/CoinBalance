@@ -63,6 +63,12 @@
     <string name="edit">Edit name</string>
     <string name="delete">Delete</string>
 
+    <string name="wallet_address">Wallet Address</string>
+    <string name="wallet_value">Wallet Value</string>
+    <string name="assets_empty">Assets with non-zero balances not found</string>
+    <string name="tokens">Tokens</string>
+    <string name="assets">Assets</string>
+
     <string name="market_uri">market://details?id=%s</string>
     <string name="play_store_uri">http://play.google.com/store/apps/details?id=%s</string>
     <string name="share_text_format">Try CoinBalance app %s</string>

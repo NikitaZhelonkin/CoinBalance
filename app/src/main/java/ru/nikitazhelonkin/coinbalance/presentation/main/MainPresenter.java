@@ -31,7 +31,6 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
 
     private MainInteractor mMainInteractor;
     private RxSchedulerProvider mRxSchedulerProvider;
-    private ClipboardManager mClipboardManager;
     private SystemManager mSystemManager;
     private Prefs mPrefs;
 
@@ -46,12 +45,10 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
     @Inject
     public MainPresenter(MainInteractor mainInteractor,
                          RxSchedulerProvider rxSchedulerProvider,
-                         ClipboardManager clipboardManager,
                          SystemManager systemManager,
                          Prefs prefs) {
         mMainInteractor = mainInteractor;
         mRxSchedulerProvider = rxSchedulerProvider;
-        mClipboardManager = clipboardManager;
         mSystemManager = systemManager;
         mPrefs = prefs;
         mHandler = new Handler();
@@ -104,6 +101,14 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
     }
 
     public void onWalletItemClick(Wallet wallet) {
+        getView().navigateToWalletDetail(wallet);
+    }
+
+    public void onExchangeItemClick(Exchange exchange) {
+        getView().navigateToExchangeDetail(exchange);
+    }
+
+    public void onWalletErrorClick(Wallet wallet){
         if (wallet.getStatus() == Wallet.STATUS_ERROR) {
             getView().showError(R.string.wallet_status_error);
         } else if (wallet.getStatus() == Wallet.STATUS_NONE) {
@@ -111,7 +116,7 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         }
     }
 
-    public void onExchangeItemClick(Exchange exchange) {
+    public void onExchangeErrorClick(Exchange exchange){
         if (exchange.getStatus() == Exchange.STATUS_ERROR) {
             getView().showError(R.string.exchange_status_error);
         } else if (exchange.getStatus() == Exchange.STATUS_ERROR_NO_PERMISSION) {
@@ -121,62 +126,9 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         }
     }
 
-    public void onWalletMenuItemClick(Wallet wallet, int itemId) {
-        switch (itemId) {
-            case R.id.action_copy:
-                mClipboardManager.copyToClipboard(wallet.getAddress());
-                getView().showMessage(R.string.address_copied);
-                break;
-            case R.id.action_code:
-                getView().showQRCodeView(wallet);
-                break;
-            case R.id.action_edit:
-                getView().showEditNameView(wallet);
-                break;
-            case R.id.action_delete:
-                getView().showDeleteView(wallet);
-                break;
-        }
-    }
-
-    public void onExchangeMenuItemClick(Exchange exchange, int itemId) {
-        switch (itemId) {
-            case R.id.action_delete:
-                getView().showDeleteView(exchange);
-                break;
-            case R.id.action_edit:
-                getView().showEditTitleView(exchange);
-                break;
-        }
-    }
-
     public void onRateClick() {
         mPrefs.putBoolean(Const.PREFS_APP_RATED, true);
         getView().navigateToMarket();
-    }
-
-    public void editWalletName(Wallet wallet, String name) {
-        mMainInteractor.editWalletName(wallet, name)
-                .compose(mRxSchedulerProvider.ioToMainTransformer())
-                .subscribe();
-    }
-
-    public void deleteWallet(Wallet wallet) {
-        mMainInteractor.deleteWallet(wallet)
-                .compose(mRxSchedulerProvider.ioToMainTransformer())
-                .subscribe();
-    }
-
-    public void editExchangeTitle(Exchange exchange, String title) {
-        mMainInteractor.editExchangeTitle(exchange, title)
-                .compose(mRxSchedulerProvider.ioToMainTransformer())
-                .subscribe();
-    }
-
-    public void deleteExchange(Exchange exchange) {
-        mMainInteractor.deleteExchange(exchange)
-                .compose(mRxSchedulerProvider.ioToMainTransformer())
-                .subscribe();
     }
 
     private void observe() {

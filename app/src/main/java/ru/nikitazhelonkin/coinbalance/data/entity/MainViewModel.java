@@ -177,8 +177,7 @@ public class MainViewModel {
     }
 
     public float getPriceValue(String coin) {
-        Prices.Price price = getPrice(coin);
-        return price == null ? 0 : price.price;
+        return mPrices.getPriceValue(coin);
     }
 
 }

@@ -24,6 +24,10 @@ public class TokenRepository {
         return mDao.getTokens();
     }
 
+    public Single<List<Token>> getTokens(String walletAddress) {
+        return mDao.getTokens(walletAddress);
+    }
+
     public Completable insert(List<Token> tokenList) {
         return Completable.fromAction(() -> mDao.insert(tokenList));
     }

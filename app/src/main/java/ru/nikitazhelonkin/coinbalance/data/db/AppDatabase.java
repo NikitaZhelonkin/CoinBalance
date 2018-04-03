@@ -12,11 +12,12 @@ import ru.nikitazhelonkin.coinbalance.data.entity.Wallet;
 @Database(entities = {Wallet.class, Exchange.class, ExchangeBalance.class, Token.class}, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
-    public abstract WalletDao userDao();
+    public abstract WalletDao walletDao();
+
+    public abstract TokenDao tokenDao();
 
     public abstract ExchangeDao exchangeDao();
 
     public abstract ExchangeBalancesDao exchangeBalancesDao();
 
-    public abstract TokenDao tokenDao();
 }

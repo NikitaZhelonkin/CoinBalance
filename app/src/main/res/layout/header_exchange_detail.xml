@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical">
+
+    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="8dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="12dp"
+        android:text="@string/total_value"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:clipToPadding="false"
+        android:elevation="1dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="8dp">
+
+        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+            android:id="@+id/fiat_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="$ 18.04"
+            android:textColor="@color/colorText"
+            android:textSize="18sp" />
+
+        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+            android:id="@+id/crypto_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.003 BTC"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/assets_label"
+        android:gravity="center"
+        android:paddingBottom="8dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="12dp"
+        android:visibility="gone"
+        android:text="@string/assets"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="12sp" />
+
+    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        android:layout_width="match_parent"
+        android:text="@string/assets_empty"
+        android:padding="12dp"
+        android:id="@+id/empty_view"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorTextSecondary"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

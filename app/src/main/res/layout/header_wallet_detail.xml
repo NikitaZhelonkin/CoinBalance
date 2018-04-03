@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:paddingBottom="8dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="8dp"
+        android:text="@string/wallet_address"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="12sp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:clipToPadding="false"
+        android:elevation="1dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="8dp">
+
+        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+            android:id="@+id/wallet_address"
+            tools:text="1CPZuurirMNKtaQ1co5rcfKLYC3zK1CXrX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:drawablePadding="6dp"
+            android:drawableRight="@drawable/ic_copy_light_16dp"
+            android:ellipsize="middle"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/colorText" />
+
+
+    </LinearLayout>
+
+
+    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="8dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="8dp"
+        android:text="@string/wallet_value"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:clipToPadding="false"
+        android:elevation="1dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="8dp">
+
+        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+            android:id="@+id/fiat_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="$ 18.04"
+            android:textColor="@color/colorText"
+            android:textSize="18sp" />
+
+        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+            android:id="@+id/crypto_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.003 LTC"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tokens_label"
+        android:gravity="center"
+        android:paddingBottom="8dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="8dp"
+        android:text="@string/tokens"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="12sp" />
+
+</LinearLayout>

@@ -28,16 +28,6 @@ public interface MainView extends MvpView {
 
     void hideLoader();
 
-    void showQRCodeView(Wallet wallet);
-
-    void showEditNameView(Wallet wallet);
-
-    void showDeleteView(Wallet wallet);
-
-    void showDeleteView(Exchange exchange);
-
-    void showEditTitleView(Exchange exchange);
-
     void showRateDialog();
 
     void navigateToMarket();
@@ -47,5 +37,9 @@ public interface MainView extends MvpView {
     void navigateToAddExchangeView();
 
     void navigateToSettingsView();
+
+    void navigateToWalletDetail(Wallet wallet);
+
+    void navigateToExchangeDetail(Exchange exchange);
 
 }

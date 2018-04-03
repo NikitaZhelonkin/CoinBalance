@@ -19,7 +19,6 @@ import ru.nikitazhelonkin.coinbalance.data.AppSettings;
 import ru.nikitazhelonkin.coinbalance.data.api.client.coin.ApiClientProvider;
 import ru.nikitazhelonkin.coinbalance.data.api.client.exchange.ExchangeApiClientProvider;
 import ru.nikitazhelonkin.coinbalance.data.api.response.Prices;
-import ru.nikitazhelonkin.coinbalance.data.api.service.CryptoCompareApiService;
 import ru.nikitazhelonkin.coinbalance.data.entity.Coin;
 import ru.nikitazhelonkin.coinbalance.data.entity.Exchange;
 import ru.nikitazhelonkin.coinbalance.data.entity.ExchangeBalance;
@@ -45,7 +44,7 @@ public class MainInteractor {
     private ApiClientProvider mApiClientProvider;
     private ExchangeApiClientProvider mExchangeApiClientProvider;
 
-    private CryptoCompareApiService mPriceApiService;
+    private PriceInteractor mPriceInteractor;
 
     private AppSettings mAppSettings;
 
@@ -56,7 +55,7 @@ public class MainInteractor {
                           ExchangeBalancesRepository exchangeBalancesRepository,
                           ApiClientProvider apiClientProvider,
                           ExchangeApiClientProvider exchangeApiClientProvider,
-                          CryptoCompareApiService cryptoCompareApiService,
+                          PriceInteractor priceInteractor,
                           AppSettings settings) {
         mWalletRepository = walletRepository;
         mTokenRepository = tokenRepository;
@@ -64,26 +63,8 @@ public class MainInteractor {
         mExchangeBalancesRepository = exchangeBalancesRepository;
         mApiClientProvider = apiClientProvider;
         mExchangeApiClientProvider = exchangeApiClientProvider;
-        mPriceApiService = cryptoCompareApiService;
+        mPriceInteractor = priceInteractor;
         mAppSettings = settings;
-    }
-
-    public Completable editWalletName(Wallet wallet, String name) {
-        wallet.setAlias(name);
-        return mWalletRepository.update(wallet, true);
-    }
-
-    public Completable deleteWallet(Wallet wallet) {
-        return mWalletRepository.delete(wallet, true);
-    }
-
-    public Completable editExchangeTitle(Exchange exchange, String title) {
-        exchange.setTitle(title);
-        return mExchangeRepository.update(exchange, true);
-    }
-
-    public Completable deleteExchange(Exchange exchange) {
-        return mExchangeRepository.delete(exchange, true);
     }
 
     public Observable<ObservableRepository.Event> observeData() {
@@ -192,7 +173,6 @@ public class MainInteractor {
         return mTokenRepository.getTokens();
     }
 
-
     private Single<List<Exchange>> getExchanges() {
         return mExchangeRepository.getExchanges();
     }
@@ -202,25 +182,7 @@ public class MainInteractor {
     }
 
     private Single<Prices> getPrices(String currency) {
-        return getCoinForPrices()
-                .map(strings -> TextUtils.join(",", strings))
-                .flatMap(s -> mPriceApiService.getPrices(s, currency))
-                .doOnSuccess(prices -> prices.setCurrency(currency));
-    }
-
-    private Single<List<String>> getCoinForPrices() {
-        Observable<String> privateCoins = Observable.fromArray(Coin.values()).toList()
-                .flatMapObservable(Observable::fromIterable)
-                .map(Coin::getTicker);
-        Observable<String> tokens = getTokens()
-                .flatMapObservable(Observable::fromIterable)
-                .map(Token::getTokenTicker);
-        Observable<String> exchangeCoins = getExchangeBalances()
-                .flatMapObservable(Observable::fromIterable)
-                .map(ExchangeBalance::getCoinTicker);
-        return Observable.merge(privateCoins, exchangeCoins, tokens)
-                .distinct()
-                .toList();
+        return mPriceInteractor.getPrices(currency, false);
     }
 
     private Single<WalletBalance> getBalance(Wallet wallet) {

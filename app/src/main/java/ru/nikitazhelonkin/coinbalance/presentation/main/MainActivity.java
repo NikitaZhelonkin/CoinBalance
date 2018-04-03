@@ -8,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -32,10 +31,11 @@ import ru.nikitazhelonkin.coinbalance.di.DaggerPresenterComponent;
 import ru.nikitazhelonkin.coinbalance.mvp.MvpActivity;
 import ru.nikitazhelonkin.coinbalance.presentation.addexchange.AddExchangeActivity;
 import ru.nikitazhelonkin.coinbalance.presentation.addwallet.AddWalletActivity;
+import ru.nikitazhelonkin.coinbalance.presentation.exchangedetail.ExchangeDetailActivity;
 import ru.nikitazhelonkin.coinbalance.presentation.settings.SettingsActivity;
+import ru.nikitazhelonkin.coinbalance.presentation.walletdetail.WalletDetailActivity;
 import ru.nikitazhelonkin.coinbalance.ui.widget.AppBarBehavior;
 import ru.nikitazhelonkin.coinbalance.ui.widget.FloatingActionMenu;
-import ru.nikitazhelonkin.coinbalance.ui.widget.InputAlertDialogBuilder;
 import ru.nikitazhelonkin.coinbalance.ui.widget.PieChartView;
 import ru.nikitazhelonkin.coinbalance.ui.widget.TintDrawableTextView;
 import ru.nikitazhelonkin.coinbalance.ui.widget.itemtouchhelper.ItemTouchHelperCallback;
@@ -134,15 +134,14 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
                 .build().mainPresenter();
     }
 
-
     @Override
-    public void onWalletMenuItemClick(Wallet wallet, int itemId) {
-        getPresenter().onWalletMenuItemClick(wallet, itemId);
+    public void onErrorWalletClick(Wallet wallet) {
+        getPresenter().onWalletErrorClick(wallet);
     }
 
     @Override
-    public void onExchangeMenuItemClick(Exchange exchange, int itemId) {
-        getPresenter().onExchangeMenuItemClick(exchange, itemId);
+    public void onErrorExchangeClick(Exchange exchange) {
+        getPresenter().onExchangeErrorClick(exchange);
     }
 
     @Override
@@ -231,7 +230,7 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         setProfitLoss(mProfitLossChart, pl);
     }
 
-    private void setProfitLoss(TintDrawableTextView textView, float pl){
+    private void setProfitLoss(TintDrawableTextView textView, float pl) {
         int trendColor = pl > 0 ? R.color.color_trend_up : pl < 0 ? R.color.color_trend_down : android.R.color.black;
         int trendIcon = pl > 0 ? R.drawable.ic_trending_up_24dp : R.drawable.ic_trending_down_24dp;
         textView.setText(String.format(Locale.US, "%.1f %%", Math.abs(pl)));
@@ -260,57 +259,6 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     }
 
     @Override
-    public void showQRCodeView(Wallet wallet) {
-        QRCodeBottomSheetFragment.create(wallet).show(getSupportFragmentManager(), "qr_code");
-    }
-
-    @Override
-    public void showEditNameView(Wallet wallet) {
-        new InputAlertDialogBuilder(this)
-                .input(null, wallet.getAlias(), (dialog, text) ->
-                        getPresenter().editWalletName(wallet, text.toString()))
-                .softInputVisible(true)
-                .setPositiveButton(R.string.ok, null)
-                .setNegativeButton(R.string.cancel, null)
-                .setTitle(R.string.wallet_name)
-                .create()
-                .show();
-    }
-
-    @Override
-    public void showDeleteView(Wallet wallet) {
-        new AlertDialog.Builder(this)
-                .setMessage(R.string.dialog_delete_wallet_message)
-                .setPositiveButton(R.string.ok, (dialogInterface, i) -> getPresenter().deleteWallet(wallet))
-                .setNegativeButton(R.string.cancel, null)
-                .create()
-                .show();
-    }
-
-    @Override
-    public void showDeleteView(Exchange exchange) {
-        new AlertDialog.Builder(this)
-                .setMessage(R.string.dialog_delete_exchange_message)
-                .setPositiveButton(R.string.ok, (dialogInterface, i) -> getPresenter().deleteExchange(exchange))
-                .setNegativeButton(R.string.cancel, null)
-                .create()
-                .show();
-    }
-
-    @Override
-    public void showEditTitleView(Exchange exchange) {
-        new InputAlertDialogBuilder(this)
-                .input(null, exchange.getTitle(), (dialog, text) ->
-                        getPresenter().editExchangeTitle(exchange, text.toString()))
-                .softInputVisible(true)
-                .setPositiveButton(R.string.ok, null)
-                .setNegativeButton(R.string.cancel, null)
-                .setTitle(R.string.exchange_title)
-                .create()
-                .show();
-    }
-
-    @Override
     public void navigateToAddWalletView() {
         startActivity(AddWalletActivity.createIntent(this));
     }
@@ -323,6 +271,16 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     @Override
     public void navigateToSettingsView() {
         startActivity(SettingsActivity.createIntent(this));
+    }
+
+    @Override
+    public void navigateToWalletDetail(Wallet wallet) {
+        startActivity(WalletDetailActivity.createIntent(this, wallet.getId()));
+    }
+
+    @Override
+    public void navigateToExchangeDetail(Exchange exchange) {
+        startActivity(ExchangeDetailActivity.createIntent(this, exchange.getId()));
     }
 
     @Override

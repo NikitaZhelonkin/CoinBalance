@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:clipToPadding="false"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="12dp"
+    android:paddingTop="8dp"
+    android:elevation="1dp"
+    android:paddingBottom="8dp"
+    android:paddingRight="12dp">
+
+
+    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        android:id="@+id/asset_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/colorText"
+        android:textSize="18sp"
+        tools:text="LTC" />
+
+    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        android:id="@+id/asset_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.003"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="16sp" />
+
+
+</LinearLayout>

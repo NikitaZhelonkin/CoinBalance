@@ -26,6 +26,10 @@ public class ExchangeBalancesRepository extends ObservableRepository {
         return mDao.getBalances();
     }
 
+    public Single<List<ExchangeBalance>> getBalances(int exchangeId) {
+        return mDao.getBalances(exchangeId);
+    }
+
     public Completable insert(List<ExchangeBalance> exchangeBalances) {
         return Completable.fromAction(() -> mDao.insert(exchangeBalances));
     }

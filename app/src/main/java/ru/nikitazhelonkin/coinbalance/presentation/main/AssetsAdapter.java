@@ -81,7 +81,7 @@ public class AssetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         @BindView(R.id.asset_value)
         TextView mAssetValueView;
         @BindView(R.id.asset_coin_value)
-        TextView mAssetCoinValueView;
+        TextView mAssetCryptoValueView;
         @BindView(R.id.asset_price)
         TextView mAssetPriceView;
         @BindView(R.id.asset_change24)
@@ -111,7 +111,7 @@ public class AssetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             mAssetNameView.setText(assetItem.getCoin());
             String currencyBalanceStr = AppNumberFormatter.format(assetItem.getCurrencyBalance());
             mAssetValueView.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), currencyBalanceStr));
-            mAssetCoinValueView.setText(String.format(Locale.US, "%.4f", assetItem.getBalance()));
+            mAssetCryptoValueView.setText(String.format(Locale.US, "%.4f", assetItem.getBalance()));
             mAssetPercentView.setText(String.format(Locale.US, "%.1f %%", assetItem.getPercent()));
             mAssetColorView.setBackgroundColor(assetItem.getPercent() >= PieChartView.MIN_PERCENT ?
                     ChartColorPallet.colorForPosition(position) : PieChartView.OTHER_COLOR);

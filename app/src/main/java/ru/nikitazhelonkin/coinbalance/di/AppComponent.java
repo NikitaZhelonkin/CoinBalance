@@ -33,6 +33,7 @@ import ru.nikitazhelonkin.coinbalance.data.repository.ExchangeBalancesRepository
 import ru.nikitazhelonkin.coinbalance.data.repository.ExchangeRepository;
 import ru.nikitazhelonkin.coinbalance.data.repository.TokenRepository;
 import ru.nikitazhelonkin.coinbalance.data.repository.WalletRepository;
+import ru.nikitazhelonkin.coinbalance.domain.PriceInteractor;
 
 @Singleton
 @Component(modules = AppModule.class)
@@ -90,5 +91,7 @@ public interface AppComponent {
     TokenRepository tokenRepository();
     ExchangeRepository exchangeRepository();
     ExchangeBalancesRepository exchangeBalancesRepository();
+
+    PriceInteractor pricesInteractor();
 
 }
