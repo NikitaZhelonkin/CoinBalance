@@ -95,7 +95,7 @@ public class AssetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         int mColorTrendUp;
         @BindColor(R.color.color_trend_down)
         int mColorTrendDown;
-        @BindColor(R.color.color_trend_none)
+        @BindColor(R.color.colorTextSecondary)
         int mColorTrendNone;
 
         public ViewHolder(View itemView) {
@@ -106,8 +106,10 @@ public class AssetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public void bind(AssetItem assetItem, int position) {
             Currency currency = Currency.getInstance(assetItem.getCurrency());
             float change24 = assetItem.getChange24();
-            int trendColor = change24 > 0 ? mColorTrendUp : change24 < 0 ? mColorTrendDown : mColorTrendNone;
-            int trendIcon = change24 >= 0 ? R.drawable.ic_trending_up_24dp : R.drawable.ic_trending_down_24dp;
+            int trendColor = change24 > 0 ? mColorTrendUp :
+                    change24 < 0 ? mColorTrendDown : mColorTrendNone;
+            int trendIcon = change24 > 0 ? R.drawable.ic_trending_up_24dp :
+                    change24 < 0 ? R.drawable.ic_trending_down_24dp : 0;
             mAssetNameView.setText(assetItem.getCoin());
             String currencyBalanceStr = AppNumberFormatter.format(assetItem.getCurrencyBalance());
             mAssetValueView.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), currencyBalanceStr));

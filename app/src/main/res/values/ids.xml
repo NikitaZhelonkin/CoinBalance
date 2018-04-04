@@ -6,5 +6,6 @@
     <item name="settings_report" type="id"/>
     <item name="settings_share" type="id"/>
     <item name="settings_rate" type="id"/>
+    <item name="settings_donation" type="id"/>
     <item name="settings_footer" type="id"/>
 </resources>

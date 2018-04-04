@@ -29,6 +29,7 @@ import ru.nikitazhelonkin.coinbalance.data.prefs.Prefs;
 import ru.nikitazhelonkin.coinbalance.data.system.ClipboardManager;
 import ru.nikitazhelonkin.coinbalance.di.DaggerPresenterComponent;
 import ru.nikitazhelonkin.coinbalance.mvp.MvpActivity;
+import ru.nikitazhelonkin.coinbalance.presentation.donation.DonateDialogFragment;
 import ru.nikitazhelonkin.coinbalance.ui.adapter.RecyclerItemsAdapter;
 import ru.nikitazhelonkin.coinbalance.utils.AndroidUtils;
 
@@ -124,6 +125,9 @@ public class SettingsActivity extends MvpActivity<SettingsPresenter, SettingsVie
                 return;
             case R.id.settings_report:
                 onReportClick();
+                return;
+            case R.id.settings_donation:
+                onDonationClick();
         }
     }
 
@@ -176,8 +180,8 @@ public class SettingsActivity extends MvpActivity<SettingsPresenter, SettingsVie
                         BuildConfig.VERSION_CODE));
     }
 
-    private void showTODO() {
-        Toast.makeText(this, "TODO", Toast.LENGTH_SHORT).show();
+    private void onDonationClick() {
+        DonateDialogFragment.create().show(getSupportFragmentManager(), "donate");
     }
 
     private void updateItems() {

@@ -40,8 +40,8 @@
                         android:id="@+id/api_key_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingEnd="32dp"
                         android:inputType="textVisiblePassword"
+                        android:paddingEnd="32dp"
                         android:singleLine="true"
                         android:textSize="14sp" />
 
@@ -77,8 +77,8 @@
                         android:id="@+id/api_secret_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingEnd="32dp"
                         android:inputType="textVisiblePassword"
+                        android:paddingEnd="32dp"
                         android:singleLine="true"
                         android:textSize="14sp" />
 
@@ -136,7 +136,6 @@
             </FrameLayout>
 
 
-
         </LinearLayout>
 
 
@@ -148,19 +147,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:layout_marginTop="-6dp"
         android:layout_marginRight="12dp"
-        android:backgroundTint="?colorPrimary"
-        android:text="@string/submit"
-        android:textColor="@android:color/white" />
+        style="@style/Button"
+        android:layout_marginTop="-6dp"
+        android:text="@string/submit" />
 
     <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
         android:layout_width="match_parent"
-        android:gravity="bottom"
+        android:layout_height="match_parent"
         android:layout_margin="16dp"
+        android:gravity="bottom"
         android:text="@string/exchange_add_warning"
-        android:textColor="@color/colorTextSecondary"
-        android:layout_height="match_parent" />
+        android:textColor="@color/colorTextSecondary" />
 
 
 </LinearLayout>

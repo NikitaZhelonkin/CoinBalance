@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="16dp">
+
+    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        android:layout_width="match_parent"
+        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+        android:text="@string/donation_title"
+        android:gravity="center"
+        android:layout_height="?actionBarSize" />
+
+    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        android:layout_width="match_parent"
+        android:textSize="16sp"
+        android:textColor="@color/colorText"
+        android:lineSpacingMultiplier="1.25"
+        android:text="@string/donation_message"
+        android:layout_height="wrap_content" />
+
+    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        android:layout_width="match_parent"
+        android:text="@string/select_amount"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        android:textColor="@color/colorText"
+        app:font="@string/font_roboto_medium"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="-6dp"
+        android:layout_marginRight="-6dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/donate_1"
+            android:text="@string/donation_1"
+            style="@style/Button"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_width="0dp"
+            android:id="@+id/donate_2"
+            android:layout_weight="1"
+            android:text="@string/donation_2"
+            style="@style/Button"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/donate_5"
+            android:text="@string/donation_5"
+            style="@style/Button"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

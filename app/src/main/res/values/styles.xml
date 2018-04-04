@@ -35,5 +35,10 @@
         <item name="android:textColorSecondary">@color/colorText</item>
     </style>
 
+    <style name="Button" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">?colorPrimary</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
 
 </resources>
