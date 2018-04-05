@@ -7,6 +7,7 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BinanceApiServic
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BitfinexApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BittrexApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.CoinbaseApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.GeminiApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.HitBTCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.KrakenApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.PoloniexApiService;
@@ -21,6 +22,7 @@ public class ExchangeApiClientProvider {
     protected PoloniexApiService mPoloniexApiService;
     private HitBTCApiService mHitBTCApiService;
     private CoinbaseApiService mCoinbaseApiService;
+    private GeminiApiService mGeminiApiService;
 
     @Inject
     public ExchangeApiClientProvider(BitfinexApiService bitfinexApiService,
@@ -29,7 +31,8 @@ public class ExchangeApiClientProvider {
                                      KrakenApiService krakenApiService,
                                      PoloniexApiService poloniexApiService,
                                      HitBTCApiService hitBTCApiService,
-                                     CoinbaseApiService coinbaseApiService) {
+                                     CoinbaseApiService coinbaseApiService,
+                                     GeminiApiService geminiApiService) {
         mBitfinexApiService = bitfinexApiService;
         mBittrexApiService = bittrexApiService;
         mBinanceApiService = binanceApiService;
@@ -37,6 +40,7 @@ public class ExchangeApiClientProvider {
         mPoloniexApiService = poloniexApiService;
         mHitBTCApiService = hitBTCApiService;
         mCoinbaseApiService = coinbaseApiService;
+        mGeminiApiService = geminiApiService;
     }
 
     public ExchangeApiClient provide(ExchangeService service) {
@@ -55,6 +59,8 @@ public class ExchangeApiClientProvider {
                 return new HitBTCApiClient(mHitBTCApiService);
             case COINBASE:
                 return new CoinbaseApiClient(mCoinbaseApiService);
+            case GEMINI:
+                return new GeminiApiClient(mGeminiApiService);
         }
         throw new IllegalArgumentException("Exchange " + service.getName() + " not unsupported");
     }

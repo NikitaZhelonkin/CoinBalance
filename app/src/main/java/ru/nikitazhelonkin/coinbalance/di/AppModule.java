@@ -38,6 +38,7 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BinanceApiServic
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BitfinexApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BittrexApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.CoinbaseApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.GeminiApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.HitBTCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.KrakenApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.PoloniexApiService;
@@ -251,6 +252,12 @@ public class AppModule {
         return provideApiService("https://api.coinbase.com", CoinbaseApiService.class, httpClient, objectMapper);
     }
 
+    @Provides
+    @Singleton
+    @NonNull
+    GeminiApiService provideGeminiApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+        return provideApiService("https://api.gemini.com", GeminiApiService.class, httpClient, objectMapper);
+    }
 
     @Provides
     Prefs providePrefs(Context context){

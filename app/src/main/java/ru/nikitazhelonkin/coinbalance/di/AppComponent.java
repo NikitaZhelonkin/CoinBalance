@@ -26,6 +26,7 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BinanceApiServic
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BitfinexApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BittrexApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.CoinbaseApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.GeminiApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.HitBTCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.KrakenApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.PoloniexApiService;
@@ -93,9 +94,14 @@ public interface AppComponent {
 
     CoinbaseApiService coinbaseApiService();
 
+    GeminiApiService geminiApiService();
+
     WalletRepository walletRepository();
+
     TokenRepository tokenRepository();
+
     ExchangeRepository exchangeRepository();
+
     ExchangeBalancesRepository exchangeBalancesRepository();
 
     PriceInteractor pricesInteractor();
