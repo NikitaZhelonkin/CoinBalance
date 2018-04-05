@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class LTCAddressValidator implements AddressValidator {
 
-    private static final String LTC_REGEX = "^[LM3][a-km-zA-HJ-NP-Z1-9]{26,33}$";
+    private static final String LTC_REGEX = "^[LM3][a-km-zA-HJ-NP-Z1-9]{25,34}$";
 
     @Override
     public boolean isValid(String address) {

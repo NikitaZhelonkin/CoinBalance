@@ -14,6 +14,7 @@ public enum  ExchangeService {
     BINANCE("Binance", R.drawable.binance),
     KRAKEN("Kraken", R.drawable.kraken),
     POLONIEX("Poloniex", R.drawable.poloniex),
+    COINBASE("Coinbase", R.drawable.coinbase),
     HITBTC("HitBTC", R.drawable.hitbtc);
 
     String name;
