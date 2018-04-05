@@ -48,6 +48,7 @@
     <string name="settings_export_config">Export config</string>
     <string name="settings_import_config">Import config</string>
     <string name="settings_rate_app">Rate app</string>
+    <string name="settings_donation">Donation</string>
     <string name="settings_share_app">Share app link</string>
     <string name="settings_report_error">Report error</string>
     <string name="settings_about">About</string>
@@ -63,14 +64,45 @@
     <string name="edit">Edit name</string>
     <string name="delete">Delete</string>
 
+    <string name="wallet_address">Wallet Address</string>
+    <string name="wallet_value">Wallet Value</string>
+    <string name="assets_empty">Assets with non-zero balances not found</string>
+    <string name="tokens">Tokens</string>
+    <string name="assets">Assets</string>
+
     <string name="market_uri">market://details?id=%s</string>
     <string name="play_store_uri">http://play.google.com/store/apps/details?id=%s</string>
     <string name="share_text_format">Try CoinBalance app %s</string>
     <string name="send_email">Send email</string>
 
+    <string name="change_24">24h</string>
+    <string name="percent">%</string>
+    <string name="asset">Asset</string>
+    <string name="price">Price</string>
+    <string name="holdings">Holdings</string>
+
+    <string name="dialog_rate_ok">Rate</string>
+    <string name="dialog_rate_later">Ask later</string>
+    <string name="dialog_rate_message">If you enjoy using this app, would you mind to take a moment to rate it? Please support project and let other people to know about this app. Thank you!</string>
+    <string name="dialog_rate_title">Rate App</string>
+
+    <string name="purchase_success">Thank you!</string>
+    <string name="purchase_consume_error">Error consuming item</string>
+    <string name="donation_title">Donation</string>
+    <string name="donation_message">Hello, My Friend, do you like this app?\nIt is fully free project with no ads. I am developing it in my spare time, and i need your help to support it and engage other users</string>
+    <string name="select_amount">Select an amount</string>
+    <string name="donation_1">1 $</string>
+    <string name="donation_2">2 $</string>
+    <string name="donation_5">5 $</string>
+
     <string name="estimated_value_of">Est. value of %s</string>
     <plurals name="assets_count">
         <item quantity="one">%d asset</item>
         <item quantity="other">%d assets</item>
+    </plurals>
+
+    <plurals name="token_count">
+        <item quantity="one">%d token</item>
+        <item quantity="other">%d tokens</item>
     </plurals>
 </resources>

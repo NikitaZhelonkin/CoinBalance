@@ -27,6 +27,10 @@ public class ExchangeRepository extends ObservableRepository {
         return mDao.getAll();
     }
 
+    public Single<Exchange> getById(int exchangeId){
+        return mDao.getById(exchangeId);
+    }
+
     public Completable insert(Exchange exchange, boolean notify) {
         return Completable.fromAction(() -> mDao.insert(exchange))
                 .doOnComplete(() -> {

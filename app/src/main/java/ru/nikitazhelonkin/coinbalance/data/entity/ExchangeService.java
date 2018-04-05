@@ -12,6 +12,9 @@ public enum  ExchangeService {
     BITFINEX("Bitfinex", R.drawable.bitfinex),
     BITTREX("Bittrex", R.drawable.bittrex),
     BINANCE("Binance", R.drawable.binance),
+    COINBASE("Coinbase", R.drawable.coinbase),
+    GEMINI("Gemini", R.drawable.gemini),
+    HITBTC("HitBTC", R.drawable.hitbtc),
     KRAKEN("Kraken", R.drawable.kraken),
     POLONIEX("Poloniex", R.drawable.poloniex);
 

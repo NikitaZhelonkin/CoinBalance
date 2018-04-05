@@ -37,10 +37,14 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ZChainApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BinanceApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BitfinexApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BittrexApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.CoinbaseApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.GeminiApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.HitBTCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.KrakenApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.PoloniexApiService;
 import ru.nikitazhelonkin.coinbalance.data.db.AppDatabase;
 import ru.nikitazhelonkin.coinbalance.data.db.migration.Migration1_2;
+import ru.nikitazhelonkin.coinbalance.data.db.migration.Migration2_3;
 import ru.nikitazhelonkin.coinbalance.data.prefs.Prefs;
 
 @Module
@@ -72,7 +76,7 @@ public class AppModule {
     @NonNull
     AppDatabase provideAppDatabase() {
         return Room.databaseBuilder(mContext, AppDatabase.class, "app-database")
-                .addMigrations(new Migration1_2())
+                .addMigrations(new Migration1_2(), new Migration2_3())
                 .build();
     }
 
@@ -234,8 +238,26 @@ public class AppModule {
         return provideApiService("https://poloniex.com", PoloniexApiService.class, httpClient, objectMapper);
     }
 
+    @Provides
+    @Singleton
+    @NonNull
+    HitBTCApiService provideHitBTCApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+        return provideApiService("https://api.hitbtc.com", HitBTCApiService.class, httpClient, objectMapper);
+    }
 
+    @Provides
+    @Singleton
+    @NonNull
+    CoinbaseApiService provideCoinbaseApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+        return provideApiService("https://api.coinbase.com", CoinbaseApiService.class, httpClient, objectMapper);
+    }
 
+    @Provides
+    @Singleton
+    @NonNull
+    GeminiApiService provideGeminiApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+        return provideApiService("https://api.gemini.com", GeminiApiService.class, httpClient, objectMapper);
+    }
 
     @Provides
     Prefs providePrefs(Context context){

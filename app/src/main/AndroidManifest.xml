@@ -38,6 +38,11 @@
             android:name=".presentation.settings.SettingsActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".presentation.walletdetail.WalletDetailActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".presentation.exchangedetail.ExchangeDetailActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"

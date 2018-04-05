@@ -17,32 +17,51 @@ public class MainViewModel {
 
     private List<Wallet> mWallets;
 
+    private List<Token> mTokens;
+
     private List<Exchange> mExchanges;
 
     private List<ExchangeBalance> mExchangeBalances;
 
-    private List<ListItem> mItems;
+    private List<ListItem> mDataItems;
+
+    private List<AssetItem> mAssetItems;
 
     public MainViewModel(List<Wallet> wallets,
+                         List<Token> tokens,
                          List<Exchange> exchanges,
                          List<ExchangeBalance> exchangeBalances,
                          Prices prices) {
         mWallets = wallets;
+        mTokens = tokens;
         mExchanges = exchanges;
         mExchangeBalances = exchangeBalances;
         mPrices = prices;
 
-        mItems = new ArrayList<>();
-        mItems.addAll(mWallets);
-        mItems.addAll(mExchanges);
-        Collections.sort(mItems, new ListItemComparator());
+        mDataItems = buildDataList();
+        mAssetItems = buildAssetList();
     }
 
-    public List<AssetItem> getAllAssets() {
+
+    private List<ListItem> buildDataList() {
+        List<ListItem> items = new ArrayList<>();
+        items.addAll(mWallets);
+        items.addAll(mExchanges);
+        Collections.sort(items, new ListItemComparator());
+        return items;
+    }
+
+    private List<AssetItem> buildAssetList() {
         HashMap<String, Float> balances = new HashMap<>();
         for (Wallet w : getWallets()) {
             Float balance = balances.get(w.getCoinTicker());
             balances.put(w.getCoinTicker(), balance == null ? w.getBalance() : balance + w.getBalance());
+
+            List<Token> tokenList = getTokens(w.getAddress());
+            for (Token t : tokenList) {
+                Float tBalance = balances.get(t.getTokenTicker());
+                balances.put(t.getTokenTicker(), tBalance == null ? t.getBalance() : tBalance + t.getBalance());
+            }
         }
         for (Exchange e : getExchanges()) {
             List<ExchangeBalance> ebalances = getExchangeBalances(e.getId());
@@ -75,6 +94,18 @@ public class MainViewModel {
         return items;
     }
 
+    public List<AssetItem> getAssets() {
+        return mAssetItems;
+    }
+
+    public float calculateChange24Hours() {
+        float totalValue24Hours = ListUtils.reduce(mAssetItems, 0f,
+                (t, assetItem) -> t + assetItem.getCurrencyBalance() / (1 + assetItem.getChange24() / 100f));
+        float totalValue = ListUtils.reduce(mAssetItems, 0f,
+                (t, assetItem) -> t + assetItem.getCurrencyBalance());
+        return (totalValue - totalValue24Hours) / totalValue24Hours * 100;
+    }
+
     public List<Wallet> getWallets() {
         return mWallets;
     }
@@ -84,11 +115,11 @@ public class MainViewModel {
     }
 
     public List<ListItem> getItems() {
-        return mItems;
+        return mDataItems;
     }
 
     public ListItem getItem(int position) {
-        return mItems.get(position);
+        return mDataItems.get(position);
     }
 
     public Coin getCoin(@NonNull String coin) {
@@ -96,7 +127,7 @@ public class MainViewModel {
     }
 
     public void swapItems(int fromPosition, int toPosition) {
-        Collections.swap(mItems, fromPosition, toPosition);
+        Collections.swap(mDataItems, fromPosition, toPosition);
     }
 
     public String getCurrency() {
@@ -107,9 +138,23 @@ public class MainViewModel {
         return getWalletsBalance() + getExchangeBalances();
     }
 
+    public float getWalletBalanceWithTokens(Wallet wallet) {
+        return wallet.getBalance() * getPriceValue(wallet.getCoinTicker()) + getTokensBalance(wallet);
+    }
+
+    public List<Token> getTokens(String walletAddress) {
+        return ListUtils.filter(mTokens,
+                token -> walletAddress.equals(token.getWalletAddress()));
+    }
+
     private float getWalletsBalance() {
         return ListUtils.reduce(mWallets, 0f,
-                (b, wallet) -> b + wallet.getBalance() * getPriceValue(wallet.getCoinTicker()));
+                (b, wallet) -> b + getWalletBalanceWithTokens(wallet));
+    }
+
+    private float getTokensBalance(Wallet wallet) {
+        List<Token> tokenList = getTokens(wallet.getAddress());
+        return ListUtils.reduce(tokenList, 0f, (b, token) -> b + token.getBalance() * getPriceValue(token.getTokenTicker()));
     }
 
     private float getExchangeBalances() {
@@ -132,8 +177,7 @@ public class MainViewModel {
     }
 
     public float getPriceValue(String coin) {
-        Prices.Price price = getPrice(coin);
-        return price == null ? 0 : price.price;
+        return mPrices.getPriceValue(coin);
     }
 
 }

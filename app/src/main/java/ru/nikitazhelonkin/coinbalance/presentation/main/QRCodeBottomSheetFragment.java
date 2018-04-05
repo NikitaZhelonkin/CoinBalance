@@ -13,12 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
-
 import org.parceler.Parcels;
 
 import butterknife.BindView;
@@ -28,6 +22,7 @@ import ru.nikitazhelonkin.coinbalance.R;
 import ru.nikitazhelonkin.coinbalance.data.entity.Coin;
 import ru.nikitazhelonkin.coinbalance.data.entity.Wallet;
 import ru.nikitazhelonkin.coinbalance.data.system.ClipboardManager;
+import ru.nikitazhelonkin.coinbalance.utils.QRCodeUtils;
 
 public class QRCodeBottomSheetFragment extends BottomSheetDialogFragment {
 
@@ -71,7 +66,7 @@ public class QRCodeBottomSheetFragment extends BottomSheetDialogFragment {
                 mWallet.getAlias());
         mWalletAddressView.setText(mWallet.getAddress());
 
-        Bitmap bitmap = generateQRCode(mWallet.getAddress());
+        Bitmap bitmap = QRCodeUtils.generateQRCode(mWallet.getAddress());
         if (bitmap != null) {
             mQRCodeView.setImageBitmap(bitmap);
         }
@@ -83,17 +78,5 @@ public class QRCodeBottomSheetFragment extends BottomSheetDialogFragment {
         ClipboardManager clipboardManager = new ClipboardManager(getContext());
         clipboardManager.copyToClipboard(mWallet.getAddress());
         Toast.makeText(getContext(), R.string.address_copied, Toast.LENGTH_SHORT).show();
-    }
-
-    @Nullable
-    private Bitmap generateQRCode(String text) {
-        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-        try {
-            BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE, 640, 640);
-            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-            return barcodeEncoder.createBitmap(bitMatrix);
-        } catch (WriterException e) {
-            return null;
-        }
     }
 }

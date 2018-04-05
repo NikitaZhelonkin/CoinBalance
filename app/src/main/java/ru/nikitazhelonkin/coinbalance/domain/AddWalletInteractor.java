@@ -10,23 +10,28 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import ru.nikitazhelonkin.coinbalance.data.api.client.coin.ApiClientProvider;
 import ru.nikitazhelonkin.coinbalance.data.entity.Coin;
+import ru.nikitazhelonkin.coinbalance.data.entity.Token;
 import ru.nikitazhelonkin.coinbalance.data.entity.Wallet;
+import ru.nikitazhelonkin.coinbalance.data.entity.WalletBalance;
 import ru.nikitazhelonkin.coinbalance.data.exception.CoinNotSupportedException;
 import ru.nikitazhelonkin.coinbalance.data.exception.InvalidAddressException;
+import ru.nikitazhelonkin.coinbalance.data.repository.TokenRepository;
 import ru.nikitazhelonkin.coinbalance.data.repository.WalletRepository;
 import ru.nikitazhelonkin.coinbalance.data.validator.AddressValidator;
 import ru.nikitazhelonkin.coinbalance.data.validator.AddressValidatorFactory;
-import ru.nikitazhelonkin.coinbalance.utils.L;
 
 public class AddWalletInteractor {
 
     private WalletRepository mWalletRepository;
     private ApiClientProvider mApiClientProvider;
+    private TokenRepository mTokenRepository;
 
     @Inject
     public AddWalletInteractor(WalletRepository walletRepository,
+                               TokenRepository tokenRepository,
                                ApiClientProvider apiClientProvider) {
         mWalletRepository = walletRepository;
+        mTokenRepository = tokenRepository;
         mApiClientProvider = apiClientProvider;
     }
 
@@ -43,8 +48,10 @@ public class AddWalletInteractor {
                 throw new InvalidAddressException();
         }).doOnSuccess(coin -> {
             try {
-                wallet.setBalance(Float.parseFloat(getBalance(wallet).blockingGet()));
+                WalletBalance walletBalance = getBalance(wallet).blockingGet();
+                wallet.setBalance(Float.parseFloat(walletBalance.getBalance()));
                 wallet.setStatus(Wallet.STATUS_OK);
+                addTokens(wallet, walletBalance.getTokenList());
             } catch (Throwable e) {
                 wallet.setStatus(Wallet.STATUS_ERROR);
             }
@@ -56,8 +63,13 @@ public class AddWalletInteractor {
         return Observable.fromArray(Coin.values()).toList();
     }
 
-    private Single<String> getBalance(Wallet wallet) {
+    private Single<WalletBalance> getBalance(Wallet wallet) {
         return mApiClientProvider.provide(wallet.getCoinTicker()).getBalance(wallet.getAddress());
+    }
+
+    private void addTokens(Wallet wallet, List<Token> tokenList) {
+        mTokenRepository.delete(wallet.getAddress()).blockingAwait();
+        if (tokenList != null) mTokenRepository.insert(tokenList).blockingAwait();
     }
 
 }

@@ -18,6 +18,9 @@ public interface ExchangeDao {
     @Query("SELECT * FROM exchange")
     Single<List<Exchange>> getAll();
 
+    @Query("SELECT * FROM exchange WHERE mId=:exchangeId")
+    Single<Exchange> getById(int exchangeId);
+
     @Query("DELETE FROM exchange")
     void deleteAll();
 

@@ -14,6 +14,8 @@ public interface MainView extends MvpView {
 
     void setTotalBalance(String currency, float balance);
 
+    void setProfitLoss(float pl);
+
     void setEmptyViewVisible(boolean visible);
 
     void setErrorViewVisible(boolean visible);
@@ -26,15 +28,9 @@ public interface MainView extends MvpView {
 
     void hideLoader();
 
-    void showQRCodeView(Wallet wallet);
+    void showRateDialog();
 
-    void showEditNameView(Wallet wallet);
-
-    void showDeleteView(Wallet wallet);
-
-    void showDeleteView(Exchange exchange);
-
-    void showEditTitleView(Exchange exchange);
+    void navigateToMarket();
 
     void navigateToAddWalletView();
 
@@ -42,5 +38,8 @@ public interface MainView extends MvpView {
 
     void navigateToSettingsView();
 
+    void navigateToWalletDetail(Wallet wallet);
+
+    void navigateToExchangeDetail(Exchange exchange);
 
 }

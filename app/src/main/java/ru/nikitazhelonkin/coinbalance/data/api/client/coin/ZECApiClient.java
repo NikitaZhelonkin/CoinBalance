@@ -3,6 +3,7 @@ package ru.nikitazhelonkin.coinbalance.data.api.client.coin;
 
 import io.reactivex.Single;
 import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ZChainApiService;
+import ru.nikitazhelonkin.coinbalance.data.entity.WalletBalance;
 
 public class ZECApiClient implements ApiClient {
 
@@ -13,7 +14,9 @@ public class ZECApiClient implements ApiClient {
     }
 
     @Override
-    public Single<String> getBalance(String address) {
-        return mApiService.balance(address).map(response -> response.balance);
+    public Single<WalletBalance> getBalance(String address) {
+        return mApiService.balance(address)
+                .map(response -> response.balance)
+                .map(WalletBalance::new);
     }
 }

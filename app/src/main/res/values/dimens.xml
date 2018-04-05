@@ -2,6 +2,5 @@
 <resources>
 
     <dimen name="card_margin">12dp</dimen>
-    <dimen name="card_item_bottom_margin">9dp</dimen>
-    <dimen name="card_item_top_margin">3dp</dimen>
+
 </resources>

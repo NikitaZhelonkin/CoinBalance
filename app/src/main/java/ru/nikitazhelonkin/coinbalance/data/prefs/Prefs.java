@@ -5,13 +5,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import javax.inject.Inject;
+
 public class Prefs {
 
     private static Prefs sInstance;
 
     private SharedPreferences mPreferences;
 
-    private Prefs(Context context) {
+    @Inject
+    public Prefs(Context context) {
         mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 

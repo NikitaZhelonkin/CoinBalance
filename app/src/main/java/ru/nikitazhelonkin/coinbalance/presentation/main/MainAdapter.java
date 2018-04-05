@@ -2,13 +2,13 @@ package ru.nikitazhelonkin.coinbalance.presentation.main;
 
 
 import android.content.Context;
-import android.support.v4.view.GravityCompat;
+import android.content.res.ColorStateList;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -27,9 +27,9 @@ import ru.nikitazhelonkin.coinbalance.data.entity.Coin;
 import ru.nikitazhelonkin.coinbalance.data.entity.Exchange;
 import ru.nikitazhelonkin.coinbalance.data.entity.ExchangeBalance;
 import ru.nikitazhelonkin.coinbalance.data.entity.MainViewModel;
+import ru.nikitazhelonkin.coinbalance.data.entity.Token;
 import ru.nikitazhelonkin.coinbalance.data.entity.Wallet;
 import ru.nikitazhelonkin.coinbalance.ui.text.Spanner;
-import ru.nikitazhelonkin.coinbalance.ui.widget.MyPopupMenu;
 import ru.nikitazhelonkin.coinbalance.ui.widget.itemtouchhelper.ItemTouchHelperAdapter;
 import ru.nikitazhelonkin.coinbalance.ui.widget.itemtouchhelper.ItemTouchHelperViewHolder;
 import ru.nikitazhelonkin.coinbalance.utils.AppNumberFormatter;
@@ -44,9 +44,9 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     public interface Callback {
 
-        void onWalletMenuItemClick(Wallet wallet, int itemId);
+        void onErrorWalletClick(Wallet wallet);
 
-        void onExchangeMenuItemClick(Exchange exchange, int itemId);
+        void onErrorExchangeClick(Exchange exchange);
 
         void onWalletItemClick(Wallet wallet);
 
@@ -138,8 +138,10 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView balanceView;
         @BindView(R.id.wallet_name)
         TextView walletName;
-        @BindView(R.id.status_indicator)
-        View statusIndicator;
+        @BindView(R.id.wallet_tokens)
+        TextView walletTokens;
+        @BindView(R.id.error_icon)
+        ImageView errorIcon;
         @BindColor(R.color.colorTextSecondary)
         int mTextColorSecondary;
         @BindColor(R.color.color_error)
@@ -157,7 +159,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             boolean statusOk = wallet.getStatus() == Wallet.STATUS_OK;
             boolean statusPending = wallet.getStatus() == Wallet.STATUS_NONE;
 
-            float currencyBalance = mData.getPriceValue(coin.getTicker()) * wallet.getBalance();
+            float currencyBalance = mData.getWalletBalanceWithTokens(wallet);
             String currencyBalanceStr = AppNumberFormatter.format(currencyBalance);
 
             currencyBalanceView.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), currencyBalanceStr));
@@ -172,9 +174,24 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     TextUtils.TruncateAt.END);
             imageView.setImageResource(coin.getIconResId());
 
-            statusIndicator.setVisibility(statusOk ? View.GONE : View.VISIBLE);
-            statusIndicator.setBackgroundColor(statusPending ? mPendingColor : mErrorColor);
-            itemView.setOnClickListener(statusOk ? null : this::onItemClick);
+            List<Token> tokenList = mData.getTokens(wallet.getAddress());
+            int tokenCount = tokenList != null ? tokenList.size() : 0;
+            String tokenCountString = getContext().getResources().getQuantityString(R.plurals.token_count, tokenCount, tokenCount);
+            walletTokens.setVisibility(tokenCount == 0 ? View.INVISIBLE : View.VISIBLE);
+            walletTokens.setText(tokenCountString);
+
+            errorIcon.setVisibility(statusOk ? View.GONE : View.VISIBLE);
+            errorIcon.setColorFilter(statusPending ? mPendingColor : mErrorColor);
+            itemView.setOnClickListener(this::onItemClick);
+        }
+
+        @OnClick(R.id.error_icon)
+        public void onErrorClick(View v){
+            if (getAdapterPosition() == RecyclerView.NO_POSITION)
+                return;
+            if (mCallback != null) {
+                mCallback.onErrorWalletClick((Wallet) mData.getItem(getAdapterPosition()));
+            }
         }
 
         public void onItemClick(View v) {
@@ -184,25 +201,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 mCallback.onWalletItemClick((Wallet) mData.getItem(getAdapterPosition()));
             }
         }
-
-        @OnClick(R.id.context_menu)
-        public void onContextMenuClick(View v) {
-            final MyPopupMenu popup = new MyPopupMenu(getContext(), v, GravityCompat.END);
-            popup.setForceShowIcon(true);
-            popup.inflate(R.menu.wallet);
-            popup.setOnMenuItemClickListener(this::onMenuItemClick);
-            popup.show();
-        }
-
-        private boolean onMenuItemClick(MenuItem menuItem) {
-            if (getAdapterPosition() == RecyclerView.NO_POSITION)
-                return false;
-            if (mCallback != null) {
-                mCallback.onWalletMenuItemClick((Wallet) mData.getItem(getAdapterPosition()), menuItem.getItemId());
-            }
-            return true;
-        }
-
     }
 
     public class ExchangeViewHolder extends BaseViewHolder {
@@ -217,8 +215,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView walletName;
         @BindView(R.id.exchange_assets)
         TextView exchangeAssets;
-        @BindView(R.id.status_indicator)
-        View statusIndicator;
+        @BindView(R.id.error_icon)
+        ImageView errorIcon;
         @BindColor(R.color.colorTextSecondary)
         int mTextColorSecondary;
         @BindColor(R.color.color_error)
@@ -256,9 +254,18 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
             imageView.setImageResource(exchange.getService().getIconResId());
 
-            statusIndicator.setVisibility(statusOk ? View.GONE : View.VISIBLE);
-            statusIndicator.setBackgroundColor(statusPending ? mPendingColor : mErrorColor);
-            itemView.setOnClickListener(statusOk ? null : this::onItemClick);
+            errorIcon.setVisibility(statusOk ? View.GONE : View.VISIBLE);
+            errorIcon.setColorFilter(statusPending ? mPendingColor : mErrorColor);
+            itemView.setOnClickListener(this::onItemClick);
+        }
+
+        @OnClick(R.id.error_icon)
+        public void onErrorClick(View v){
+            if (getAdapterPosition() == RecyclerView.NO_POSITION)
+                return;
+            if (mCallback != null) {
+                mCallback.onErrorExchangeClick((Exchange) mData.getItem(getAdapterPosition()));
+            }
         }
 
         public void onItemClick(View v) {
@@ -267,24 +274,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             if (mCallback != null) {
                 mCallback.onExchangeItemClick((Exchange) mData.getItem(getAdapterPosition()));
             }
-        }
-
-        @OnClick(R.id.context_menu)
-        public void onContextMenuClick(View v) {
-            final MyPopupMenu popup = new MyPopupMenu(getContext(), v, GravityCompat.END);
-            popup.setForceShowIcon(true);
-            popup.inflate(R.menu.exchange);
-            popup.setOnMenuItemClickListener(this::onMenuItemClick);
-            popup.show();
-        }
-
-        private boolean onMenuItemClick(MenuItem menuItem) {
-            if (getAdapterPosition() == RecyclerView.NO_POSITION)
-                return false;
-            if (mCallback != null) {
-                mCallback.onExchangeMenuItemClick((Exchange) mData.getItem(getAdapterPosition()), menuItem.getItemId());
-            }
-            return true;
         }
     }
 

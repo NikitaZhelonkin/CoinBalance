@@ -118,14 +118,13 @@
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/submit_btn"
+        style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="?colorPrimary"
-        android:text="@string/submit"
-        android:layout_marginTop="-6dp"
         android:layout_gravity="end"
         android:layout_marginRight="12dp"
-        android:textColor="@android:color/white" />
+        android:layout_marginTop="-6dp"
+        android:text="@string/submit" />
 
 
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,12 +31,15 @@ import ru.nikitazhelonkin.coinbalance.di.DaggerPresenterComponent;
 import ru.nikitazhelonkin.coinbalance.mvp.MvpActivity;
 import ru.nikitazhelonkin.coinbalance.presentation.addexchange.AddExchangeActivity;
 import ru.nikitazhelonkin.coinbalance.presentation.addwallet.AddWalletActivity;
+import ru.nikitazhelonkin.coinbalance.presentation.exchangedetail.ExchangeDetailActivity;
 import ru.nikitazhelonkin.coinbalance.presentation.settings.SettingsActivity;
+import ru.nikitazhelonkin.coinbalance.presentation.walletdetail.WalletDetailActivity;
 import ru.nikitazhelonkin.coinbalance.ui.widget.AppBarBehavior;
 import ru.nikitazhelonkin.coinbalance.ui.widget.FloatingActionMenu;
-import ru.nikitazhelonkin.coinbalance.ui.widget.InputAlertDialogBuilder;
 import ru.nikitazhelonkin.coinbalance.ui.widget.PieChartView;
+import ru.nikitazhelonkin.coinbalance.ui.widget.TintDrawableTextView;
 import ru.nikitazhelonkin.coinbalance.ui.widget.itemtouchhelper.ItemTouchHelperCallback;
+import ru.nikitazhelonkin.coinbalance.utils.AndroidUtils;
 import ru.nikitazhelonkin.coinbalance.utils.AppNumberFormatter;
 import ru.nikitazhelonkin.coinbalance.utils.ChartColorPallet;
 import ru.nikitazhelonkin.coinbalance.utils.ListUtils;
@@ -67,6 +71,12 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     TextView mTotalBalance;
     @BindView(R.id.total_balance_chart)
     TextView mTotalBalanceChart;
+    @BindView(R.id.profit_loss)
+    TintDrawableTextView mProfitLoss;
+    @BindView(R.id.profit_loss_chart)
+    TintDrawableTextView mProfitLossChart;
+    @BindView(R.id.profit_loss_layout)
+    View mProfitLossLayout;
     @BindView(R.id.add_fam)
     FloatingActionMenu mFam;
     @BindView(R.id.action_mode)
@@ -112,6 +122,7 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
             mChartLayout.setScaleY(Math.max(0.3f, 1 - fraction));
             mChartLayout.setPivotY(mChartLayout.getHeight());
             mTotalBalance.setAlpha(fraction);
+            mProfitLossLayout.setAlpha(fraction);
         });
         mAppBarBehavior = (AppBarBehavior) ((CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams()).getBehavior();
     }
@@ -123,15 +134,14 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
                 .build().mainPresenter();
     }
 
-
     @Override
-    public void onWalletMenuItemClick(Wallet wallet, int itemId) {
-        getPresenter().onWalletMenuItemClick(wallet, itemId);
+    public void onErrorWalletClick(Wallet wallet) {
+        getPresenter().onWalletErrorClick(wallet);
     }
 
     @Override
-    public void onExchangeMenuItemClick(Exchange exchange, int itemId) {
-        getPresenter().onExchangeMenuItemClick(exchange, itemId);
+    public void onErrorExchangeClick(Exchange exchange) {
+        getPresenter().onExchangeErrorClick(exchange);
     }
 
     @Override
@@ -146,12 +156,12 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
 
     @Override
     public void onStartDragging() {
-        //do nothing
+        getPresenter().onStartDragging();
     }
 
     @Override
     public void onStopDragging() {
-        getPresenter().updateItemPositions();
+        getPresenter().onStopDragging();
     }
 
     @OnClick(R.id.action_mode)
@@ -184,8 +194,8 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     @Override
     public void setData(MainViewModel data) {
         mMainAdapter.setData(data);
-        mAssetsAdapter.setData(data.getAllAssets());
-        mChartView.setData(ListUtils.map(data.getAllAssets(), (i, asset) ->
+        mAssetsAdapter.setData(data.getAssets());
+        mChartView.setData(ListUtils.map(data.getAssets(), (i, asset) ->
                 new PieChartView.PieEntry(asset.getCoin(), asset.getCurrencyBalance(), ChartColorPallet.colorForPosition(i))));
     }
 
@@ -214,6 +224,19 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         mTotalBalanceChart.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), currencyBalanceStr));
     }
 
+    @Override
+    public void setProfitLoss(float pl) {
+        setProfitLoss(mProfitLoss, pl);
+        setProfitLoss(mProfitLossChart, pl);
+    }
+
+    private void setProfitLoss(TintDrawableTextView textView, float pl) {
+        int trendColor = pl > 0 ? R.color.color_trend_up : pl < 0 ? R.color.color_trend_down : android.R.color.black;
+        int trendIcon = pl > 0 ? R.drawable.ic_trending_up_24dp : R.drawable.ic_trending_down_24dp;
+        textView.setText(String.format(Locale.US, "%.1f %%", Math.abs(pl)));
+        textView.setCompoundDrawableTint(ContextCompat.getColor(this, trendColor));
+        textView.setCompoundDrawablesWithIntrinsicBounds(trendIcon, 0, 0, 0);
+    }
 
     @Override
     public void showError(int errorResId) {
@@ -236,57 +259,6 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     }
 
     @Override
-    public void showQRCodeView(Wallet wallet) {
-        QRCodeBottomSheetFragment.create(wallet).show(getSupportFragmentManager(), "qr_code");
-    }
-
-    @Override
-    public void showEditNameView(Wallet wallet) {
-        new InputAlertDialogBuilder(this)
-                .input(null, wallet.getAlias(), (dialog, text) ->
-                        getPresenter().editWalletName(wallet, text.toString()))
-                .softInputVisible(true)
-                .setPositiveButton(R.string.ok, null)
-                .setNegativeButton(R.string.cancel, null)
-                .setTitle(R.string.wallet_name)
-                .create()
-                .show();
-    }
-
-    @Override
-    public void showDeleteView(Wallet wallet) {
-        new AlertDialog.Builder(this)
-                .setMessage(R.string.dialog_delete_wallet_message)
-                .setPositiveButton(R.string.ok, (dialogInterface, i) -> getPresenter().deleteWallet(wallet))
-                .setNegativeButton(R.string.cancel, null)
-                .create()
-                .show();
-    }
-
-    @Override
-    public void showDeleteView(Exchange exchange) {
-        new AlertDialog.Builder(this)
-                .setMessage(R.string.dialog_delete_exchange_message)
-                .setPositiveButton(R.string.ok, (dialogInterface, i) -> getPresenter().deleteExchange(exchange))
-                .setNegativeButton(R.string.cancel, null)
-                .create()
-                .show();
-    }
-
-    @Override
-    public void showEditTitleView(Exchange exchange) {
-        new InputAlertDialogBuilder(this)
-                .input(null, exchange.getTitle(), (dialog, text) ->
-                        getPresenter().editExchangeTitle(exchange, text.toString()))
-                .softInputVisible(true)
-                .setPositiveButton(R.string.ok, null)
-                .setNegativeButton(R.string.cancel, null)
-                .setTitle(R.string.exchange_title)
-                .create()
-                .show();
-    }
-
-    @Override
     public void navigateToAddWalletView() {
         startActivity(AddWalletActivity.createIntent(this));
     }
@@ -299,6 +271,21 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     @Override
     public void navigateToSettingsView() {
         startActivity(SettingsActivity.createIntent(this));
+    }
+
+    @Override
+    public void navigateToWalletDetail(Wallet wallet) {
+        startActivity(WalletDetailActivity.createIntent(this, wallet.getId()));
+    }
+
+    @Override
+    public void navigateToExchangeDetail(Exchange exchange) {
+        startActivity(ExchangeDetailActivity.createIntent(this, exchange.getId()));
+    }
+
+    @Override
+    public void navigateToMarket() {
+        AndroidUtils.openMarket(this);
     }
 
     private void showSnackBar(String text, int duration) {
@@ -317,5 +304,16 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         mErrorView.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
+    @Override
+    public void showRateDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.dialog_rate_title)
+                .setMessage(R.string.dialog_rate_message)
+                .setPositiveButton(R.string.dialog_rate_ok, (dialog, which) -> {
+                    getPresenter().onRateClick();
+                })
+                .setNegativeButton(R.string.dialog_rate_later, null)
+                .create().show();
+    }
 }
 
