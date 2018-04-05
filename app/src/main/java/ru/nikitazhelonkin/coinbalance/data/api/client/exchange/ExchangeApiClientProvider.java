@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BinanceApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BitfinexApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BittrexApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.HitBTCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.KrakenApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.PoloniexApiService;
 import ru.nikitazhelonkin.coinbalance.data.entity.ExchangeService;
@@ -17,18 +18,21 @@ public class ExchangeApiClientProvider {
     private BinanceApiService mBinanceApiService;
     private KrakenApiService mKrakenApiService;
     protected PoloniexApiService mPoloniexApiService;
+    private HitBTCApiService mHitBTCApiService;
 
     @Inject
     public ExchangeApiClientProvider(BitfinexApiService bitfinexApiService,
                                      BittrexApiService bittrexApiService,
                                      BinanceApiService binanceApiService,
                                      KrakenApiService krakenApiService,
-                                     PoloniexApiService poloniexApiService) {
+                                     PoloniexApiService poloniexApiService,
+                                     HitBTCApiService hitBTCApiService) {
         mBitfinexApiService = bitfinexApiService;
         mBittrexApiService = bittrexApiService;
         mBinanceApiService = binanceApiService;
         mKrakenApiService = krakenApiService;
         mPoloniexApiService = poloniexApiService;
+        mHitBTCApiService = hitBTCApiService;
     }
 
     public ExchangeApiClient provide(ExchangeService service) {
@@ -43,6 +47,8 @@ public class ExchangeApiClientProvider {
                 return new KrakenApiClient(mKrakenApiService);
             case POLONIEX:
                 return new PoloniexApiClient(mPoloniexApiService);
+            case HITBTC:
+                return new HitBTCApiClient(mHitBTCApiService);
         }
         throw new IllegalArgumentException("Exchange " + service.getName() + " not unsupported");
     }

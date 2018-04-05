@@ -60,9 +60,16 @@ public class PriceInteractor {
                 .map(ExchangeBalance::getCoinTicker);
         return Observable.merge(privateCoins, exchangeCoins, tokens)
                 .distinct()
+                .map(this::mapCoinTicker)
                 .toList();
     }
 
+    private String mapCoinTicker(String ticker) {
+        if ("BCC".equalsIgnoreCase(ticker)) {
+            return "BCCOIN";
+        }
+        return ticker;
+    }
 
     private Single<List<Token>> getTokens(){
         return mTokenRepository.getTokens();

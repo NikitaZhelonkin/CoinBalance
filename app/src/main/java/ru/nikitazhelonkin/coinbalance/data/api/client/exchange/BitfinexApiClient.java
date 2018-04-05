@@ -40,12 +40,13 @@ public class BitfinexApiClient implements ExchangeApiClient {
         return mApiService.balances(apiKey, payloadBase64, payloadSha384hmac)
                 .map(BitfinexBalancesResponse::getNonZeroBalances)
                 .onErrorResumeNext(throwable -> {
-                    if (throwable instanceof HttpException && ((HttpException) throwable).code() == 403) {
-                        return Single.error(new NoPermissionException());
-                    }
-                    if(throwable instanceof HttpException){
-                       L.e (((HttpException) throwable).response().errorBody().string());
-                    }
+                    if (throwable instanceof HttpException)
+                        if (((HttpException) throwable).code() == 403)
+                            return Single.error(new NoPermissionException());
+
+                    if (throwable instanceof HttpException)
+                        L.e(((HttpException) throwable).response().errorBody().string());
+
                     return Single.error(throwable);
                 });
     }

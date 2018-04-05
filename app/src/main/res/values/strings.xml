@@ -89,7 +89,7 @@
     <string name="purchase_success">Thank you!</string>
     <string name="purchase_consume_error">Error consuming item</string>
     <string name="donation_title">Donation</string>
-    <string name="donation_message">Hello, My Friend, do you like this app?\nIt is fully free project with no ads. I am developing it in my spare time, and i need your help to support it and engage other people</string>
+    <string name="donation_message">Hello, My Friend, do you like this app?\nIt is fully free project with no ads. I am developing it in my spare time, and i need your help to support it and engage other users</string>
     <string name="select_amount">Select an amount</string>
     <string name="donation_1">1 $</string>
     <string name="donation_2">2 $</string>

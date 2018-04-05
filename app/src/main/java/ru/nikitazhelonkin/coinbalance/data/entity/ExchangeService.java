@@ -13,7 +13,8 @@ public enum  ExchangeService {
     BITTREX("Bittrex", R.drawable.bittrex),
     BINANCE("Binance", R.drawable.binance),
     KRAKEN("Kraken", R.drawable.kraken),
-    POLONIEX("Poloniex", R.drawable.poloniex);
+    POLONIEX("Poloniex", R.drawable.poloniex),
+    HITBTC("HitBTC", R.drawable.hitbtc);
 
     String name;
     int iconResId;

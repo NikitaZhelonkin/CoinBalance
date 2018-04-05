@@ -37,6 +37,7 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.coin.ZChainApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BinanceApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BitfinexApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BittrexApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.HitBTCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.KrakenApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.PoloniexApiService;
 import ru.nikitazhelonkin.coinbalance.data.db.AppDatabase;
@@ -233,6 +234,13 @@ public class AppModule {
     @NonNull
     PoloniexApiService providePoloniexApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
         return provideApiService("https://poloniex.com", PoloniexApiService.class, httpClient, objectMapper);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    HitBTCApiService provideHitBTCApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+        return provideApiService("https://api.hitbtc.com/", HitBTCApiService.class, httpClient, objectMapper);
     }
 
 
