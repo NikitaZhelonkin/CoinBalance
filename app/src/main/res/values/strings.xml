@@ -43,6 +43,10 @@
     <string name="dialog_delete_exchange_message">Delete exchange?</string>
     <string name="wallet_empty_message">No wallets available</string>
     <string name="permission_storage_rationale">App needs storage access to import/export config</string>
+    <string name="api_keys_agreement_title">API keys agreement</string>
+    <string name="api_keys_agreement_message">By adding API keys/secrets you agree that every key/secret has <b>READ ONLY</b> permissions on your exchange account.\n\n<b>CoinBalance is not responsible for your keys</b></string>
+    <string name="agree">I agree</string>
+    <string name="disagree">I disagree</string>
 
     <string name="settings_currency">Profile currency</string>
     <string name="settings_export_config">Export config</string>

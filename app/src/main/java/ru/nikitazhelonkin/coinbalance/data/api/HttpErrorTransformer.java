@@ -6,6 +6,7 @@ import io.reactivex.SingleSource;
 import io.reactivex.SingleTransformer;
 import retrofit2.HttpException;
 import ru.nikitazhelonkin.coinbalance.data.exception.NoPermissionException;
+import ru.nikitazhelonkin.coinbalance.utils.L;
 
 public class HttpErrorTransformer<T> implements SingleTransformer<T, T> {
 
@@ -16,9 +17,10 @@ public class HttpErrorTransformer<T> implements SingleTransformer<T, T> {
     @Override
     public SingleSource<T> apply(Single<T> single) {
         return single.onErrorResumeNext(throwable -> {
-            if (throwable instanceof HttpException)
+            if (throwable instanceof HttpException) {
                 if (((HttpException) throwable).code() == 403)
                     return Single.error(new NoPermissionException());
+            }
             return Single.error(throwable);
         });
     }

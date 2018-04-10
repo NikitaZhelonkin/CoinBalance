@@ -4,6 +4,7 @@ package ru.nikitazhelonkin.coinbalance.data.api.client.exchange;
 import java.util.HashMap;
 
 import io.reactivex.Single;
+import ru.nikitazhelonkin.coinbalance.data.api.HttpErrorTransformer;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BittrexApiService;
 import ru.nikitazhelonkin.coinbalance.data.exception.NoPermissionException;
 import ru.nikitazhelonkin.coinbalance.data.exception.UnknownException;
@@ -31,6 +32,7 @@ public class BittrexApiClient implements ExchangeApiClient {
                     } else {
                         throw new UnknownException("Error getting bittrex balances");
                     }
-                });
+                })
+                .compose(new HttpErrorTransformer<>());
     }
 }

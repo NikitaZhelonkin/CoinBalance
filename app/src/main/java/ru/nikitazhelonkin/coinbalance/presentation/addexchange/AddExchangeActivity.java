@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -147,6 +148,16 @@ public class AddExchangeActivity extends MvpActivity<AddExchangePresenter, AddEx
         showSnackBar(getString(messageResId));
     }
 
+    @Override
+    public void showAgreement(Exchange exchange) {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.api_keys_agreement_title)
+                .setMessage(R.string.api_keys_agreement_message)
+                .setPositiveButton(R.string.agree, (dialogInterface, i) -> getPresenter().onAgreeClick(exchange))
+                .setNegativeButton(R.string.disagree, null)
+                .create()
+                .show();
+    }
 
     @Override
     public void exit() {
