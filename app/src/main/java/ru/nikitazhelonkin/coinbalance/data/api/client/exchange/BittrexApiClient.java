@@ -6,8 +6,7 @@ import java.util.HashMap;
 import io.reactivex.Single;
 import ru.nikitazhelonkin.coinbalance.data.api.HttpErrorTransformer;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BittrexApiService;
-import ru.nikitazhelonkin.coinbalance.data.exception.NoPermissionException;
-import ru.nikitazhelonkin.coinbalance.data.exception.UnknownException;
+import ru.nikitazhelonkin.coinbalance.data.exception.ApiError;
 import ru.nikitazhelonkin.coinbalance.utils.DigestUtil;
 
 public class BittrexApiClient implements ExchangeApiClient {
@@ -27,10 +26,8 @@ public class BittrexApiClient implements ExchangeApiClient {
                 .map(response -> {
                     if (response.isSuccess()) {
                         return response.getNonZeroBalances();
-                    } else if ("INVALID_PERMISSION".equals(response.getMessage())) {
-                        throw new NoPermissionException();
                     } else {
-                        throw new UnknownException("Error getting bittrex balances");
+                        throw new ApiError(response.getMessage());
                     }
                 })
                 .compose(new HttpErrorTransformer<>());

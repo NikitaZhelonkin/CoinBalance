@@ -12,6 +12,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.nikitazhelonkin.coinbalance.App;
+import ru.nikitazhelonkin.coinbalance.BuildConfig;
 import ru.nikitazhelonkin.coinbalance.R;
 import ru.nikitazhelonkin.coinbalance.data.entity.Exchange;
 import ru.nikitazhelonkin.coinbalance.data.entity.MainViewModel;
@@ -244,6 +247,31 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     }
 
     @Override
+    public void showWalletError() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.dialog_error)
+                .setMessage(R.string.wallet_error_common_issues)
+                .setPositiveButton(R.string.ok, null)
+                .setNegativeButton(R.string.dialog_report_error, (dialogInterface, i) -> getPresenter().onReportClick())
+                .create()
+                .show();
+    }
+
+    @Override
+    public void showExchangeError(String message) {
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_exchange_error, null);
+        ((TextView) view.findViewById(R.id.error_message)).setText(TextUtils.isEmpty(message) ?
+                getString(R.string.error_unknown) : message);
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.dialog_error)
+                .setView(view)
+                .setPositiveButton(R.string.ok, null)
+                .setNegativeButton(R.string.dialog_report_error, (dialogInterface, i) -> getPresenter().onReportClick())
+                .create()
+                .show();
+    }
+
+    @Override
     public void showMessage(int messageResId) {
         showSnackBar(getString(messageResId), Snackbar.LENGTH_SHORT);
     }
@@ -315,5 +343,14 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
                 .setNegativeButton(R.string.dialog_rate_later, null)
                 .create().show();
     }
+
+    @Override
+    public void reportError() {
+        AndroidUtils.sendEmail(this,
+                getString(R.string.report_email),
+                getString(R.string.report_subject, BuildConfig.VERSION_NAME,
+                        BuildConfig.VERSION_CODE));
+    }
+
 }
 

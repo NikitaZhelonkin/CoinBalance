@@ -5,11 +5,9 @@ import java.util.HashMap;
 
 import io.reactivex.Single;
 import okhttp3.Credentials;
-import retrofit2.HttpException;
 import ru.nikitazhelonkin.coinbalance.data.api.HttpErrorTransformer;
 import ru.nikitazhelonkin.coinbalance.data.api.response.HitBTCBalancesResponse;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.HitBTCApiService;
-import ru.nikitazhelonkin.coinbalance.data.exception.NoPermissionException;
 
 public class HitBTCApiClient implements ExchangeApiClient {
 

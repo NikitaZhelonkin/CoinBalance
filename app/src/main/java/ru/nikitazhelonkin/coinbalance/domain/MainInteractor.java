@@ -1,8 +1,6 @@
 package ru.nikitazhelonkin.coinbalance.domain;
 
 
-import android.text.TextUtils;
-
 import com.yandex.metrica.YandexMetrica;
 
 import java.io.InterruptedIOException;
@@ -19,14 +17,13 @@ import ru.nikitazhelonkin.coinbalance.data.AppSettings;
 import ru.nikitazhelonkin.coinbalance.data.api.client.coin.ApiClientProvider;
 import ru.nikitazhelonkin.coinbalance.data.api.client.exchange.ExchangeApiClientProvider;
 import ru.nikitazhelonkin.coinbalance.data.api.response.Prices;
-import ru.nikitazhelonkin.coinbalance.data.entity.Coin;
 import ru.nikitazhelonkin.coinbalance.data.entity.Exchange;
 import ru.nikitazhelonkin.coinbalance.data.entity.ExchangeBalance;
 import ru.nikitazhelonkin.coinbalance.data.entity.MainViewModel;
 import ru.nikitazhelonkin.coinbalance.data.entity.Token;
 import ru.nikitazhelonkin.coinbalance.data.entity.Wallet;
 import ru.nikitazhelonkin.coinbalance.data.entity.WalletBalance;
-import ru.nikitazhelonkin.coinbalance.data.exception.NoPermissionException;
+import ru.nikitazhelonkin.coinbalance.data.exception.ApiError;
 import ru.nikitazhelonkin.coinbalance.data.repository.ExchangeBalancesRepository;
 import ru.nikitazhelonkin.coinbalance.data.repository.ExchangeRepository;
 import ru.nikitazhelonkin.coinbalance.data.repository.ObservableRepository;
@@ -122,18 +119,20 @@ public class MainInteractor {
                         mExchangeBalancesRepository.delete(exchange.getId()).blockingAwait();
                         mExchangeBalancesRepository.insert(balances).blockingAwait();
                         exchange.setStatus(Exchange.STATUS_OK);
+                        exchange.setErrorMessage(null);
                     } catch (Throwable e) {
                         if (e.getCause() instanceof InterruptedIOException) {
                             //ignore interruption
                             return;
                         }
-                        L.e("Error", e);
-                        YandexMetrica.reportError("syncExchange.error", e);
-                        if (e instanceof NoPermissionException) {
-                            exchange.setStatus(Exchange.STATUS_ERROR_NO_PERMISSION);
-                        } else {
-                            exchange.setStatus(Exchange.STATUS_ERROR);
+                        String message = e.getMessage();
+                        if (e.getCause() instanceof ApiError) {
+                            message = e.getMessage();
                         }
+                        L.e("Error:", message);
+                        YandexMetrica.reportError("syncExchange.error", e);
+                        exchange.setStatus(Exchange.STATUS_ERROR);
+                        exchange.setErrorMessage(message);
                     }
                     mExchangeRepository.update(exchange, false).blockingAwait();
                 })
@@ -169,7 +168,7 @@ public class MainInteractor {
         return mWalletRepository.getWallets();
     }
 
-    private Single<List<Token>> getTokens(){
+    private Single<List<Token>> getTokens() {
         return mTokenRepository.getTokens();
     }
 

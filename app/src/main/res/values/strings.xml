@@ -29,8 +29,6 @@
     <string name="address_copied">Address copied to clipboard</string>
     <string name="wallet_status_error">An error occurred while refreshing balance of the wallet, check address and try again pls</string>
     <string name="wallet_status_none">Loading wallet balance, wait pls</string>
-    <string name="exchange_status_error">An error occurred while connecting to the exchange, check keys and try again pls</string>
-    <string name="exchange_status_error_no_permission">The key you provided doesn\'t have permission to view balances</string>
     <string name="exchange_status_none">Loading exchange balance, wait pls</string>
     <string name="my_wallet_format">My %s wallet</string>
     <string name="wallet_public_address">Wallet Public Address</string>
@@ -47,6 +45,10 @@
     <string name="api_keys_agreement_message">By adding API keys/secrets you agree that every key/secret has <b>READ ONLY</b> permissions on your exchange account.\n\n<b>CoinBalance is not responsible for your keys</b></string>
     <string name="agree">I agree</string>
     <string name="disagree">I disagree</string>
+
+    <string name="error_how_to_fix_issues">How to fix some common issues</string>
+    <string name="wallet_error_common_issues">&#x2022; Make sure that your wallet address is valid\n&#x2022; Make sure that you have stable internet connection\n&#x2022; Maybe block explorer that I use to retrieve wallet balance temporary unavailable. Try to refresh later\n&#x2022; You can write me. I will help you &#x263a;\n  <b>coinbalance.supp@gmail.com</b></string>
+    <string name="exchange_error_common_issues">&#x2022; Make sure that your API key and secret are valid\n&#x2022; Make sure that your API is activated\n&#x2022; Make sure that your API key has read balance permissions\n&#x2022; Make sure that your API has never been used in another services and only used by CoinBalance\n&#x2022; Make sure you are not connected via VPN. Some exchanges not allow\n&#x2022; You can write me. I will help you &#x263a;\n  <b>coinbalance.supp@gmail.com</b></string>
 
     <string name="settings_currency">Profile currency</string>
     <string name="settings_export_config">Export config</string>
@@ -89,6 +91,10 @@
     <string name="dialog_rate_later">Ask later</string>
     <string name="dialog_rate_message">If you enjoy using this app, would you mind to take a moment to rate it? Please support project and let other people to know about this app. Thank you!</string>
     <string name="dialog_rate_title">Rate App</string>
+
+    <string name="dialog_error">Error</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_report_error">Report error</string>
 
     <string name="purchase_success">Thank you!</string>
     <string name="purchase_consume_error">Error consuming item</string>

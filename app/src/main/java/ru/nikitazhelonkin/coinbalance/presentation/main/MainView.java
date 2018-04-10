@@ -24,11 +24,17 @@ public interface MainView extends MvpView {
 
     void showMessage(int message);
 
+    void showWalletError();
+
+    void showExchangeError(String message);
+
     void showLoader();
 
     void hideLoader();
 
     void showRateDialog();
+
+    void reportError();
 
     void navigateToMarket();
 
