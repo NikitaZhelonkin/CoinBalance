@@ -9,13 +9,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 import io.reactivex.Single;
-import retrofit2.HttpException;
 import ru.nikitazhelonkin.coinbalance.data.api.HttpErrorTransformer;
 import ru.nikitazhelonkin.coinbalance.data.api.response.BitfinexBalancesResponse;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.BitfinexApiService;
-import ru.nikitazhelonkin.coinbalance.data.exception.NoPermissionException;
 import ru.nikitazhelonkin.coinbalance.utils.DigestUtil;
-import ru.nikitazhelonkin.coinbalance.utils.L;
 
 public class BitfinexApiClient implements ExchangeApiClient {
 

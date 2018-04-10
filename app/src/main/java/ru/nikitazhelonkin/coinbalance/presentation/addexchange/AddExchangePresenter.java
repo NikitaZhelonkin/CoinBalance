@@ -46,6 +46,10 @@ public class AddExchangePresenter extends MvpBasePresenter<AddExchangeView> {
     }
 
     public void onSubmitClick(Exchange exchange) {
+        getView().showAgreement(exchange);
+    }
+
+    public void onAgreeClick(Exchange exchange){
         addExchange(exchange);
     }
 

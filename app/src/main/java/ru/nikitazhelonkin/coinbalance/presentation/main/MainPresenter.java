@@ -20,7 +20,6 @@ import ru.nikitazhelonkin.coinbalance.data.entity.MainViewModel;
 import ru.nikitazhelonkin.coinbalance.data.entity.Wallet;
 import ru.nikitazhelonkin.coinbalance.data.prefs.Prefs;
 import ru.nikitazhelonkin.coinbalance.data.repository.ObservableRepository;
-import ru.nikitazhelonkin.coinbalance.data.system.ClipboardManager;
 import ru.nikitazhelonkin.coinbalance.data.system.SystemManager;
 import ru.nikitazhelonkin.coinbalance.domain.MainInteractor;
 import ru.nikitazhelonkin.coinbalance.mvp.MvpBasePresenter;
@@ -108,27 +107,29 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         getView().navigateToExchangeDetail(exchange);
     }
 
-    public void onWalletErrorClick(Wallet wallet){
-        if (wallet.getStatus() == Wallet.STATUS_ERROR) {
-            getView().showError(R.string.wallet_status_error);
-        } else if (wallet.getStatus() == Wallet.STATUS_NONE) {
+    public void onWalletErrorClick(Wallet wallet) {
+        if (wallet.getStatus() == Wallet.STATUS_NONE) {
             getView().showMessage(R.string.wallet_status_none);
+        } else {
+            getView().showWalletError();
         }
     }
 
-    public void onExchangeErrorClick(Exchange exchange){
-        if (exchange.getStatus() == Exchange.STATUS_ERROR) {
-            getView().showError(R.string.exchange_status_error);
-        } else if (exchange.getStatus() == Exchange.STATUS_ERROR_NO_PERMISSION) {
-            getView().showError(R.string.exchange_status_error_no_permission);
-        } else if (exchange.getStatus() == Exchange.STATUS_NONE) {
+    public void onExchangeErrorClick(Exchange exchange) {
+        if (exchange.getStatus() == Exchange.STATUS_NONE) {
             getView().showMessage(R.string.exchange_status_none);
+        } else {
+            getView().showExchangeError(exchange.getErrorMessage());
         }
     }
 
     public void onRateClick() {
         mPrefs.putBoolean(Const.PREFS_APP_RATED, true);
         getView().navigateToMarket();
+    }
+
+    public void onReportClick(){
+        getView().reportError();
     }
 
     private void observe() {

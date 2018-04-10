@@ -18,7 +18,6 @@ public class Exchange implements ListItem {
 
     public static final int STATUS_NONE = 0;
     public static final int STATUS_ERROR = -1;
-    public static final int STATUS_ERROR_NO_PERMISSION = -2;
     public static final int STATUS_OK = 1;
 
     @PrimaryKey(autoGenerate = true)
@@ -38,6 +37,8 @@ public class Exchange implements ListItem {
     private long mCreatedAt;
     @ColumnInfo(name = "status")
     private int mStatus;
+    @ColumnInfo(name = "error_message")
+    private String mErrorMessage;
 
     public Exchange() {
 
@@ -130,6 +131,14 @@ public class Exchange implements ListItem {
 
     public void setStatus(int status) {
         mStatus = status;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        mErrorMessage = errorMessage;
+    }
+
+    public String getErrorMessage() {
+        return mErrorMessage;
     }
 
     @Override

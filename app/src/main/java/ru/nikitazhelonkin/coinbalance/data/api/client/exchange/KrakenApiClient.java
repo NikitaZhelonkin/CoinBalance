@@ -8,8 +8,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import io.reactivex.Single;
+import ru.nikitazhelonkin.coinbalance.data.api.HttpErrorTransformer;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.KrakenApiService;
-import ru.nikitazhelonkin.coinbalance.data.exception.NoPermissionException;
+import ru.nikitazhelonkin.coinbalance.data.exception.ApiError;
 import ru.nikitazhelonkin.coinbalance.data.exception.UnknownException;
 import ru.nikitazhelonkin.coinbalance.utils.DigestUtil;
 
@@ -32,14 +33,12 @@ public class KrakenApiClient implements ExchangeApiClient {
         return mApiService.getBalances(nonce, apiKey, signatureEncoded)
                 .map(response -> {
                     if (response.getError() != null && response.getError().length > 0) {
-                        if (Arrays.asList(response.getError()).contains("EGeneral:Permission denied")) {
-                            throw new NoPermissionException();
-                        }
-                        throw new UnknownException();
+                        throw new ApiError(Arrays.toString(response.getError()));
                     } else {
                         return response.getBalances();
                     }
-                });
+                })
+                .compose(new HttpErrorTransformer<>());
     }
 
     private static byte[] concat(byte[] a, byte[] b) {

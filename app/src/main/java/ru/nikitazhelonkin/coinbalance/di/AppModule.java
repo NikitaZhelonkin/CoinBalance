@@ -45,6 +45,7 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.PoloniexApiServi
 import ru.nikitazhelonkin.coinbalance.data.db.AppDatabase;
 import ru.nikitazhelonkin.coinbalance.data.db.migration.Migration1_2;
 import ru.nikitazhelonkin.coinbalance.data.db.migration.Migration2_3;
+import ru.nikitazhelonkin.coinbalance.data.db.migration.Migration3_4;
 import ru.nikitazhelonkin.coinbalance.data.prefs.Prefs;
 
 @Module
@@ -76,7 +77,10 @@ public class AppModule {
     @NonNull
     AppDatabase provideAppDatabase() {
         return Room.databaseBuilder(mContext, AppDatabase.class, "app-database")
-                .addMigrations(new Migration1_2(), new Migration2_3())
+                .addMigrations(
+                        new Migration1_2(),
+                        new Migration2_3(),
+                        new Migration3_4())
                 .build();
     }
 
@@ -206,65 +210,65 @@ public class AppModule {
     @Provides
     @Singleton
     @NonNull
-    BitfinexApiService provideBitfinexApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+    BitfinexApiService provideBitfinexApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
         return provideApiService("https://api.bitfinex.com", BitfinexApiService.class, httpClient, objectMapper);
     }
 
     @Provides
     @Singleton
     @NonNull
-    BittrexApiService provideBittrexApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+    BittrexApiService provideBittrexApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
         return provideApiService("https://bittrex.com", BittrexApiService.class, httpClient, objectMapper);
     }
 
     @Provides
     @Singleton
     @NonNull
-    BinanceApiService provideBinanceApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+    BinanceApiService provideBinanceApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
         return provideApiService("https://api.binance.com", BinanceApiService.class, httpClient, objectMapper);
     }
 
     @Provides
     @Singleton
     @NonNull
-    KrakenApiService provideKrakenApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+    KrakenApiService provideKrakenApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
         return provideApiService("https://api.kraken.com", KrakenApiService.class, httpClient, objectMapper);
     }
 
     @Provides
     @Singleton
     @NonNull
-    PoloniexApiService providePoloniexApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+    PoloniexApiService providePoloniexApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
         return provideApiService("https://poloniex.com", PoloniexApiService.class, httpClient, objectMapper);
     }
 
     @Provides
     @Singleton
     @NonNull
-    HitBTCApiService provideHitBTCApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+    HitBTCApiService provideHitBTCApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
         return provideApiService("https://api.hitbtc.com", HitBTCApiService.class, httpClient, objectMapper);
     }
 
     @Provides
     @Singleton
     @NonNull
-    CoinbaseApiService provideCoinbaseApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+    CoinbaseApiService provideCoinbaseApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
         return provideApiService("https://api.coinbase.com", CoinbaseApiService.class, httpClient, objectMapper);
     }
 
     @Provides
     @Singleton
     @NonNull
-    GeminiApiService provideGeminiApiService(OkHttpClient httpClient, ObjectMapper objectMapper){
+    GeminiApiService provideGeminiApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
         return provideApiService("https://api.gemini.com", GeminiApiService.class, httpClient, objectMapper);
     }
 
     @Provides
-    Prefs providePrefs(Context context){
+    Prefs providePrefs(Context context) {
         return Prefs.get(context);
     }
 
-    private <T> T provideApiService(String url, Class<T> tClass, OkHttpClient httpClient, ObjectMapper objectMapper){
+    private <T> T provideApiService(String url, Class<T> tClass, OkHttpClient httpClient, ObjectMapper objectMapper) {
         return new Retrofit.Builder()
                 .baseUrl(url)
                 .client(httpClient)
