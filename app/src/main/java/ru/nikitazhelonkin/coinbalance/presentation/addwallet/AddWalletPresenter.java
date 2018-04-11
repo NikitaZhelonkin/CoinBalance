@@ -52,9 +52,10 @@ public class AddWalletPresenter extends MvpBasePresenter<AddWalletView> {
 
     private void addWallet(Wallet wallet) {
         getView().setLoading(true);
-        mAddWalletInteractor.addWallet(wallet)
+        Disposable disposable = mAddWalletInteractor.addWallet(wallet)
                 .compose(mRxSchedulerProvider.ioToMainTransformer())
                 .subscribe(this::onSuccess, this::onError);
+        disposeOnDetach(disposable);
     }
 
     private void onSuccess() {
