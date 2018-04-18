@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_add_wallet">Добавить кошелек</string>
+    <string name="title_add_exchange">Добавить биржу</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Отмена</string>
+    <string name="submit">Далее</string>
+    <string name="wallet">Кошелек</string>
+    <string name="exchange">Биржа</string>
+
+    <string name="success_add_wallet">Кошелек успешно добавлен</string>
+    <string name="success_add_exchange">Api Key успешно добавлен</string>
+    <string name="error_coin_not_supported">Данная монета не поддерживается</string>
+    <string name="error_service_not_supported">Данный сервис не поддерживается</string>
+    <string name="error_loading_wallets">Ошибка, попробуйте еще раз</string>
+    <string name="error_add_wallet_already_exist">Ошибка, данный кошелек уже добавлен</string>
+    <string name="error_add_exchange_already_exist">Ошибка, данный ключ уже добавлен</string>
+    <string name="error_unknown">Неизвестная ошибка</string>
+    <string name="error_connection">Ошибка соединения</string>
+    <string name="error_invalid_address">Невалидный адрес</string>
+    <string name="error_generating_qr_code">Ошибка генерации QR кода</string>
+    <string name="scan_qr_code_prompt">Сканируйте QR-код вашего кошелька</string>
+    <string name="settings">Настройки</string>
+    <string name="total_value">Общий баланс</string>
+    <string name="address_copied">Адрес скопирован в буфер обмена</string>
+    <string name="wallet_status_error">Произошла ошибка при запросе баланса данного кошелька, проверьте адрес и попробуйте еще раз</string>
+    <string name="wallet_status_none">Загрузка данных, ожидайте</string>
+    <string name="exchange_status_none">Загрузка данных, ожидайте</string>
+    <string name="my_wallet_format">Мой %s кошелек</string>
+    <string name="wallet_public_address">Адрес кошелька</string>
+    <string name="wallet_name">Имя кошелька</string>
+    <string name="exchange_title">Название</string>
+    <string name="exchange_api_key">API Key</string>
+    <string name="exchange_api_secret">API Secret</string>
+    <string name="exchange_add_warning">Для безопасности, добавляйте API ключи с разрешением только на чтение данных</string>
+    <string name="dialog_delete_wallet_message">Удалить кошелек?</string>
+    <string name="dialog_delete_exchange_message">Удалить биржу?</string>
+    <string name="wallet_empty_message">Добавьте хотя бы один кошелек</string>
+    <string name="permission_storage_rationale">Необходим доступ для экспорта/импорта данных</string>
+    <string name="api_keys_agreement_title">Соглашение</string>
+    <string name="api_keys_agreement_message">Добавляя API ключи вы согласны, что каждый ключ имеет разрешение только на <b>ЧТЕНИЕ</b> данных вашего акканута.\n\n<b>CoinBalance не несет ответственность за ваши API ключи</b></string>
+    <string name="agree">Согласен</string>
+    <string name="disagree">Не согласен</string>
+
+    <string name="error_how_to_fix_issues">Как исправить распространненные ошибки</string>
+    <string name="wallet_error_common_issues">&#x2022; Убедитесь что правильно ввели адрес кошелька\n&#x2022; Убедитесь что имеете стабильное подключение к сети Интернет\n&#x2022; Может быть block explorer который я использую для получения данный временно недоступен. Попробуйте обновить данные позже\n&#x2022; Вы можете написать мне, я помогу &#x263a;\n  <b>coinbalance.supp@gmail.com</b></string>
+    <string name="exchange_error_common_issues">&#x2022; Убедитесь что правильно ввели API key и secret\n&#x2022; Убедитесь что API key активирован\n&#x2022; Убедитесь что данный API key имеет соответствующий доступ\n&#x2022; Убедитесь что данный API key не использовался в других сервисах кроме CoinBalance\n&#x2022; Убедитесь что не подключены через VPN\n&#x2022; Вы можете написать мне, я помогу&#x263a;\n  <b>coinbalance.supp@gmail.com</b></string>
+
+    <string name="settings_currency">Валюта портфеля</string>
+    <string name="settings_export_config">Экспорт данных</string>
+    <string name="settings_import_config">Импорт данных</string>
+    <string name="settings_rate_app">Оценить приложение</string>
+    <string name="settings_donation">Помощь проекту</string>
+    <string name="settings_share_app">Рассказать друзьям</string>
+    <string name="settings_report_error">Сообщить об ошибке</string>
+    <string name="file_chooser_title">Выберите файл</string>
+
+    <string name="success_export">Данные успешно сохранены в %s</string>
+    <string name="error_export">Ошибка при экспорте данных</string>
+    <string name="success_import">Данные успешно импортированы</string>
+    <string name="error_import">Ошибка при импорте данных</string>
+
+    <string name="copy">Скопировать адрес</string>
+    <string name="code">QR-код</string>
+    <string name="edit">Изменить название</string>
+    <string name="delete">Удалить</string>
+
+    <string name="wallet_address">Адрес кошелька</string>
+    <string name="wallet_value">Баланс кошелька</string>
+    <string name="assets_empty">Не найдены активы с ненулевым балансом</string>
+    <string name="tokens">Токены</string>
+    <string name="assets">Активы</string>
+
+    <string name="share_text_format">Попробуй трекер криптовалют - CoinBalance %s</string>
+    <string name="send_email">Отправить E-mail</string>
+
+    <string name="change_24">24ч</string>
+    <string name="percent">%</string>
+    <string name="asset">Актив</string>
+    <string name="price">Цена</string>
+    <string name="holdings">Значение</string>
+
+    <string name="dialog_rate_ok">Оценить</string>
+    <string name="dialog_rate_later">Позже</string>
+    <string name="dialog_rate_message">Если вам понравилось данное приложение, не могли бы вы потратить минутку чтобы оценить его? Поддержите проект, помогите другим пользователям найти это приложение. Спасибо!</string>
+    <string name="dialog_rate_title">Оценить приложение</string>
+
+    <string name="dialog_error">Ошибка</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_report_error">Сообщить об ошибке</string>
+
+    <string name="purchase_success">Спасибо больше!</string>
+    <string name="purchase_consume_error">Error consuming item</string>
+    <string name="donation_title">Пожертвование</string>
+    <string name="donation_message">Привет, Мой Друг, тебе нравится это приложение?\nВ нем нет рекламы и оно абсолютно бесплатное. Я разрабатываю его в свободное от работы время, и мне нужна твоя помощь для поддержки проекта и привлечения новых пользователей</string>
+    <string name="select_amount">Выбрать сумму</string>
+    <string name="donation_1">1 $</string>
+    <string name="donation_2">2 $</string>
+    <string name="donation_5">5 $</string>
+
+    <plurals name="assets_count">
+        <item quantity="one">%d актив</item>
+        <item quantity="few">%d актива</item>
+        <item quantity="many">%d активов</item>
+        <item quantity="other">%d активов</item>
+    </plurals>
+    <plurals name="token_count">
+        <item quantity="one">%d токен</item>
+        <item quantity="few">%d токена</item>
+        <item quantity="many">%d токенов</item>
+        <item quantity="other">%d токенов</item>
+    </plurals>
+</resources>
