@@ -11,6 +11,7 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.GeminiApiService
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.HitBTCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.KrakenApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.PoloniexApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.WexApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.YoBitApiService;
 import ru.nikitazhelonkin.coinbalance.data.entity.ExchangeService;
 
@@ -25,6 +26,7 @@ public class ExchangeApiClientProvider {
     private CoinbaseApiService mCoinbaseApiService;
     private GeminiApiService mGeminiApiService;
     private YoBitApiService mYoBitApiService;
+    private WexApiService mWexApiService;
 
     @Inject
     public ExchangeApiClientProvider(BitfinexApiService bitfinexApiService,
@@ -35,7 +37,8 @@ public class ExchangeApiClientProvider {
                                      HitBTCApiService hitBTCApiService,
                                      CoinbaseApiService coinbaseApiService,
                                      GeminiApiService geminiApiService,
-                                     YoBitApiService yoBitApiService) {
+                                     YoBitApiService yoBitApiService,
+                                     WexApiService wexApiService) {
         mBitfinexApiService = bitfinexApiService;
         mBittrexApiService = bittrexApiService;
         mBinanceApiService = binanceApiService;
@@ -45,6 +48,7 @@ public class ExchangeApiClientProvider {
         mCoinbaseApiService = coinbaseApiService;
         mGeminiApiService = geminiApiService;
         mYoBitApiService = yoBitApiService;
+        mWexApiService = wexApiService;
     }
 
     public ExchangeApiClient provide(ExchangeService service) {
@@ -67,6 +71,8 @@ public class ExchangeApiClientProvider {
                 return new GeminiApiClient(mGeminiApiService);
             case YOBIT:
                 return new YoBitApiClient(mYoBitApiService);
+            case WEX:
+                return new WexApiClient(mWexApiService);
         }
         throw new IllegalArgumentException("Exchange " + service.getName() + " not unsupported");
     }

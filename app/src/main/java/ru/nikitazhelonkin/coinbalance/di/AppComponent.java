@@ -30,6 +30,7 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.GeminiApiService
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.HitBTCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.KrakenApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.PoloniexApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.WexApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.YoBitApiService;
 import ru.nikitazhelonkin.coinbalance.data.db.AppDatabase;
 import ru.nikitazhelonkin.coinbalance.data.prefs.Prefs;
@@ -98,6 +99,8 @@ public interface AppComponent {
     GeminiApiService geminiApiService();
 
     YoBitApiService yoBitApiService();
+
+    WexApiService wexApiService();
 
     WalletRepository walletRepository();
 
