@@ -69,7 +69,11 @@ public class AssetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return mData != null ? mData.size() + 1 : 0;
+        return getAssetCount() == 0 ? 0 : getAssetCount() + 1;
+    }
+
+    private int getAssetCount() {
+        return mData != null ? mData.size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

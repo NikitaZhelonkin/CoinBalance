@@ -42,6 +42,8 @@ import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.GeminiApiService
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.HitBTCApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.KrakenApiService;
 import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.PoloniexApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.WexApiService;
+import ru.nikitazhelonkin.coinbalance.data.api.service.exchange.YoBitApiService;
 import ru.nikitazhelonkin.coinbalance.data.db.AppDatabase;
 import ru.nikitazhelonkin.coinbalance.data.db.migration.Migration1_2;
 import ru.nikitazhelonkin.coinbalance.data.db.migration.Migration2_3;
@@ -261,6 +263,20 @@ public class AppModule {
     @NonNull
     GeminiApiService provideGeminiApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
         return provideApiService("https://api.gemini.com", GeminiApiService.class, httpClient, objectMapper);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    YoBitApiService provideYobitApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
+        return provideApiService("https://yobit.net/", YoBitApiService.class, httpClient, objectMapper);
+    }
+
+    @Provides
+    @Singleton
+    @NonNull
+    WexApiService provideWexApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
+        return provideApiService("https://wex.nz/", WexApiService.class, httpClient, objectMapper);
     }
 
     @Provides

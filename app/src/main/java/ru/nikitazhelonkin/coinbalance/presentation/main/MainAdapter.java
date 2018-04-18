@@ -170,8 +170,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             walletName.setText(TextUtils.isEmpty(wallet.getAlias()) ?
                     getContext().getString(R.string.my_wallet_format, coin.getName()) :
                     wallet.getAlias());
-            walletName.setEllipsize(TextUtils.isEmpty(wallet.getAlias()) ? TextUtils.TruncateAt.MIDDLE :
-                    TextUtils.TruncateAt.END);
             imageView.setImageResource(coin.getIconResId());
 
             List<Token> tokenList = mData.getTokens(wallet.getAddress());
@@ -212,7 +210,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         @BindView(R.id.balance)
         TextView balanceView;
         @BindView(R.id.exchange_name)
-        TextView walletName;
+        TextView exchangeName;
         @BindView(R.id.exchange_assets)
         TextView exchangeAssets;
         @BindView(R.id.error_icon)
@@ -246,11 +244,9 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     .style(Coin.BTC.getTicker(), new ForegroundColorSpan(mTextColorSecondary))
                     .applyTo(balanceView);
 
-            walletName.setText(TextUtils.isEmpty(exchange.getTitle()) ?
+            exchangeName.setText(TextUtils.isEmpty(exchange.getTitle()) ?
                     exchange.getService().getName() :
                     exchange.getTitle());
-
-            walletName.setEllipsize(TextUtils.TruncateAt.END);
 
             imageView.setImageResource(exchange.getService().getIconResId());
 

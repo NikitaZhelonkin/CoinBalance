@@ -27,6 +27,12 @@ public class AddressValidatorFactory {
             return new CardanoAddressValidator();
         }else if("ZEC".equalsIgnoreCase(coin)){
             return new ZECAddressValidator();
+        }else if("DOGE".equalsIgnoreCase(coin)){
+            return new DOGEAddressValidator();
+        }else if("XEM".equalsIgnoreCase(coin)){
+            return new XEMAddressValidator();
+        }else if("XLM".equalsIgnoreCase(coin)){
+            return new XLMAddressValidator();
         }
         return null;
     }

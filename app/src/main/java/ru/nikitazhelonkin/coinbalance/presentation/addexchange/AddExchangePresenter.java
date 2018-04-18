@@ -55,9 +55,10 @@ public class AddExchangePresenter extends MvpBasePresenter<AddExchangeView> {
 
     private void addExchange(Exchange exchange) {
         getView().setSubmitEnabled(false);
-        mAddExchangeInteractor.addExchange(exchange)
+        Disposable disposable = mAddExchangeInteractor.addExchange(exchange)
                 .compose(mRxSchedulerProvider.ioToMainTransformer())
                 .subscribe(this::onSuccess, this::onError);
+        disposeOnDetach(disposable);
     }
 
     private void onSuccess() {

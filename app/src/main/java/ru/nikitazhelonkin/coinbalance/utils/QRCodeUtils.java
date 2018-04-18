@@ -19,7 +19,7 @@ public class QRCodeUtils {
             BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE, 640, 640);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             return barcodeEncoder.createBitmap(bitMatrix);
-        } catch (WriterException e) {
+        } catch (Throwable e) {
             return null;
         }
     }

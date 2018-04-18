@@ -9,8 +9,8 @@ android {
         applicationId "ru.nikitazhelonkin.coinbalance"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 11
-        versionName "1.5"
+        versionCode 13
+        versionName "1.6"
         archivesBaseName = "coinbalance-${versionName}.${versionCode}"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -36,6 +36,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+    }
+    lintOptions {
+        lintConfig file("lint.xml")
     }
 }
 
