@@ -16,7 +16,8 @@ public enum  ExchangeService {
     GEMINI("Gemini", R.drawable.gemini),
     HITBTC("HitBTC", R.drawable.hitbtc),
     KRAKEN("Kraken", R.drawable.kraken),
-    POLONIEX("Poloniex", R.drawable.poloniex);
+    POLONIEX("Poloniex", R.drawable.poloniex),
+    YOBIT("YoBit", R.drawable.yobit);
 
     String name;
     int iconResId;
