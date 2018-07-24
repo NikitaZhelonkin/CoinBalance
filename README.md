@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/NikitaZhelonkin/CoinBalance.svg?style=svg)](https://circleci.com/gh/NikitaZhelonkin/CoinBalance)
 # CoinBalance - cryptocurrency wallet tracker
 
 CoinBalance is the best way to keep track the values of all your cryptocurrency wallets. It will help to get overview of your investments by checking in the respective block explorers and archive your wallet information in you mobile for an easy checking at every time.
