@@ -24,9 +24,15 @@ public class BinanceBalancesResponse {
         for (Balance b : mBalances) {
             float balance = Float.parseFloat(b.free);
             if (balance != 0f) {
-                map.put(b.asset, balance);
+                map.put(coinTicker(b.asset), balance);
             }
         }
         return map;
+    }
+
+    private String coinTicker(String key) {
+        if ("BCC".equalsIgnoreCase(key))
+            key = "BCH";
+        return key.toUpperCase();
     }
 }

@@ -9,6 +9,6 @@ import ru.nikitazhelonkin.coinbalance.data.api.response.XrpResponse;
 public interface XRPApiService {
 
 
-    @GET("v2/accounts/{address}")
+    @GET("v2/accounts/{address}/balances")
     Single<XrpResponse> balance(@Path("address") String address);
 }
