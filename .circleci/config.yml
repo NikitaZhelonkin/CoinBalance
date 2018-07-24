@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
+      - image: circleci/android:api-26
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -22,24 +22,29 @@ jobs:
       TERM: dumb
     
     steps:
-      - checkout
-
       - run: echo $KEYSTORE_PROPERTIES | base64 --decode >> ${HOME}/repo/app/keystore.properties
+      - run: echo ${HOME}/repo/app/keystore.properties
       - run: cat ${HOME}/repo/app/keystore.properties
+
+      - checkout
 
       # Download and cache dependencies
       - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "build.gradle" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      - run: gradle dependencies
-
+                key: jars-{{ checksum "build.gradle" }}-{{ checksum
+      "app/build.gradle" }}
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
-        
-      # run tests!
-      - run: gradle test
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum
+"app/build.gradle" }}
+      - run:
+          name: Run Tests
+          command: ./gradlew lint test
+      - store_artifacts:
+          path: app/build/reports
+          destination: reports
+      - store_test_results:
+          path: app/build/test-results
