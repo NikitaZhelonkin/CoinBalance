@@ -24,7 +24,8 @@ jobs:
     steps:
       - checkout
 
-      - run: echo $KEYSTORE_PROPERTIES | base64 --decode >> ${HOME}/repo/app/keystore.properies
+      - run: echo $KEYSTORE_PROPERTIES | base64 --decode >> ${HOME}/repo/app/keystore.properties
+      - run: cat ${HOME}/repo/app/keystore.properties
 
       # Download and cache dependencies
       - restore_cache:
