@@ -78,6 +78,6 @@ public class AddExchangePresenter extends MvpBasePresenter<AddExchangeView> {
         } else {
             getView().showMessage(R.string.error_unknown);
         }
-        L.e(throwable);
+//        L.e(throwable);
     }
 }

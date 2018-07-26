@@ -28,6 +28,9 @@ jobs:
       - run:
           name: Run Tests
           command: ./gradlew lint test
+      - run:
+          name: Initial build
+          command: ./gradlew clean assembleRelease --no-daemon --stacktrace
       - store_artifacts:
           path: app/build/reports
           destination: reports
