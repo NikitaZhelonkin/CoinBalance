@@ -62,7 +62,7 @@ public class QRCodeBottomSheetFragment extends BottomSheetDialogFragment {
         Coin coin = Coin.forTicker(mWallet.getCoinTicker());
 
         mWalletNameView.setText(TextUtils.isEmpty(mWallet.getAlias()) ?
-                getString(R.string.my_wallet_format, coin.getName()) :
+                getString(R.string.my_wallet_format, coin.getTitle()) :
                 mWallet.getAlias());
         mWalletAddressView.setText(mWallet.getAddress());
 

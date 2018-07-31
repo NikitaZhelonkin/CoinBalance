@@ -2,8 +2,6 @@ package ru.nikitazhelonkin.coinbalance.presentation.main;
 
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -168,7 +166,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     .applyTo(balanceView);
 
             walletName.setText(TextUtils.isEmpty(wallet.getAlias()) ?
-                    getContext().getString(R.string.my_wallet_format, coin.getName()) :
+                    getContext().getString(R.string.my_wallet_format, coin.getTitle()) :
                     wallet.getAlias());
             imageView.setImageResource(coin.getIconResId());
 
@@ -245,7 +243,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     .applyTo(balanceView);
 
             exchangeName.setText(TextUtils.isEmpty(exchange.getTitle()) ?
-                    exchange.getService().getName() :
+                    exchange.getService().getTitle() :
                     exchange.getTitle());
 
             imageView.setImageResource(exchange.getService().getIconResId());

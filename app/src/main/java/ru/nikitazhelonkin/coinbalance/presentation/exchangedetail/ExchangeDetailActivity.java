@@ -100,9 +100,9 @@ public class ExchangeDetailActivity extends MvpActivity<ExchangeDetailPresenter,
     public void showExchange(ExchangeDetailViewModel model) {
         Exchange exchange = model.getExchange();
         mToolbarTitle.setText(TextUtils.isEmpty(exchange.getTitle()) ?
-                exchange.getService().getName() :
+                exchange.getService().getTitle() :
                 exchange.getTitle());
-        mToolbarSubtitle.setText(exchange.getService().getName());
+        mToolbarSubtitle.setText(exchange.getService().getTitle());
         mIcon.setImageResource(exchange.getService().getIconResId());
         mAdapter.setData(model);
     }

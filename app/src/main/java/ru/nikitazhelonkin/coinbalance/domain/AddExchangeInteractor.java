@@ -24,7 +24,7 @@ public class AddExchangeInteractor {
 
     public Completable addExchange(Exchange exchange) {
         return Single.fromCallable(() -> {
-            ExchangeService service = ExchangeService.forName(exchange.getService().getName());
+            ExchangeService service = ExchangeService.forName(exchange.getService().getTitle());
             if (service != null) {
                 return service;
             }

@@ -142,9 +142,9 @@ public class WalletDetailActivity extends MvpActivity<WalletDetailPresenter, Wal
             return;
         }
         mToolbarTitle.setText(TextUtils.isEmpty(wallet.getAlias()) ?
-                getString(R.string.my_wallet_format, coin.getName()) :
+                getString(R.string.my_wallet_format, coin.getTitle()) :
                 wallet.getAlias());
-        mToolbarSubtitle.setText(coin.getName());
+        mToolbarSubtitle.setText(coin.getTitle());
         mIcon.setImageResource(coin.getIconResId());
 
         Bitmap bitmap = QRCodeUtils.generateQRCode(wallet.getAddress());

@@ -194,7 +194,7 @@ public class MainInteractor {
                 .map(map -> {
                     List<ExchangeBalance> list = new ArrayList<>(map.size());
                     for (String key : map.keySet()) {
-                        list.add(new ExchangeBalance(exchange.getId(), key, map.get(key)));
+                        list.add(new ExchangeBalance(0, exchange.getId(), key, map.get(key)));
                     }
                     return list;
                 });

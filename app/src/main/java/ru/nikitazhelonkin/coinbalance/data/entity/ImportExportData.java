@@ -22,7 +22,7 @@ public class ImportExportData {
         List<ExchangeData> exchangesData = new ArrayList<>();
         for (Exchange e : exchanges) {
             ExchangeData exchangeData = new ExchangeData();
-            exchangeData.serviceName = e.getService().getName();
+            exchangeData.serviceName = e.getService().getTitle();
             exchangeData.apiKey = e.getApiKey();
             exchangeData.apiSecret = e.getApiSecret();
             exchangeData.title = e.getTitle();
