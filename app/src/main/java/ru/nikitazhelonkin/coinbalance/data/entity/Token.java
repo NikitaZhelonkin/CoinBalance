@@ -15,18 +15,19 @@ import android.arch.persistence.room.PrimaryKey;
 public class Token {
 
     @PrimaryKey(autoGenerate = true)
-    private int mId;
+    private final int mId;
 
     @ColumnInfo(name = "wallet_address")
-    private String mWalletAddress;
+    private final String mWalletAddress;
     @ColumnInfo(name = "token_ticker")
-    private String mTokenTicker;
+    private final String mTokenTicker;
     @ColumnInfo(name = "token_name")
-    private String mTokenName;
+    private final String mTokenName;
     @ColumnInfo(name = "balance")
-    private float mBalance;
+    private final float mBalance;
 
-    public Token(String walletAddress, String tokenTicker, String tokenName, float balance) {
+    public Token(int id, String walletAddress, String tokenTicker, String tokenName, float balance) {
+        mId = id;
         mWalletAddress = walletAddress;
         mTokenTicker = tokenTicker;
         mTokenName = tokenName;
@@ -37,29 +38,12 @@ public class Token {
         return mId;
     }
 
-    public void setId(int id) {
-        mId = id;
-    }
-
-
     public String getWalletAddress() {
         return mWalletAddress;
     }
 
-    public void setWalletAddress(String walletAddress) {
-        mWalletAddress = walletAddress;
-    }
-
     public String getTokenTicker() {
         return mTokenTicker;
-    }
-
-    public void setTokenTicker(String tokenTicker) {
-        mTokenTicker = tokenTicker;
-    }
-
-    public void setTokenName(String tokenName) {
-        mTokenName = tokenName;
     }
 
     public String getTokenName() {
@@ -68,10 +52,6 @@ public class Token {
 
     public float getBalance() {
         return mBalance;
-    }
-
-    public void setBalance(float balance) {
-        mBalance = balance;
     }
 
     @Override

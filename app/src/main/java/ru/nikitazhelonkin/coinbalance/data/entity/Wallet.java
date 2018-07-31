@@ -22,11 +22,11 @@ public class Wallet implements ListItem {
     public static final int STATUS_OK = 1;
 
     @PrimaryKey(autoGenerate = true)
-    private int mId;
+    private final int mId;
     @ColumnInfo(name = "coin_ticker")
-    private String mCoinTicker;
+    private final String mCoinTicker;
     @ColumnInfo(name = "address")
-    private String mAddress;
+    private final String mAddress;
     @ColumnInfo(name = "alias")
     private String mAlias;
     @ColumnInfo(name = "balance")
@@ -34,28 +34,26 @@ public class Wallet implements ListItem {
     @ColumnInfo(name = "position")
     private int mPosition;
     @ColumnInfo(name = "create_at")
-    private long mCreatedAt;
+    private final long mCreatedAt;
     @ColumnInfo(name = "status")
     private int mStatus;
 
-    public Wallet() {
-
-    }
 
     @Ignore
     public Wallet(@NonNull String coinTicker, @NonNull String address, @Nullable String alias) {
-        this(coinTicker, address, alias, 0, -1, System.currentTimeMillis(), STATUS_NONE);
+        this(0, coinTicker, address, alias, 0, -1, System.currentTimeMillis(), STATUS_NONE);
     }
 
     @ParcelConstructor
-    @Ignore
-    public Wallet(@NonNull String coinTicker,
+    public Wallet(int id,
+                  @NonNull String coinTicker,
                   @NonNull String address,
                   @Nullable String alias,
                   float balance,
                   int position,
                   long createdAt,
                   int status) {
+        mId = id;
         mCoinTicker = coinTicker;
         mAddress = address;
         mAlias = alias;
@@ -65,10 +63,7 @@ public class Wallet implements ListItem {
         mStatus = status;
     }
 
-    public void setId(int id) {
-        mId = id;
-    }
-
+    @Override
     public int getId() {
         return mId;
     }
@@ -88,48 +83,37 @@ public class Wallet implements ListItem {
         return mAlias;
     }
 
-    public void setCoinTicker(String coinTicker) {
-        mCoinTicker = coinTicker;
-    }
-
-    public void setAddress(String address) {
-        mAddress = address;
-    }
-
     public void setAlias(String alias) {
         mAlias = alias;
-    }
-
-    public void setBalance(float balance) {
-        mBalance = balance;
     }
 
     public float getBalance() {
         return mBalance;
     }
 
+    public void setBalance(float balance) {
+        mBalance = balance;
+    }
+
     public int getPosition() {
         return mPosition;
     }
 
+    @Override
     public void setPosition(int position) {
         mPosition = position;
-    }
-
-    public void setCreatedAt(long createdAt) {
-        mCreatedAt = createdAt;
     }
 
     public long getCreatedAt() {
         return mCreatedAt;
     }
 
-    public void setStatus(int status) {
-        mStatus = status;
-    }
-
     public int getStatus() {
         return mStatus;
+    }
+
+    public void setStatus(int status) {
+        mStatus = status;
     }
 
     @Override

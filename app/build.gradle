@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(file("keystore.properties")))
@@ -64,7 +66,7 @@ dependencies {
 
     //parceler
     implementation "org.parceler:parceler-api:$versions.parceler"
-    annotationProcessor "org.parceler:parceler:$versions.parceler"
+    kapt "org.parceler:parceler:$versions.parceler"
 
     //QR-code
     implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
@@ -85,17 +87,19 @@ dependencies {
 
     //butterknife
     implementation "com.jakewharton:butterknife:$versions.butterKnife"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$versions.butterKnife"
+    kapt "com.jakewharton:butterknife-compiler:$versions.butterKnife"
 
     // Room (use 1.1.0-alpha2 for latest alpha)
     implementation "android.arch.persistence.room:runtime:1.0.0"
-    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+    kapt "android.arch.persistence.room:compiler:1.0.0"
     // RxJava support for Room (use 1.1.0-alpha1 for latest alpha)
     implementation "android.arch.persistence.room:rxjava2:1.0.0"
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
     //dagger
     implementation "com.google.dagger:dagger:$versions.dagger"
-    annotationProcessor "com.google.dagger:dagger-compiler:$versions.dagger"
+    kapt "com.google.dagger:dagger-compiler:$versions.dagger"
 
     implementation 'javax.annotation:jsr250-api:1.0'
 

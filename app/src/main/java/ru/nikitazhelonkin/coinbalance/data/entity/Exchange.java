@@ -21,45 +21,42 @@ public class Exchange implements ListItem {
     public static final int STATUS_OK = 1;
 
     @PrimaryKey(autoGenerate = true)
-    private int mId;
+    private final int mId;
     @TypeConverters(ExchangeServiceConverter.class)
     @ColumnInfo(name = "service")
-    private ExchangeService mService;
+    private final ExchangeService mService;
     @ColumnInfo(name = "api_key")
-    private String mApiKey;
+    private final String mApiKey;
     @ColumnInfo(name = "api_secret")
-    private String mApiSecret;
+    private final String mApiSecret;
     @ColumnInfo(name = "title")
     private String mTitle;
     @ColumnInfo(name = "position")
     private int mPosition;
     @ColumnInfo(name = "created_at")
-    private long mCreatedAt;
+    private final long mCreatedAt;
     @ColumnInfo(name = "status")
     private int mStatus;
     @ColumnInfo(name = "error_message")
     private String mErrorMessage;
-
-    public Exchange() {
-
-    }
 
     @Ignore
     public Exchange(@NonNull ExchangeService service,
                     @NonNull String apiKey,
                     @NonNull String apiSecret,
                     @Nullable String title) {
-        this(service, apiKey, apiSecret, title, -1, System.currentTimeMillis(), STATUS_NONE);
+        this(0, service, apiKey, apiSecret, title, -1, System.currentTimeMillis(), STATUS_NONE);
     }
 
-    @Ignore
-    public Exchange(@NonNull ExchangeService service,
+    public Exchange(int id,
+                    @NonNull ExchangeService service,
                     @NonNull String apiKey,
                     @NonNull String apiSecret,
                     @Nullable String title,
                     int position,
                     long createdAt,
                     int status) {
+        mId = id;
         mService = service;
         mApiKey = apiKey;
         mApiSecret = apiSecret;
@@ -73,32 +70,16 @@ public class Exchange implements ListItem {
         return mId;
     }
 
-    public void setId(int id) {
-        mId = id;
-    }
-
     public ExchangeService getService() {
         return mService;
-    }
-
-    public void setService(ExchangeService service) {
-        mService = service;
     }
 
     public String getApiKey() {
         return mApiKey;
     }
 
-    public void setApiKey(String apiKey) {
-        mApiKey = apiKey;
-    }
-
     public String getApiSecret() {
         return mApiSecret;
-    }
-
-    public void setApiSecret(String apiSecret) {
-        mApiSecret = apiSecret;
     }
 
     public String getTitle() {
@@ -119,10 +100,6 @@ public class Exchange implements ListItem {
 
     public long getCreatedAt() {
         return mCreatedAt;
-    }
-
-    public void setCreatedAt(long createdAt) {
-        mCreatedAt = createdAt;
     }
 
     public int getStatus() {
