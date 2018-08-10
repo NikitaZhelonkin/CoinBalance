@@ -26,9 +26,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:background="@color/color_surface"
         android:clipToPadding="false"
-        android:elevation="1dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="8dp"
@@ -52,7 +51,6 @@
 
     </LinearLayout>
 
-
     <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,9 +66,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:background="@color/color_surface"
         android:clipToPadding="false"
-        android:elevation="1dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="8dp"
@@ -91,6 +88,7 @@
             android:id="@+id/crypto_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorTextSecondary"
             android:text="0.003 LTC"
             android:textSize="16sp" />
 

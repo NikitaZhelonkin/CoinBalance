@@ -2,6 +2,7 @@ package ru.nikitazhelonkin.coinbalance.ui.widget;
 
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -17,6 +18,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import ru.nikitazhelonkin.coinbalance.R;
 import ru.nikitazhelonkin.coinbalance.utils.ListUtils;
 
 public class PieChartView extends View {
@@ -26,6 +28,8 @@ public class PieChartView extends View {
     public static final float MIN_PERCENT = 2;
 
     private static final int STROKE_WIDTH = 2;//dp
+
+    private static final float THICKNESS = 0.7f;
 
     private DataSet mDataSet;
 
@@ -37,28 +41,35 @@ public class PieChartView extends View {
 
     private RectF mRectF;
 
+    private float mThickness;
+
 
     public PieChartView(Context context) {
         super(context);
-        init(context);
+        init(context, null);
     }
 
     public PieChartView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init(context, attrs);
     }
 
     public PieChartView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init(context, attrs);
     }
 
     public PieChartView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(context);
+        init(context, attrs);
     }
 
-    private void init(Context context) {
+    private void init(Context context, AttributeSet attrs) {
+
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PieChartView);
+        int strokeColor = a.getColor(R.styleable.PieChartView_pcStrokeColor, Color.BLACK);
+        mThickness = Math.min(1, a.getFloat(R.styleable.PieChartView_pcThickness, THICKNESS));
+        a.recycle();
 
         float stokeWidth = context.getResources().getDisplayMetrics().density * STROKE_WIDTH;
 
@@ -67,7 +78,7 @@ public class PieChartView extends View {
 
         mStrokePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mStrokePaint.setStyle(Paint.Style.STROKE);
-        mStrokePaint.setColor(Color.BLACK);
+        mStrokePaint.setColor(strokeColor);
         mStrokePaint.setStrokeWidth(stokeWidth);
 
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -132,7 +143,7 @@ public class PieChartView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         mRectF = new RectF(getPaddingLeft(), getPaddingTop(), getWidth() - getPaddingRight(), +getHeight() - getPaddingBottom());
         mClipPath = new Path();
-        mClipPath.addCircle(mRectF.centerX(), mRectF.centerY(), mRectF.width() / 3, Path.Direction.CW);
+        mClipPath.addCircle(mRectF.centerX(), mRectF.centerY(), mRectF.width() * (1 - mThickness) / 2, Path.Direction.CW);
     }
 
     private static class DataSet {
@@ -142,11 +153,7 @@ public class PieChartView extends View {
 
         public DataSet(List<PieEntry> pieEntries) {
             this.pieEntries = pieEntries;
-            Collections.sort(this.pieEntries, (t1, t2) -> {
-                float v1 = t1.value;
-                float v2 = t2.value;
-                return v1 > v2 ? -1 : v1 < v2 ? 1 : 0;
-            });
+            Collections.sort(this.pieEntries, (t1, t2) -> Float.compare(t2.value, t1.value));
             this.totalValue = ListUtils.reduce(pieEntries, totalValue, (aFloat, pieEntry) -> aFloat + pieEntry.value);
         }
 

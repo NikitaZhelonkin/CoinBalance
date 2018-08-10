@@ -8,6 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorPrimary">@color/colorText</item>
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColorHint">@color/colorTextSecondary</item>
         <item name="android:colorBackground">@color/colorBackground</item>
         <item name="android:dropDownSpinnerStyle">@style/DropDownSpinnerStyle</item>
         <item name="popupMenuStyle">@style/PopupMenuStyle</item>
@@ -38,6 +40,16 @@
     <style name="Button" parent="Widget.AppCompat.Button">
         <item name="android:backgroundTint">?colorPrimary</item>
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="Button.Borderless" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="CardViewStyle" parent="CardView.Dark">
+        <item name="cardBackgroundColor">@color/color_surface</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardCornerRadius">0dp</item>
     </style>
 
 

@@ -1,113 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:background="@android:color/white"
-    android:clipToPadding="false"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingLeft="12dp"
-    android:paddingTop="8dp"
-    android:elevation="1dp"
-    android:paddingBottom="8dp"
-    android:paddingRight="12dp">
+    android:layout_height="wrap_content">
 
-    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
-        android:layout_width="48dp"
-        android:textSize="12sp"
-        tools:text="99,9 %"
-        android:rotation="-90"
-        android:gravity="center"
-        android:layout_marginLeft="-8dp"
-        android:layout_marginRight="-8dp"
-        android:id="@+id/asset_percent"
-        android:layout_gravity="center_vertical"
-        android:textColor="@color/colorTextSecondary"
-        android:layout_height="24dp" />
-
-    <ImageView
-        android:id="@+id/asset_color"
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="-8dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginTop="-8dp"
-        android:background="#ccc"
-        android:contentDescription="@null" />
-
-    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
-        android:id="@+id/asset_name"
-        android:layout_width="0dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_weight="1"
-        android:textColor="@color/colorText"
-        android:textSize="18sp"
-        tools:text="BTC" />
-
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:gravity="right"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:orientation="vertical">
-
-        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:textSize="16sp"
-            android:id="@+id/asset_price"
-            android:textColor="@color/colorText"
-            tools:text="$ 10,100.60" />
-
-        <ru.nikitazhelonkin.coinbalance.ui.widget.TintDrawableTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="-2dp"
-            tools:drawableLeft="@drawable/ic_trending_up_24dp"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            app:iconTint="@color/color_trend_none"
-            android:gravity="center_vertical"
-            android:textSize="11sp"
-            tools:text="0%"
-            android:id="@+id/asset_change24"
-            android:textColor="@color/color_trend_none" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="86dp"
-        android:layout_height="wrap_content"
+        android:background="@color/color_surface"
+        android:clipToPadding="false"
         android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="8dp">
 
         <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
-            android:id="@+id/asset_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:textColor="@color/colorText"
-            android:textSize="16sp"
-            tools:text="$ 106,909" />
-
-        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
-            android:id="@+id/asset_coin_value"
-            android:layout_width="match_parent"
+            android:id="@+id/asset_percent"
+            android:layout_width="48dp"
             android:layout_height="24dp"
-            android:gravity="right|center_vertical"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="-8dp"
+            android:layout_marginRight="-8dp"
+            android:gravity="center"
+            android:rotation="-90"
             android:textColor="@color/colorTextSecondary"
-            android:textSize="11sp"
-            tools:text="0.2" />
+            android:textSize="12sp"
+            tools:text="99,9 %" />
 
+        <ImageView
+            android:id="@+id/asset_color"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="-8dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="-8dp"
+            android:background="#ccc"
+            android:contentDescription="@null" />
+
+        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+            android:id="@+id/asset_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:textColor="@color/colorText"
+            android:textSize="18sp"
+            tools:text="BTC" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:gravity="right"
+            android:orientation="vertical">
+
+            <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+                android:id="@+id/asset_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorText"
+                android:textSize="16sp"
+                tools:text="$ 10,100.60" />
+
+            <ru.nikitazhelonkin.coinbalance.ui.widget.TintDrawableTextView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/asset_change24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="-2dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/color_trend_none"
+                android:textSize="11sp"
+                app:iconTint="@color/color_trend_none"
+                tools:drawableLeft="@drawable/ic_trending_up_24dp"
+                tools:text="0%" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="86dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+                android:id="@+id/asset_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textColor="@color/colorText"
+                android:textSize="16sp"
+                tools:text="$ 106,909" />
+
+            <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+                android:id="@+id/asset_coin_value"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:gravity="right|center_vertical"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="11sp"
+                tools:text="0.2" />
+
+
+        </LinearLayout>
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="12dp"
+        android:layout_gravity="bottom"
+        android:layout_marginRight="12dp"
+        android:background="@color/colorDivider" />
+</FrameLayout>
 
-</LinearLayout>

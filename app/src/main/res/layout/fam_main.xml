@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add_24dp"
-        android:tint="@android:color/white" />
+        android:tint="@color/colorBackground" />
 
     <Button
         android:id="@+id/add_wallet_fab"
@@ -25,11 +25,11 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:backgroundTint="@android:color/black"
+        android:backgroundTint="@color/colorAccent"
         android:minWidth="100dp"
         android:text="@string/wallet"
         android:textAllCaps="false"
-        android:textColor="@android:color/white" />
+        android:textColor="@color/colorBackground" />
 
     <Button
         android:id="@+id/add_exchange_fab"
@@ -37,10 +37,10 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:backgroundTint="@android:color/black"
+        android:backgroundTint="@color/colorAccent"
         android:minWidth="100dp"
         android:text="@string/exchange"
         android:textAllCaps="false"
-        android:textColor="@android:color/white" />
+        android:textColor="@color/colorBackground" />
 
 </ru.nikitazhelonkin.coinbalance.ui.widget.FloatingActionMenu>

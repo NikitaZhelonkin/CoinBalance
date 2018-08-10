@@ -45,6 +45,7 @@ import ru.nikitazhelonkin.coinbalance.ui.widget.itemtouchhelper.ItemTouchHelperC
 import ru.nikitazhelonkin.coinbalance.utils.AndroidUtils;
 import ru.nikitazhelonkin.coinbalance.utils.AppNumberFormatter;
 import ru.nikitazhelonkin.coinbalance.utils.ChartColorPallet;
+import ru.nikitazhelonkin.coinbalance.utils.L;
 import ru.nikitazhelonkin.coinbalance.utils.ListUtils;
 
 public class MainActivity extends MvpActivity<MainPresenter, MainView> implements

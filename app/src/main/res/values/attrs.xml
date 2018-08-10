@@ -12,4 +12,9 @@
         <attr name="dimColor" format="color"/>
     </declare-styleable>
 
+    <declare-styleable name="PieChartView">
+        <attr name="pcStrokeColor" format="color"/>
+        <attr name="pcThickness" format="float"/>
+    </declare-styleable>
+
 </resources>
