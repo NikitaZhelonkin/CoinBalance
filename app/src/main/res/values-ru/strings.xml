@@ -98,6 +98,10 @@
     <string name="donation_2">2 $</string>
     <string name="donation_5">5 $</string>
 
+    <string name="cd_action_overview">Обзор</string>
+    <string name="cd_action_profile">Профиль</string>
+    <string name="cd_action_settings">Настройки</string>
+
     <plurals name="assets_count">
         <item quantity="one">%d актив</item>
         <item quantity="few">%d актива</item>

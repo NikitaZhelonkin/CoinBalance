@@ -18,8 +18,8 @@
         android:id="@+id/exchange_service_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="17sp"
         android:textColor="@color/colorText"
+        android:textAppearance="@style/TextAppearance.Body2"
         tools:text="Bitcoin" />
 
 

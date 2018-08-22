@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipChildren="false"
     android:clipToPadding="false"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -19,8 +18,8 @@
         android:paddingRight="12dp"
         android:paddingTop="8dp"
         android:text="@string/wallet_address"
-        android:textColor="@color/colorTextSecondary"
-        android:textSize="12sp" />
+        android:textAppearance="@style/TextAppearance.Caption"
+        android:textColor="@color/colorTextSecondary" />
 
 
     <LinearLayout
@@ -35,9 +34,8 @@
         android:paddingRight="12dp"
         android:paddingTop="8dp">
 
-        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        <TextView
             android:id="@+id/wallet_address"
-            tools:text="1CPZuurirMNKtaQ1co5rcfKLYC3zK1CXrX"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?selectableItemBackground"
@@ -45,13 +43,15 @@
             android:drawableRight="@drawable/ic_copy_light_16dp"
             android:ellipsize="middle"
             android:gravity="center"
+            android:textAppearance="@style/TextAppearance.Body2"
             android:singleLine="true"
-            android:textColor="@color/colorText" />
+            android:textColor="@color/colorText"
+            tools:text="1CPZuurirMNKtaQ1co5rcfKLYC3zK1CXrX" />
 
 
     </LinearLayout>
 
-    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -60,8 +60,8 @@
         android:paddingRight="12dp"
         android:paddingTop="8dp"
         android:text="@string/wallet_value"
-        android:textColor="@color/colorTextSecondary"
-        android:textSize="12sp" />
+        android:textAppearance="@style/TextAppearance.Caption"
+        android:textColor="@color/colorTextSecondary" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -75,37 +75,36 @@
         android:paddingRight="12dp"
         android:paddingTop="8dp">
 
-        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        <TextView
             android:id="@+id/fiat_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="$ 18.04"
-            android:textColor="@color/colorText"
-            android:textSize="18sp" />
+            android:textAppearance="@style/TextAppearance.Body1" />
 
-        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        <TextView
             android:id="@+id/crypto_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorTextSecondary"
             android:text="0.003 LTC"
-            android:textSize="16sp" />
+            android:textAppearance="@style/TextAppearance.Subtitle2"
+            android:textColor="@color/colorTextSecondary" />
 
 
     </LinearLayout>
 
-    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+    <TextView
+        android:id="@+id/tokens_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tokens_label"
         android:gravity="center"
         android:paddingBottom="8dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:paddingTop="8dp"
         android:text="@string/tokens"
-        android:textColor="@color/colorTextSecondary"
-        android:textSize="12sp" />
+        android:textAppearance="@style/TextAppearance.Caption"
+        android:textColor="@color/colorTextSecondary" />
 
 </LinearLayout>

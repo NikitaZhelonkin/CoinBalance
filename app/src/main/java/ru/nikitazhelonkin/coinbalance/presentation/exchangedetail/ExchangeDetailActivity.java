@@ -128,7 +128,7 @@ public class ExchangeDetailActivity extends MvpActivity<ExchangeDetailPresenter,
     @Override
     public void showDeleteView(Exchange exchange) {
         new AlertDialog.Builder(this)
-                .setMessage(R.string.dialog_delete_exchange_message)
+                .setTitle(R.string.dialog_delete_exchange_message)
                 .setPositiveButton(R.string.ok, (dialogInterface, i) -> getPresenter().deleteExchange(exchange))
                 .setNegativeButton(R.string.cancel, null)
                 .create()

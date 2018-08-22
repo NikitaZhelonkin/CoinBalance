@@ -8,7 +8,7 @@ import ru.nikitazhelonkin.coinbalance.mvp.MvpView;
 
 public interface MainView extends MvpView {
 
-    void setData(MainViewModel data);
+    void setData(MainViewModel data, boolean animate);
 
     void setMode(int mode, boolean animate);
 
@@ -33,6 +33,8 @@ public interface MainView extends MvpView {
     void hideLoader();
 
     void showRateDialog();
+
+    void showAddBottomSheetDialog();
 
     void reportError();
 

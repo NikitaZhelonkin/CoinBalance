@@ -127,7 +127,7 @@ public class WalletDetailActivity extends MvpActivity<WalletDetailPresenter, Wal
     @Override
     public void showDeleteView(Wallet wallet) {
         new AlertDialog.Builder(this)
-                .setMessage(R.string.dialog_delete_wallet_message)
+                .setTitle(R.string.dialog_delete_wallet_message)
                 .setPositiveButton(R.string.ok, (dialogInterface, i) -> getPresenter().deleteWallet(wallet))
                 .setNegativeButton(R.string.cancel, null)
                 .create()

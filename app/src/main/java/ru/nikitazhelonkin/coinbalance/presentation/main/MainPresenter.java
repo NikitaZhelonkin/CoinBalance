@@ -37,7 +37,7 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
 
     private Handler mHandler;
 
-    public static final int MODE_MAIN = 0;
+    public static final int MODE_PROFILE = 0;
     public static final int MODE_CHART = 1;
     private int mMode = -1;
 
@@ -59,7 +59,7 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         syncBalances();
         loadWallets();
         observe();
-        setMode(MODE_MAIN, false);
+        setMode(MODE_CHART, false);
         getView().setTotalBalance(mMainInteractor.getCurrency(), 0);
         getView().setProfitLoss(0);
 
@@ -83,8 +83,16 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         getView().navigateToSettingsView();
     }
 
-    public void onModeClick() {
-        setMode(mMode == MODE_CHART ? MODE_MAIN : MODE_CHART, true);
+    public void onAddClick() {
+        getView().showAddBottomSheetDialog();
+    }
+
+    public void onOverviewClick() {
+        setMode(MODE_CHART, true);
+    }
+
+    public void onAccountsClick() {
+        setMode(MODE_PROFILE, true);
     }
 
     public void onRefresh() {
@@ -128,7 +136,7 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
         getView().navigateToMarket();
     }
 
-    public void onReportClick(){
+    public void onReportClick() {
         getView().reportError();
     }
 
@@ -166,12 +174,13 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
     }
 
     private void onResult(MainViewModel data) {
-        mData = data;
-        getView().setData(data);
+        getView().setData(data, data.getItems().size() > 0 && (mData == null || mData.getItems().size() == 0));
         getView().setTotalBalance(data.getCurrency(), data.getTotalBalance());
         getView().setProfitLoss(data.calculateChange24Hours());
         getView().setEmptyViewVisible(data.getItems().size() == 0);
         getView().setErrorViewVisible(false);
+
+        mData = data;
 
         postUpdate();
     }
@@ -217,7 +226,7 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
     }
 
     private void postUpdate() {
-       stopUpdates();
+        stopUpdates();
         mHandler.postDelayed(this::loadWallets, TimeUnit.SECONDS.toMillis(10));
     }
 

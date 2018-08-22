@@ -10,7 +10,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -38,14 +37,12 @@ import ru.nikitazhelonkin.coinbalance.presentation.exchangedetail.ExchangeDetail
 import ru.nikitazhelonkin.coinbalance.presentation.settings.SettingsActivity;
 import ru.nikitazhelonkin.coinbalance.presentation.walletdetail.WalletDetailActivity;
 import ru.nikitazhelonkin.coinbalance.ui.widget.AppBarBehavior;
-import ru.nikitazhelonkin.coinbalance.ui.widget.FloatingActionMenu;
 import ru.nikitazhelonkin.coinbalance.ui.widget.PieChartView;
 import ru.nikitazhelonkin.coinbalance.ui.widget.TintDrawableTextView;
 import ru.nikitazhelonkin.coinbalance.ui.widget.itemtouchhelper.ItemTouchHelperCallback;
 import ru.nikitazhelonkin.coinbalance.utils.AndroidUtils;
 import ru.nikitazhelonkin.coinbalance.utils.AppNumberFormatter;
 import ru.nikitazhelonkin.coinbalance.utils.ChartColorPallet;
-import ru.nikitazhelonkin.coinbalance.utils.L;
 import ru.nikitazhelonkin.coinbalance.utils.ListUtils;
 
 public class MainActivity extends MvpActivity<MainPresenter, MainView> implements
@@ -57,10 +54,6 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     CoordinatorLayout mCoordinatorLayout;
     @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-    @BindView(R.id.toolbar_title)
-    TextView mToolbarTitle;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.empty_view)
@@ -71,24 +64,18 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.appbar)
     AppBarLayout mAppBarLayout;
-    @BindView(R.id.total_balance)
-    TextView mTotalBalance;
     @BindView(R.id.total_balance_chart)
     TextView mTotalBalanceChart;
-    @BindView(R.id.profit_loss)
-    TintDrawableTextView mProfitLoss;
     @BindView(R.id.profit_loss_chart)
     TintDrawableTextView mProfitLossChart;
-    @BindView(R.id.profit_loss_layout)
-    View mProfitLossLayout;
-    @BindView(R.id.add_fam)
-    FloatingActionMenu mFam;
-    @BindView(R.id.action_mode)
-    ImageButton mModeButton;
     @BindView(R.id.chart_layout)
     View mChartLayout;
     @BindView(R.id.chart_view)
     PieChartView mChartView;
+    @BindView(R.id.action_accounts)
+    ImageButton mActionAccounts;
+    @BindView(R.id.action_overview)
+    ImageButton mActionOverview;
 
     private MainAdapter mMainAdapter;
 
@@ -96,6 +83,7 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
 
     private AppBarBehavior mAppBarBehavior;
 
+    private int mMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,17 +104,13 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mRecyclerView);
 
-        setSupportActionBar(mToolbar);
-        mToolbarTitle.setText(R.string.app_name);
 
         mAppBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
-            float fraction = verticalOffset / (float) (mToolbar.getHeight() - mAppBarLayout.getHeight());
+            float fraction = verticalOffset / (float) (0 - mAppBarLayout.getHeight());
             mChartLayout.setAlpha(1 - fraction);
             mChartLayout.setScaleX(Math.max(0.3f, 1 - fraction));
             mChartLayout.setScaleY(Math.max(0.3f, 1 - fraction));
             mChartLayout.setPivotY(mChartLayout.getHeight());
-            mTotalBalance.setAlpha(fraction);
-            mProfitLossLayout.setAlpha(fraction);
         });
         mAppBarBehavior = (AppBarBehavior) ((CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams()).getBehavior();
     }
@@ -168,9 +152,14 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         getPresenter().onStopDragging();
     }
 
-    @OnClick(R.id.action_mode)
-    public void onModeClick(View v) {
-        getPresenter().onModeClick();
+    @OnClick(R.id.action_overview)
+    public void onOverviewClick(View v) {
+        getPresenter().onOverviewClick();
+    }
+
+    @OnClick(R.id.action_accounts)
+    public void onAccountsClick(View v) {
+        getPresenter().onAccountsClick();
     }
 
     @OnClick(R.id.action_settings)
@@ -178,16 +167,9 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         getPresenter().onSettingsClick();
     }
 
-    @OnClick(R.id.add_wallet_fab)
-    public void onAddWalletFabClick(View v) {
-        mFam.collapse();
-        getPresenter().onAddWalletClick();
-    }
-
-    @OnClick(R.id.add_exchange_fab)
-    public void onAddExchangeFabClick(View v) {
-        mFam.collapse();
-        getPresenter().onAddExchangeClick();
+    @OnClick(R.id.add_fab)
+    public void onFabClick(View v) {
+        getPresenter().onAddClick();
     }
 
     @Override
@@ -196,24 +178,31 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     }
 
     @Override
-    public void setData(MainViewModel data) {
+    public void setData(MainViewModel data, boolean animate) {
         mMainAdapter.setData(data);
         mAssetsAdapter.setData(data.getAssets());
         mChartView.setData(ListUtils.map(data.getAssets(), (i, asset) ->
                 new PieChartView.PieEntry(asset.getCoin(), asset.getCurrencyBalance(), ChartColorPallet.colorForPosition(i))));
+        if (animate) {
+            mRecyclerView.scheduleLayoutAnimation();
+            setMode(mMode, true);
+        }
     }
 
     @Override
     public void setMode(int mode, boolean animate) {
-        if (mode == MainPresenter.MODE_MAIN) {
+        mMode = mode;
+        mActionAccounts.setSelected(false);
+        mActionOverview.setSelected(false);
+        if (mode == MainPresenter.MODE_PROFILE) {
+            mActionAccounts.setSelected(true);
             mAppBarBehavior.setDragEnabled(false);
-            mModeButton.setImageResource(R.drawable.ic_pie_chart_24dp);
             mAppBarLayout.setExpanded(false, animate);
             mRecyclerView.setAdapter(mMainAdapter);
         } else {
-            mAppBarBehavior.setDragEnabled(true);
-            mModeButton.setImageResource(R.drawable.ic_view_list_24dp);
-            mAppBarLayout.setExpanded(true, animate);
+            mActionOverview.setSelected(true);
+            mAppBarBehavior.setDragEnabled(mAssetsAdapter.getItemCount() > 0);
+            mAppBarLayout.setExpanded(mAssetsAdapter.getItemCount() > 0, animate);
             mRecyclerView.setAdapter(mAssetsAdapter);
         }
         mRecyclerView.stopNestedScroll();
@@ -224,13 +213,11 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     public void setTotalBalance(String currencyStr, float totalBalance) {
         Currency currency = Currency.getInstance(currencyStr);
         String currencyBalanceStr = AppNumberFormatter.format(totalBalance);
-        mTotalBalance.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), currencyBalanceStr));
         mTotalBalanceChart.setText(String.format(Locale.US, "%s %s", currency.getSymbol(), currencyBalanceStr));
     }
 
     @Override
     public void setProfitLoss(float pl) {
-        setProfitLoss(mProfitLoss, pl);
         setProfitLoss(mProfitLossChart, pl);
     }
 
@@ -318,8 +305,8 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
     }
 
     private void showSnackBar(String text, int duration) {
-        Snackbar snackbar = Snackbar.make(mToolbar, text, duration);
-        snackbar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        Snackbar snackbar = Snackbar.make(mCoordinatorLayout, text, duration);
+        snackbar.getView().setBackgroundColor(getResources().getColor(R.color.colorDialogBackground));
         snackbar.show();
     }
 
@@ -343,6 +330,11 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
                 })
                 .setNegativeButton(R.string.dialog_rate_later, null)
                 .create().show();
+    }
+
+    @Override
+    public void showAddBottomSheetDialog() {
+        AddBottomSheetDialogFragment.create().show(getSupportFragmentManager(), "add_bottom_sheet");
     }
 
     @Override

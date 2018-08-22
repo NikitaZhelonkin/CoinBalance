@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.IBinder;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
@@ -53,6 +54,19 @@ public class AndroidUtils {
             context.startActivity(Intent.createChooser(intent, context.getString(R.string.send_email)));
         } catch (ActivityNotFoundException e) {
             //do nothing
+        }
+    }
+
+    public static void showFileChooser(Fragment fragment, String title, int requestCode) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        try {
+            fragment.startActivityForResult(
+                    Intent.createChooser(intent, title), requestCode);
+        } catch (android.content.ActivityNotFoundException ex) {
+            // Potentially direct the user to the Market with a Dialog
+            Toast.makeText(fragment.getContext(), "Please install a File Manager.", Toast.LENGTH_SHORT).show();
         }
     }
 

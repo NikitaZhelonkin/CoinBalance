@@ -155,11 +155,12 @@
 
 
 
-    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dp"
         android:gravity="bottom"
+        android:textAppearance="@style/TextAppearance.Subtitle2"
         android:text="@string/exchange_add_warning"
         android:textColor="@color/colorTextSecondary" />
 

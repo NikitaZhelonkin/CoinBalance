@@ -17,7 +17,7 @@
         android:paddingRight="12dp"
         android:paddingTop="8dp">
 
-        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        <TextView
             android:id="@+id/asset_percent"
             android:layout_width="48dp"
             android:layout_height="24dp"
@@ -26,8 +26,8 @@
             android:layout_marginRight="-8dp"
             android:gravity="center"
             android:rotation="-90"
+            android:textAppearance="@style/TextAppearance.Caption"
             android:textColor="@color/colorTextSecondary"
-            android:textSize="12sp"
             tools:text="99,9 %" />
 
         <ImageView
@@ -41,14 +41,14 @@
             android:background="#ccc"
             android:contentDescription="@null" />
 
-        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        <TextView
             android:id="@+id/asset_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_weight="1"
+            android:textAppearance="@style/TextAppearance.Subtitle1"
             android:textColor="@color/colorText"
-            android:textSize="18sp"
             tools:text="BTC" />
 
 
@@ -59,13 +59,12 @@
             android:gravity="right"
             android:orientation="vertical">
 
-            <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+            <TextView
                 android:id="@+id/asset_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:textColor="@color/colorText"
-                android:textSize="16sp"
+                android:textAppearance="@style/TextAppearance.Body1"
                 tools:text="$ 10,100.60" />
 
             <ru.nikitazhelonkin.coinbalance.ui.widget.TintDrawableTextView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -75,7 +74,7 @@
                 android:drawablePadding="-2dp"
                 android:gravity="center_vertical"
                 android:textColor="@color/color_trend_none"
-                android:textSize="11sp"
+                android:textAppearance="@style/TextAppearance.Caption"
                 app:iconTint="@color/color_trend_none"
                 tools:drawableLeft="@drawable/ic_trending_up_24dp"
                 tools:text="0%" />
@@ -89,22 +88,21 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+            <TextView
                 android:id="@+id/asset_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:textColor="@color/colorText"
-                android:textSize="16sp"
+                android:textAppearance="@style/TextAppearance.Body1"
                 tools:text="$ 106,909" />
 
-            <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+            <TextView
                 android:id="@+id/asset_coin_value"
                 android:layout_width="match_parent"
                 android:layout_height="24dp"
                 android:gravity="right|center_vertical"
                 android:textColor="@color/colorTextSecondary"
-                android:textSize="11sp"
+                android:textAppearance="@style/TextAppearance.Caption"
                 tools:text="0.2" />
 
 

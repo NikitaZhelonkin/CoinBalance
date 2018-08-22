@@ -4,11 +4,12 @@ package ru.nikitazhelonkin.coinbalance.ui.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
 import ru.nikitazhelonkin.coinbalance.R;
 
-public class TintDrawableTextView extends TFTextView {
+public class TintDrawableTextView extends AppCompatTextView {
 
     private int mCompoundDrawableTint;
 

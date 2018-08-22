@@ -3,9 +3,10 @@
     <color name="colorBackground">#2f2f3a</color>
     <color name="colorPrimary">#2f2f3a</color>
     <color name="colorPrimaryDark">#22222b</color>
-    <color name="colorAccent">#ffffff</color>
-    <color name="colorText">#ffffff</color>
-    <color name="colorTextSecondary">#90ffffff</color>
+    <color name="colorDialogBackground">#000000</color>
+    <color name="colorAccent">#f1f1f1</color>
+    <color name="colorText">#f1f1f1</color>
+    <color name="colorTextSecondary">#90f1f1f1</color>
     <color name="colorDivider">#2f2f3a</color>
     <color name="color_error">#ff4181</color>
     <color name="color_pending">#FFEB3B</color>

@@ -2,15 +2,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
     
-    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+    <TextView
         android:layout_width="wrap_content"
         android:drawableTop="@drawable/ic_wallet_empty_72dp"
         android:text="@string/wallet_empty_message"
         android:textColor="@color/colorText"
-        android:textSize="18sp"
         android:padding="12dp"
         android:drawablePadding="12dp"
         android:gravity="center"
+        android:textAppearance="@style/TextAppearance.Subtitle1"
         android:layout_gravity="center"
         android:layout_height="wrap_content" />
 

@@ -14,69 +14,12 @@
         app:elevation="0dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            app:contentInsetStartWithNavigation="64dp">
-
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:contentDescription="@null"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@drawable/bitfinex" />
-
-                <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
-                    android:id="@+id/toolbar_title"
-                    style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:textSize="16sp"
-                    android:ellipsize="end"
-                    app:font="@string/font_roboto_regular"
-                    app:layout_constraintLeft_toRightOf="@id/icon"
-                    app:layout_constraintTop_toTopOf="@id/icon"
-                    app:layout_constraintRight_toRightOf="parent"
-                    tools:text="My Bitfinex" />
-
-
-                <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
-                    android:id="@+id/toolbar_subtitle"
-                    style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:gravity="center_vertical"
-                    android:singleLine="true"
-                    android:textSize="14sp"
-                    app:layout_constraintLeft_toRightOf="@id/icon"
-                    app:layout_constraintTop_toBottomOf="@id/toolbar_title"
-                    tools:text="Bitfinex" />
-
-
-            </android.support.constraint.ConstraintLayout>
-
-
-        </android.support.v7.widget.Toolbar>
+        <include layout="@layout/tool_bar_detail"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/shark"/>
-
 
     </android.support.design.widget.AppBarLayout>
 

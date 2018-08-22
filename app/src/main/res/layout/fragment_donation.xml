@@ -9,29 +9,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="16dp">
 
-    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+    <TextView
         android:layout_width="match_parent"
-        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+        android:textAppearance="@style/TextAppearance.Dialog.Title"
         android:text="@string/donation_title"
         android:gravity="center"
         android:layout_height="?actionBarSize" />
 
-    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+    <TextView
         android:layout_width="match_parent"
         android:textSize="16sp"
         android:textColor="@color/colorText"
         android:lineSpacingMultiplier="1.25"
+        android:textAppearance="@style/TextAppearance.Body2"
         android:text="@string/donation_message"
         android:layout_height="wrap_content" />
 
-    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+
+    <View
         android:layout_width="match_parent"
-        android:text="@string/select_amount"
-        android:layout_marginTop="16dp"
-        android:textSize="16sp"
-        android:textColor="@color/colorText"
-        app:font="@string/font_roboto_medium"
-        android:layout_height="wrap_content" />
+        android:layout_height="2dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="6dp"
+        android:background="@android:color/white"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,7 +47,7 @@
             android:layout_weight="1"
             android:id="@+id/donate_1"
             android:text="@string/donation_1"
-            style="@style/Button"
+            style="@style/Button.Borderless"
             android:layout_height="wrap_content" />
 
         <Button
@@ -55,7 +55,7 @@
             android:id="@+id/donate_2"
             android:layout_weight="1"
             android:text="@string/donation_2"
-            style="@style/Button"
+            style="@style/Button.Borderless"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:layout_height="wrap_content" />
@@ -65,7 +65,7 @@
             android:layout_weight="1"
             android:id="@+id/donate_5"
             android:text="@string/donation_5"
-            style="@style/Button"
+            style="@style/Button.Borderless"
             android:layout_height="wrap_content" />
 
     </LinearLayout>

@@ -8,7 +8,7 @@
     android:clipToPadding="false"
     android:orientation="vertical">
 
-    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -17,8 +17,8 @@
         android:paddingRight="12dp"
         android:paddingTop="12dp"
         android:text="@string/total_value"
-        android:textColor="@color/colorTextSecondary"
-        android:textSize="12sp" />
+        android:textAppearance="@style/TextAppearance.Caption"
+        android:textColor="@color/colorTextSecondary" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,27 +32,27 @@
         android:paddingRight="12dp"
         android:paddingTop="8dp">
 
-        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        <TextView
             android:id="@+id/fiat_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="$ 18.04"
-            android:textColor="@color/colorText"
-            android:textSize="18sp" />
+            android:textAppearance="@style/TextAppearance.Body1" />
 
-        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        <TextView
             android:id="@+id/crypto_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorTextSecondary"
+            android:textAppearance="@style/TextAppearance.Subtitle2"
             android:text="0.003 BTC"
             android:textSize="16sp" />
 
 
     </LinearLayout>
 
-    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/assets_label"
@@ -63,13 +63,14 @@
         android:paddingTop="12dp"
         android:visibility="gone"
         android:text="@string/assets"
-        android:textColor="@color/colorTextSecondary"
-        android:textSize="12sp" />
+        android:textAppearance="@style/TextAppearance.Caption"
+        android:textColor="@color/colorTextSecondary" />
 
-    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+    <TextView
         android:layout_width="match_parent"
         android:text="@string/assets_empty"
         android:padding="12dp"
+        android:textAppearance="@style/TextAppearance.Subtitle2"
         android:id="@+id/empty_view"
         android:gravity="center_horizontal"
         android:textColor="@color/colorTextSecondary"

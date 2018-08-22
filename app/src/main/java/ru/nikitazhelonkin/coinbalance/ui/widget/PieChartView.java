@@ -108,7 +108,7 @@ public class PieChartView extends View {
             return;
         }
         float lastAngle = 0;
-
+        float startAngle = -90;
 
         int saveCount = canvas.save();
         canvas.clipPath(mClipPath, Region.Op.DIFFERENCE);
@@ -123,16 +123,16 @@ public class PieChartView extends View {
             if (percent >= MIN_PERCENT) {
                 float sweepAngle = 360 * percent / 100f;
                 mPaint.setColor(entry.color);
-                canvas.drawArc(mRectF, lastAngle, sweepAngle, true, mPaint);
-                canvas.drawArc(mRectF, lastAngle, sweepAngle, true, mStrokePaint);
+                canvas.drawArc(mRectF, startAngle + lastAngle, sweepAngle, true, mPaint);
+                canvas.drawArc(mRectF, startAngle + lastAngle, sweepAngle, true, mStrokePaint);
                 lastAngle += sweepAngle;
             }
         }
         //draw other
         if (lastAngle < 360) {
             mPaint.setColor(OTHER_COLOR);
-            canvas.drawArc(mRectF, lastAngle, 360 - lastAngle, true, mPaint);
-            canvas.drawArc(mRectF, lastAngle, 360 - lastAngle, true, mStrokePaint);
+            canvas.drawArc(mRectF, startAngle + lastAngle, 360 - lastAngle, true, mPaint);
+            canvas.drawArc(mRectF, startAngle + lastAngle, 360 - lastAngle, true, mStrokePaint);
         }
         canvas.restoreToCount(saveCount);
     }

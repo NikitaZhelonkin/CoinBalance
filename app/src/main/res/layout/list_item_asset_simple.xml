@@ -19,22 +19,22 @@
         android:paddingTop="8dp">
 
 
-        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        <TextView
             android:id="@+id/asset_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textAppearance="@style/TextAppearance.Body2"
             android:textColor="@color/colorText"
-            android:textSize="18sp"
             tools:text="LTC" />
 
-        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+        <TextView
             android:id="@+id/asset_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0.003"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="16sp" />
+            android:textAppearance="@style/TextAppearance.Subtitle2"
+            android:textColor="@color/colorTextSecondary" />
 
     </LinearLayout>
 
