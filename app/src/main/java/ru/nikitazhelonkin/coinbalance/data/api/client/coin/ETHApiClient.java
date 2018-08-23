@@ -26,7 +26,7 @@ public class ETHApiClient implements ApiClient {
 
     private List<Token> mapTokenList(String address, List<EthplorerApiResponse.Token> tokenList) {
         return ListUtils.map(tokenList, (i, t) ->
-                new Token(address, t.tokenInfo.symbol, t.tokenInfo.name, formatBalance(t.balance, t.tokenInfo.decimals)));
+                new Token(0, address, t.tokenInfo.symbol, t.tokenInfo.name, formatBalance(t.balance, t.tokenInfo.decimals)));
     }
 
     private float formatBalance(String balance, int decimals) {

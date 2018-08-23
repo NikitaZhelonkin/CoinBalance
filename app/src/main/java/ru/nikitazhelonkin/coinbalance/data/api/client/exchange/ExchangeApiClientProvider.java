@@ -74,6 +74,6 @@ public class ExchangeApiClientProvider {
             case WEX:
                 return new WexApiClient(mWexApiService);
         }
-        throw new IllegalArgumentException("Exchange " + service.getName() + " not unsupported");
+        throw new IllegalArgumentException("Exchange " + service.getTitle() + " not unsupported");
     }
 }

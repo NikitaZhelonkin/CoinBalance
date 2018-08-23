@@ -8,4 +8,7 @@
     <item name="settings_rate" type="id"/>
     <item name="settings_donation" type="id"/>
     <item name="settings_footer" type="id"/>
+
+    <item name="add_wallet" type="id"/>
+    <item name="add_exchange" type="id"/>
 </resources>

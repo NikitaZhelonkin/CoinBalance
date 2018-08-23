@@ -1,8 +1,12 @@
 package ru.nikitazhelonkin.coinbalance.presentation.donation;
 
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +24,13 @@ public class DonateDialogFragment extends MvpDialogFragment<DonatePresenter, Don
     public static DonateDialogFragment create() {
         return new DonateDialogFragment();
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AppTheme_Dialog_Alert);
+        super.onCreate(savedInstanceState);
+    }
+
 
     @Nullable
     @Override

@@ -50,7 +50,7 @@ public class CoinSpinnerAdapter extends BaseAdapter {
         TextView coinName = (TextView) convertView.findViewById(R.id.coin_name);
         ImageView coinIcon = (ImageView) convertView.findViewById(R.id.coin_icon);
         Coin coin = getItem(i);
-        coinName.setText(coin.getName());
+        coinName.setText(coin.getTitle());
         coinIcon.setImageResource(coin.getIconResId());
         return convertView;
     }

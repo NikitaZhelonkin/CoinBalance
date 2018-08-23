@@ -25,6 +25,8 @@ import ru.nikitazhelonkin.coinbalance.data.entity.ExchangeDetailViewModel;
 import ru.nikitazhelonkin.coinbalance.di.DaggerExchangeDetailComponent;
 import ru.nikitazhelonkin.coinbalance.di.ExchangeDetailModule;
 import ru.nikitazhelonkin.coinbalance.mvp.MvpActivity;
+import ru.nikitazhelonkin.coinbalance.ui.widget.AlertDialogBuilder;
+import ru.nikitazhelonkin.coinbalance.ui.widget.AppToast;
 import ru.nikitazhelonkin.coinbalance.ui.widget.InputAlertDialogBuilder;
 
 public class ExchangeDetailActivity extends MvpActivity<ExchangeDetailPresenter, ExchangeDetailView> implements
@@ -100,16 +102,16 @@ public class ExchangeDetailActivity extends MvpActivity<ExchangeDetailPresenter,
     public void showExchange(ExchangeDetailViewModel model) {
         Exchange exchange = model.getExchange();
         mToolbarTitle.setText(TextUtils.isEmpty(exchange.getTitle()) ?
-                exchange.getService().getName() :
+                exchange.getService().getTitle() :
                 exchange.getTitle());
-        mToolbarSubtitle.setText(exchange.getService().getName());
+        mToolbarSubtitle.setText(exchange.getService().getTitle());
         mIcon.setImageResource(exchange.getService().getIconResId());
         mAdapter.setData(model);
     }
 
     @Override
     public void showMessage(int messageResId) {
-        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
+        AppToast.make(this, messageResId, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -127,8 +129,8 @@ public class ExchangeDetailActivity extends MvpActivity<ExchangeDetailPresenter,
 
     @Override
     public void showDeleteView(Exchange exchange) {
-        new AlertDialog.Builder(this)
-                .setMessage(R.string.dialog_delete_exchange_message)
+        new AlertDialogBuilder(this)
+                .setTitle(R.string.dialog_delete_exchange_message)
                 .setPositiveButton(R.string.ok, (dialogInterface, i) -> getPresenter().deleteExchange(exchange))
                 .setNegativeButton(R.string.cancel, null)
                 .create()

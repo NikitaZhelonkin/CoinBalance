@@ -38,7 +38,7 @@ public class ServiceSpinnerAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return mServiceList.get(i).getName().hashCode();
+        return mServiceList.get(i).getTitle().hashCode();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ServiceSpinnerAdapter extends BaseAdapter {
         TextView exchangeName = (TextView) convertView.findViewById(R.id.exchange_service_name);
         ImageView exchangeIcon = (ImageView) convertView.findViewById(R.id.exchange_service_icon);
         ExchangeService exchangeService = getItem(i);
-        exchangeName.setText(exchangeService.getName());
+        exchangeName.setText(exchangeService.getTitle());
         exchangeIcon.setImageResource(exchangeService.getIconResId());
         return convertView;
     }
