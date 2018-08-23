@@ -31,6 +31,7 @@ import ru.nikitazhelonkin.coinbalance.di.DaggerPresenterComponent;
 import ru.nikitazhelonkin.coinbalance.mvp.MvpFragment;
 import ru.nikitazhelonkin.coinbalance.presentation.donation.DonateDialogFragment;
 import ru.nikitazhelonkin.coinbalance.ui.adapter.RecyclerItemsAdapter;
+import ru.nikitazhelonkin.coinbalance.ui.widget.AlertDialogBuilder;
 import ru.nikitazhelonkin.coinbalance.ui.widget.AppToast;
 import ru.nikitazhelonkin.coinbalance.utils.AndroidUtils;
 
@@ -143,7 +144,7 @@ public class SettingsFragment extends MvpFragment<SettingsPresenter, SettingsVie
         String currentCurrency = AppSettings.get(getContext()).getCurrency();
         int currentPosition =  arrayAdapter.getPosition( currentCurrency);
 
-        new AlertDialog.Builder(getContext())
+        new AlertDialogBuilder(getContext())
                 .setSingleChoiceItems(arrayAdapter, currentPosition, null)
                 .setPositiveButton(R.string.dialog_ok, (dialog, which) -> {
                     int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
@@ -208,7 +209,7 @@ public class SettingsFragment extends MvpFragment<SettingsPresenter, SettingsVie
     private boolean requestStoragePermissionWithCheck() {
         if (!isPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                new AlertDialog.Builder(getContext())
+                new AlertDialogBuilder(getContext())
                         .setMessage(R.string.permission_storage_rationale)
                         .setPositiveButton(R.string.ok, (dialog, which) -> requestStoragePermission())
                         .setNegativeButton(R.string.cancel, null)

@@ -82,7 +82,7 @@
 
     <string name="dialog_rate_ok">Оценить</string>
     <string name="dialog_rate_later">Позже</string>
-    <string name="dialog_rate_message">Если вам понравилось данное приложение, не могли бы вы потратить минутку чтобы оценить его? Поддержите проект, помогите другим пользователям найти это приложение. Спасибо!</string>
+    <string name="dialog_rate_message">Если вам понравилось данное приложение, не могли бы вы потратить минутку, чтобы оценить его? Поддержите проект, помогите другим пользователям найти это приложение. Спасибо!</string>
     <string name="dialog_rate_title">Оценить приложение</string>
 
     <string name="dialog_error">Ошибка</string>

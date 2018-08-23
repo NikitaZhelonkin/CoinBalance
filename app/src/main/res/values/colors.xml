@@ -9,12 +9,11 @@
     <color name="colorTextSecondary">#90f1f1f1</color>
     <color name="colorDivider">#2f2f3a</color>
     <color name="color_error">#ff4181</color>
-    <color name="color_pending">#FFEB3B</color>
+    <color name="color_pending">#ffcf44</color>
     <color name="color_surface">#34343e</color>
-
     <color name="color_trend_up">#04b97f</color>
     <color name="color_trend_down">#ff4181</color>
-    <color name="color_trend_none">#5C6BC0</color>
+    <color name="color_trend_none">@color/colorText</color>
 
     <color name="shark">#292931</color>
 

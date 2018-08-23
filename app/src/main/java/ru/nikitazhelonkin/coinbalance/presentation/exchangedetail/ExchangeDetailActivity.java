@@ -25,6 +25,7 @@ import ru.nikitazhelonkin.coinbalance.data.entity.ExchangeDetailViewModel;
 import ru.nikitazhelonkin.coinbalance.di.DaggerExchangeDetailComponent;
 import ru.nikitazhelonkin.coinbalance.di.ExchangeDetailModule;
 import ru.nikitazhelonkin.coinbalance.mvp.MvpActivity;
+import ru.nikitazhelonkin.coinbalance.ui.widget.AlertDialogBuilder;
 import ru.nikitazhelonkin.coinbalance.ui.widget.AppToast;
 import ru.nikitazhelonkin.coinbalance.ui.widget.InputAlertDialogBuilder;
 
@@ -128,7 +129,7 @@ public class ExchangeDetailActivity extends MvpActivity<ExchangeDetailPresenter,
 
     @Override
     public void showDeleteView(Exchange exchange) {
-        new AlertDialog.Builder(this)
+        new AlertDialogBuilder(this)
                 .setTitle(R.string.dialog_delete_exchange_message)
                 .setPositiveButton(R.string.ok, (dialogInterface, i) -> getPresenter().deleteExchange(exchange))
                 .setNegativeButton(R.string.cancel, null)

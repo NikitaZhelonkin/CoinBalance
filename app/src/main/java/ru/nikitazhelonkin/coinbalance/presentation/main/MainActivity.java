@@ -6,7 +6,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -36,6 +35,7 @@ import ru.nikitazhelonkin.coinbalance.presentation.addwallet.AddWalletActivity;
 import ru.nikitazhelonkin.coinbalance.presentation.exchangedetail.ExchangeDetailActivity;
 import ru.nikitazhelonkin.coinbalance.presentation.settings.SettingsActivity;
 import ru.nikitazhelonkin.coinbalance.presentation.walletdetail.WalletDetailActivity;
+import ru.nikitazhelonkin.coinbalance.ui.widget.AlertDialogBuilder;
 import ru.nikitazhelonkin.coinbalance.ui.widget.AppBarBehavior;
 import ru.nikitazhelonkin.coinbalance.ui.widget.AppToast;
 import ru.nikitazhelonkin.coinbalance.ui.widget.PieChartView;
@@ -237,7 +237,7 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
 
     @Override
     public void showWalletError() {
-        new AlertDialog.Builder(this)
+        new AlertDialogBuilder(this)
                 .setTitle(R.string.dialog_error)
                 .setMessage(R.string.wallet_error_common_issues)
                 .setPositiveButton(R.string.ok, null)
@@ -251,7 +251,7 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_exchange_error, null);
         ((TextView) view.findViewById(R.id.error_message)).setText(TextUtils.isEmpty(message) ?
                 getString(R.string.error_unknown) : message);
-        new AlertDialog.Builder(this)
+        new AlertDialogBuilder(this)
                 .setTitle(R.string.dialog_error)
                 .setView(view)
                 .setPositiveButton(R.string.ok, null)
@@ -318,7 +318,7 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
 
     @Override
     public void showRateDialog() {
-        new AlertDialog.Builder(this)
+        new AlertDialogBuilder(this)
                 .setTitle(R.string.dialog_rate_title)
                 .setMessage(R.string.dialog_rate_message)
                 .setPositiveButton(R.string.dialog_rate_ok, (dialog, which) -> {

@@ -26,6 +26,7 @@ import ru.nikitazhelonkin.coinbalance.data.entity.Exchange;
 import ru.nikitazhelonkin.coinbalance.data.entity.ExchangeService;
 import ru.nikitazhelonkin.coinbalance.di.DaggerPresenterComponent;
 import ru.nikitazhelonkin.coinbalance.mvp.MvpActivity;
+import ru.nikitazhelonkin.coinbalance.ui.widget.AlertDialogBuilder;
 import ru.nikitazhelonkin.coinbalance.ui.widget.AppToast;
 import ru.nikitazhelonkin.coinbalance.utils.AndroidUtils;
 
@@ -151,7 +152,7 @@ public class AddExchangeActivity extends MvpActivity<AddExchangePresenter, AddEx
 
     @Override
     public void showAgreement(Exchange exchange) {
-        new AlertDialog.Builder(this)
+        new AlertDialogBuilder(this)
                 .setTitle(R.string.api_keys_agreement_title)
                 .setMessage(R.string.api_keys_agreement_message)
                 .setPositiveButton(R.string.agree, (dialogInterface, i) -> getPresenter().onAgreeClick(exchange))

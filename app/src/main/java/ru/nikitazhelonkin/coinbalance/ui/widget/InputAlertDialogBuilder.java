@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 import ru.nikitazhelonkin.coinbalance.R;
 
-public class InputAlertDialogBuilder extends AlertDialog.Builder {
+public class InputAlertDialogBuilder extends AlertDialogBuilder {
 
     public interface InputCallback{
         void onInput(DialogInterface dialog, CharSequence text);
