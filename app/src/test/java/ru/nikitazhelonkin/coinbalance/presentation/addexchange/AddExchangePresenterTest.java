@@ -15,6 +15,7 @@ import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import ru.nikitazhelonkin.coinbalance.data.entity.Exchange;
+import ru.nikitazhelonkin.coinbalance.data.entity.ExchangeService;
 import ru.nikitazhelonkin.coinbalance.data.system.SystemManager;
 import ru.nikitazhelonkin.coinbalance.domain.AddExchangeInteractor;
 import ru.nikitazhelonkin.coinbalance.utils.rx.scheduler.RxSchedulerProvider;
@@ -52,7 +53,7 @@ public class AddExchangePresenterTest {
 
     @Test
     public void addExchange_showError(){
-        Exchange exchange = new Exchange();
+        Exchange exchange = new Exchange(ExchangeService.BITFINEX, "apiKey", "apiSecret", "title");
 
         when(addExchangeInteractor.addExchange(any())).thenReturn(Completable.error(new IOException("Test exception")));
 
