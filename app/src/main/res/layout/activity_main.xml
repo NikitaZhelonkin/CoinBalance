@@ -151,7 +151,6 @@
         app:backgroundTint="@color/colorPrimary"
         app:contentInsetStart="0dp"
         app:fabAlignmentMode="center"
-        app:fabAttached="true"
         app:fabCradleMargin="0dp"
         app:hideOnScroll="true"
         app:layout_scrollFlags="scroll|enterAlways">

@@ -45,10 +45,10 @@ android {
 }
 
 ext.versions = [
-        androidSupport : '28.0.0-alpha3',
+        androidSupport : '28.0.0-rc01',
         retrofit: '2.2.0',
         rxJava: '2.0.1',
-        butterKnife: '8.5.1',
+        butterKnife: '8.8.1',
         dagger: '2.7',
         parceler: '1.0.4'
 ]
@@ -58,11 +58,13 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$versions.androidSupport"
     implementation "com.android.support:design:$versions.androidSupport"
     implementation "com.android.support:cardview-v7:$versions.androidSupport"
+    implementation "com.android.support:support-media-compat:$versions.androidSupport"
+    implementation "com.android.support:support-v4:$versions.androidSupport"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
-    implementation 'com.android.billingclient:billing:1.0'
+    implementation 'com.android.billingclient:billing:1.1'
 
-    implementation 'com.yandex.android:mobmetricalib:2.80'
+    implementation 'com.yandex.android:mobmetricalib:3.2.1'
 
     //parceler
     implementation "org.parceler:parceler-api:$versions.parceler"
@@ -89,10 +91,10 @@ dependencies {
     implementation "com.jakewharton:butterknife:$versions.butterKnife"
     kapt "com.jakewharton:butterknife-compiler:$versions.butterKnife"
 
-    // Room (use 1.1.0-alpha2 for latest alpha)
+    // Room
     implementation "android.arch.persistence.room:runtime:1.0.0"
     kapt "android.arch.persistence.room:compiler:1.0.0"
-    // RxJava support for Room (use 1.1.0-alpha1 for latest alpha)
+    // RxJava support for Room
     implementation "android.arch.persistence.room:rxjava2:1.0.0"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -104,7 +106,7 @@ dependencies {
     implementation 'javax.annotation:jsr250-api:1.0'
 
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:1.10.19'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    testImplementation 'org.mockito:mockito-core:2.8.9'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
