@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -16,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Currency;
 import java.util.Locale;
@@ -37,6 +37,7 @@ import ru.nikitazhelonkin.coinbalance.presentation.exchangedetail.ExchangeDetail
 import ru.nikitazhelonkin.coinbalance.presentation.settings.SettingsActivity;
 import ru.nikitazhelonkin.coinbalance.presentation.walletdetail.WalletDetailActivity;
 import ru.nikitazhelonkin.coinbalance.ui.widget.AppBarBehavior;
+import ru.nikitazhelonkin.coinbalance.ui.widget.AppToast;
 import ru.nikitazhelonkin.coinbalance.ui.widget.PieChartView;
 import ru.nikitazhelonkin.coinbalance.ui.widget.TintDrawableTextView;
 import ru.nikitazhelonkin.coinbalance.ui.widget.itemtouchhelper.ItemTouchHelperCallback;
@@ -231,7 +232,7 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
 
     @Override
     public void showError(int errorResId) {
-        showSnackBar(getString(errorResId), Snackbar.LENGTH_LONG);
+        AppToast.make(this, errorResId, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -261,7 +262,7 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
 
     @Override
     public void showMessage(int messageResId) {
-        showSnackBar(getString(messageResId), Snackbar.LENGTH_SHORT);
+        AppToast.make(this, messageResId, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -304,11 +305,6 @@ public class MainActivity extends MvpActivity<MainPresenter, MainView> implement
         AndroidUtils.openMarket(this);
     }
 
-    private void showSnackBar(String text, int duration) {
-        Snackbar snackbar = Snackbar.make(mCoordinatorLayout, text, duration);
-        snackbar.getView().setBackgroundColor(getResources().getColor(R.color.colorDialogBackground));
-        snackbar.show();
-    }
 
     @Override
     public void setEmptyViewVisible(boolean visible) {

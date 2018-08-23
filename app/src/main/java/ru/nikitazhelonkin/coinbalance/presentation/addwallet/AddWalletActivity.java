@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -13,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -28,6 +28,7 @@ import ru.nikitazhelonkin.coinbalance.data.entity.Coin;
 import ru.nikitazhelonkin.coinbalance.data.entity.Wallet;
 import ru.nikitazhelonkin.coinbalance.di.DaggerPresenterComponent;
 import ru.nikitazhelonkin.coinbalance.mvp.MvpActivity;
+import ru.nikitazhelonkin.coinbalance.ui.widget.AppToast;
 import ru.nikitazhelonkin.coinbalance.utils.AndroidUtils;
 
 public class AddWalletActivity extends MvpActivity<AddWalletPresenter, AddWalletView> implements
@@ -155,7 +156,7 @@ public class AddWalletActivity extends MvpActivity<AddWalletPresenter, AddWallet
 
     @Override
     public void showMessage(int messageResId) {
-        showSnackBar(getString(messageResId));
+        AppToast.make(this, getString(messageResId), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -190,10 +191,5 @@ public class AddWalletActivity extends MvpActivity<AddWalletPresenter, AddWallet
         mAliasClearButton.setVisibility(mAliasInput.getText().length() == 0 ? View.GONE : View.VISIBLE);
     }
 
-    private void showSnackBar(String text) {
-        Snackbar snackbar = Snackbar.make(mToolbar, text, Snackbar.LENGTH_SHORT);
-        snackbar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        snackbar.show();
-    }
 }
 

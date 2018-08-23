@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +31,7 @@ import ru.nikitazhelonkin.coinbalance.di.DaggerPresenterComponent;
 import ru.nikitazhelonkin.coinbalance.mvp.MvpFragment;
 import ru.nikitazhelonkin.coinbalance.presentation.donation.DonateDialogFragment;
 import ru.nikitazhelonkin.coinbalance.ui.adapter.RecyclerItemsAdapter;
+import ru.nikitazhelonkin.coinbalance.ui.widget.AppToast;
 import ru.nikitazhelonkin.coinbalance.utils.AndroidUtils;
 
 public class SettingsFragment extends MvpFragment<SettingsPresenter, SettingsView> implements
@@ -201,14 +201,9 @@ public class SettingsFragment extends MvpFragment<SettingsPresenter, SettingsVie
 
     @Override
     public void showMessage(String message) {
-        showSnackBar(message, Toast.LENGTH_SHORT);
+        AppToast.make(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    private void showSnackBar(String text, int duration) {
-        Snackbar snackbar = Snackbar.make(mToolbar, text, duration);
-        snackbar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        snackbar.show();
-    }
 
     private boolean requestStoragePermissionWithCheck() {
         if (!isPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {

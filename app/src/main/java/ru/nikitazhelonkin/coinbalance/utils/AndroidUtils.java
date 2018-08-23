@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import ru.nikitazhelonkin.coinbalance.R;
+import ru.nikitazhelonkin.coinbalance.ui.widget.AppToast;
 
 public class AndroidUtils {
 
@@ -66,7 +67,7 @@ public class AndroidUtils {
                     Intent.createChooser(intent, title), requestCode);
         } catch (android.content.ActivityNotFoundException ex) {
             // Potentially direct the user to the Market with a Dialog
-            Toast.makeText(fragment.getContext(), "Please install a File Manager.", Toast.LENGTH_SHORT).show();
+            AppToast.make(fragment.getContext(), "Please install a File Manager.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -79,7 +80,7 @@ public class AndroidUtils {
                     Intent.createChooser(intent, title), requestCode);
         } catch (android.content.ActivityNotFoundException ex) {
             // Potentially direct the user to the Market with a Dialog
-            Toast.makeText(activity, "Please install a File Manager.", Toast.LENGTH_SHORT).show();
+            AppToast.make(activity, "Please install a File Manager.", Toast.LENGTH_SHORT).show();
         }
     }
 

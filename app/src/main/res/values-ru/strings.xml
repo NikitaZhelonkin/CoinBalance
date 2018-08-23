@@ -92,7 +92,7 @@
     <string name="purchase_success">Спасибо больше!</string>
     <string name="purchase_consume_error">Error consuming item</string>
     <string name="donation_title">Пожертвование</string>
-    <string name="donation_message">Привет, Мой Друг, тебе нравится это приложение?\nВ нем нет рекламы и оно абсолютно бесплатное. Я разрабатываю его в свободное от работы время, и мне нужна твоя помощь для поддержки проекта и привлечения новых пользователей</string>
+    <string name="donation_message">Привет, Мой Друг, тебе нравится это приложение? В нем нет рекламы и оно абсолютно бесплатное. Я разрабатываю его в свободное от работы время, и мне нужна твоя помощь для поддержки проекта и привлечения новых пользователей</string>
     <string name="select_amount">Выбрать сумму</string>
     <string name="donation_1">1 $</string>
     <string name="donation_2">2 $</string>

@@ -28,7 +28,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="0.5dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="6dp"
         android:background="@android:color/white"/>
@@ -47,6 +47,7 @@
             android:layout_weight="1"
             android:id="@+id/donate_1"
             android:text="@string/donation_1"
+            android:textSize="18sp"
             style="@style/Button.Borderless"
             android:layout_height="wrap_content" />
 
@@ -56,6 +57,7 @@
             android:layout_weight="1"
             android:text="@string/donation_2"
             style="@style/Button.Borderless"
+            android:textSize="18sp"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:layout_height="wrap_content" />
@@ -64,6 +66,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:id="@+id/donate_5"
+            android:textSize="18sp"
             android:text="@string/donation_5"
             style="@style/Button.Borderless"
             android:layout_height="wrap_content" />
