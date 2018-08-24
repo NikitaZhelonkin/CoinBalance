@@ -9,6 +9,6 @@ import ru.nikitazhelonkin.coinbalance.data.api.response.NeoScanBalanceResponse;
 
 public interface NeoScanApiService {
 
-    @GET("api/main_net/v1/get_address/{address}")
+    @GET("api/main_net/v1/get_balance/{address}")
     Single<NeoScanBalanceResponse> balance(@Path("address") String address);
 }

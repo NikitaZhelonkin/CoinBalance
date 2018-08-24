@@ -19,6 +19,7 @@ import ru.nikitazhelonkin.coinbalance.data.repository.TokenRepository;
 import ru.nikitazhelonkin.coinbalance.data.repository.WalletRepository;
 import ru.nikitazhelonkin.coinbalance.data.validator.AddressValidator;
 import ru.nikitazhelonkin.coinbalance.data.validator.AddressValidatorFactory;
+import ru.nikitazhelonkin.coinbalance.utils.L;
 
 public class AddWalletInteractor {
 
@@ -47,16 +48,21 @@ public class AddWalletInteractor {
             if (validator != null && !validator.isValid(wallet.getAddress()))
                 throw new InvalidAddressException();
         }).doOnSuccess(coin -> {
+            WalletBalance walletBalance = null;
             try {
-                WalletBalance walletBalance = getBalance(wallet).blockingGet();
+                walletBalance = getBalance(wallet).blockingGet();
                 wallet.setBalance(Float.parseFloat(walletBalance.getBalance()));
                 wallet.setStatus(Wallet.STATUS_OK);
-                addTokens(wallet, walletBalance.getTokenList());
             } catch (Throwable e) {
+                L.e(""+e);
                 wallet.setStatus(Wallet.STATUS_ERROR);
             }
-        }).flatMapCompletable(balance -> mWalletRepository.insert(wallet, false))
-                .doOnComplete(() -> mWalletRepository.notifyChange());
+            mWalletRepository.insert(wallet, false).blockingAwait();
+
+            if (walletBalance != null) addTokens(wallet, walletBalance.getTokenList());
+
+        }).toCompletable().doOnComplete(() ->
+                mWalletRepository.notifyChange());
     }
 
     public Single<List<Coin>> getCoins() {
