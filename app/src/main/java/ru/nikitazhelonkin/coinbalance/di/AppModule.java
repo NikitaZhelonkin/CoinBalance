@@ -199,7 +199,7 @@ public class AppModule {
     @Singleton
     @NonNull
     NeoScanApiService provideNeoScanApiService(OkHttpClient httpClient, ObjectMapper objectMapper) {
-        return provideApiService("https://neoscan.io", NeoScanApiService.class, httpClient, objectMapper);
+        return provideApiService("https://api.neoscan.io", NeoScanApiService.class, httpClient, objectMapper);
     }
 
     @Provides

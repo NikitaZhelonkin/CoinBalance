@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorBackground">#f7f7f7</color>
-    <color name="colorPrimary">@android:color/black</color>
-    <color name="colorPrimaryDark">@android:color/black</color>
-    <color name="colorAccent">@android:color/black</color>
-    <color name="colorText">@android:color/black</color>
-    <color name="colorTextSecondary">#9b9b9b</color>
-    <color name="colorDivider">#efefef</color>
-    <color name="color_error">#F44336</color>
-    <color name="color_pending">#FFEB3B</color>
+    <color name="colorBackground">#2f2f3a</color>
+    <color name="colorPrimary">#2f2f3a</color>
+    <color name="colorPrimaryDark">#22222b</color>
+    <color name="colorDialogBackground">#000000</color>
+    <color name="colorAccent">#f1f1f1</color>
+    <color name="colorText">#f1f1f1</color>
+    <color name="colorTextSecondary">#90f1f1f1</color>
+    <color name="colorDivider">#2f2f3a</color>
+    <color name="color_error">#ff4181</color>
+    <color name="color_pending">#ffcf44</color>
+    <color name="color_surface">#34343e</color>
+    <color name="color_trend_up">#04b97f</color>
+    <color name="color_trend_down">#ff4181</color>
+    <color name="color_trend_none">@color/colorText</color>
 
-    <color name="ic_launcher_background">#000000</color>
-
-    <color name="color_trend_up">#00E676</color>
-    <color name="color_trend_down">#FF1744</color>
-    <color name="color_trend_none">#5C6BC0</color>
+    <color name="shark">#292931</color>
 
 </resources>

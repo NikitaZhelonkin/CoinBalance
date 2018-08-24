@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -26,6 +26,8 @@ import ru.nikitazhelonkin.coinbalance.data.entity.Exchange;
 import ru.nikitazhelonkin.coinbalance.data.entity.ExchangeService;
 import ru.nikitazhelonkin.coinbalance.di.DaggerPresenterComponent;
 import ru.nikitazhelonkin.coinbalance.mvp.MvpActivity;
+import ru.nikitazhelonkin.coinbalance.ui.widget.AlertDialogBuilder;
+import ru.nikitazhelonkin.coinbalance.ui.widget.AppToast;
 import ru.nikitazhelonkin.coinbalance.utils.AndroidUtils;
 
 public class AddExchangeActivity extends MvpActivity<AddExchangePresenter, AddExchangeView> implements
@@ -145,12 +147,12 @@ public class AddExchangeActivity extends MvpActivity<AddExchangePresenter, AddEx
 
     @Override
     public void showMessage(int messageResId) {
-        showSnackBar(getString(messageResId));
+        AppToast.make(this, messageResId, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showAgreement(Exchange exchange) {
-        new AlertDialog.Builder(this)
+        new AlertDialogBuilder(this)
                 .setTitle(R.string.api_keys_agreement_title)
                 .setMessage(R.string.api_keys_agreement_message)
                 .setPositiveButton(R.string.agree, (dialogInterface, i) -> getPresenter().onAgreeClick(exchange))
@@ -181,9 +183,4 @@ public class AddExchangeActivity extends MvpActivity<AddExchangePresenter, AddEx
         mTitleClearButton.setVisibility(mTitleInput.getText().length() == 0 ? View.GONE : View.VISIBLE);
     }
 
-    private void showSnackBar(String text) {
-        Snackbar snackbar = Snackbar.make(mToolbar, text, Snackbar.LENGTH_SHORT);
-        snackbar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        snackbar.show();
-    }
 }

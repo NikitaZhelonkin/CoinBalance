@@ -2,6 +2,7 @@ package ru.nikitazhelonkin.coinbalance.data.entity
 
 
 import android.arch.persistence.room.*
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import org.parceler.Parcel
 import org.parceler.ParcelConstructor
 

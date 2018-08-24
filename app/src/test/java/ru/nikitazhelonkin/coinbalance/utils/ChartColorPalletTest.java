@@ -16,7 +16,7 @@ public class ChartColorPalletTest {
             colors.add(ChartColorPallet.colorForPosition(i));
         }
         assertEquals(120, colors.size());
-        assertEquals(60, ListUtils.distinct(colors).size());
+        assertEquals(42, ListUtils.distinct(colors).size());
     }
 
 }

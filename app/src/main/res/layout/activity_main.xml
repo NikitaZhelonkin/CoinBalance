@@ -11,8 +11,9 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behavior="ru.nikitazhelonkin.coinbalance.ui.widget.AppBarBehavior"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp"
+        app:layout_behavior="ru.nikitazhelonkin.coinbalance.ui.widget.AppBarBehavior">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
@@ -20,111 +21,10 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_collapseMode="pin">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
-                            android:id="@+id/toolbar_title"
-                            style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                            android:layout_width="match_parent"
-                            android:layout_height="?actionBarSize"
-                            android:gravity="center"
-                            android:text="@string/app_name"
-                            app:font="@string/font_roboto_regular" />
-
-                        <ImageButton
-                            android:id="@+id/action_mode"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:contentDescription="@null"
-                            android:src="@drawable/ic_pie_chart_24dp" />
-
-                        <ImageButton
-                            android:id="@+id/action_settings"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end|center_vertical"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:contentDescription="@null"
-                            android:src="@drawable/ic_settings_24dp" />
-
-
-                    </FrameLayout>
-
-                    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
-                        android:id="@+id/total_balance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginRight="16dp"
-
-                        android:singleLine="true"
-                        android:textColor="@android:color/white"
-                        android:textSize="42sp"
-                        app:font="@string/font_roboto_medium"
-                        tools:text="18,000.05 $" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center_vertical"
-                        android:paddingBottom="16dp"
-                        android:id="@+id/profit_loss_layout"
-                        android:layout_height="wrap_content">
-
-                        <ru.nikitazhelonkin.coinbalance.ui.widget.TintDrawableTextView
-                            android:layout_width="wrap_content"
-                            tools:text="999.5%"
-                            android:textSize="16sp"
-                            tools:iconTint="@color/color_trend_up"
-                            android:id="@+id/profit_loss"
-                            android:drawablePadding="-2dp"
-                            tools:drawableLeft="@drawable/ic_trending_up_24dp"
-                            android:textColor="@android:color/white"
-                            android:layout_gravity="center"
-                            android:layout_height="wrap_content" />
-
-                        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
-                            android:layout_width="wrap_content"
-                            android:text="@string/change_24"
-                            android:textAllCaps="true"
-                            android:textSize="12sp"
-                            android:layout_marginLeft="4dp"
-                            android:layout_gravity="center"
-                            android:textColor="@color/colorTextSecondary"
-                            android:layout_height="wrap_content" />
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-
-            </android.support.v7.widget.Toolbar>
-
             <FrameLayout
+                android:id="@+id/chart_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="?actionBarSize"
-                android:id="@+id/chart_layout"
                 app:layout_collapseMode="none">
 
                 <ru.nikitazhelonkin.coinbalance.ui.widget.PieChartView
@@ -133,62 +33,62 @@
                     android:layout_height="180dp"
                     android:layout_gravity="center"
                     android:layout_margin="12dp"
-                    android:layout_marginTop="?actionBarSize"
                     android:visibility="visible"
-                    app:layout_collapseMode="parallax" />
+                    app:layout_collapseMode="parallax"
+                    app:pcStrokeColor="@color/colorBackground"
+                    app:pcThickness="0.1" />
 
                 <LinearLayout
                     android:layout_width="120dp"
-                    android:orientation="vertical"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingTop="16dp"
-                    android:layout_height="wrap_content">
+                    android:orientation="vertical"
+                    android:paddingTop="16dp">
 
 
-                    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
+                    <TextView
                         android:id="@+id/total_balance_chart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:singleLine="true"
-                        app:font="@string/font_roboto_medium"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
+                        android:textAppearance="@style/TextAppearance.H5_Headline"
                         tools:text="18,000.05 $" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:orientation="horizontal"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:gravity="center_vertical"
-                        android:layout_height="wrap_content">
+                        android:orientation="horizontal">
 
                         <ru.nikitazhelonkin.coinbalance.ui.widget.TintDrawableTextView
-                            android:layout_width="wrap_content"
-                            tools:text="999.5%"
-                            android:textSize="14sp"
-                            tools:iconTint="@color/color_trend_up"
                             android:id="@+id/profit_loss_chart"
-                            android:drawablePadding="-2dp"
-                            tools:drawableLeft="@drawable/ic_trending_up_24dp"
-                            android:textColor="@android:color/white"
-                            android:layout_gravity="center"
-                            android:layout_height="wrap_content" />
-
-                        <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:drawablePadding="-2dp"
+                            android:textAppearance="@style/TextAppearance.Subtitle2"
+                            android:textColor="@color/colorText"
+                            android:textSize="14sp"
+                            tools:drawableLeft="@drawable/ic_trending_up_24dp"
+                            tools:iconTint="@color/color_trend_up"
+                            tools:text="999.5%" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="4dp"
                             android:text="@string/change_24"
                             android:textAllCaps="true"
-                            android:textSize="10sp"
-                            android:layout_marginLeft="4dp"
-                            android:layout_gravity="center"
+                            android:textAppearance="@style/TextAppearance.Caption"
                             android:textColor="@color/colorTextSecondary"
-                            android:layout_height="wrap_content"
+                            android:textSize="10sp"
                             tools:ignore="SmallSp" />
 
                     </LinearLayout>
-
 
 
                 </LinearLayout>
@@ -199,6 +99,11 @@
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/shark" />
+
 
     </android.support.design.widget.AppBarLayout>
 
@@ -207,21 +112,6 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintTop_toBottomOf="@id/appbar">
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                android:paddingTop="@dimen/card_margin" />
-
-        </android.support.v4.widget.SwipeRefreshLayout>
 
         <include
             android:id="@+id/empty_view"
@@ -233,9 +123,97 @@
             layout="@layout/layout_error_view"
             android:visibility="gone" />
 
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:layoutAnimation="@anim/layout_animation_from_bottom"
+                android:paddingTop="@dimen/card_margin" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+
     </FrameLayout>
 
-    <include layout="@layout/fam_main" />
+
+    <android.support.design.bottomappbar.BottomAppBar
+        android:id="@+id/bottom_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:backgroundTint="@color/colorPrimary"
+        app:contentInsetStart="0dp"
+        app:fabAlignmentMode="center"
+        app:fabCradleMargin="0dp"
+        app:hideOnScroll="true"
+        app:layout_scrollFlags="scroll|enterAlways">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ImageButton
+                android:id="@+id/action_overview"
+                android:layout_width="?actionBarSize"
+                android:layout_height="?actionBarSize"
+                android:layout_gravity="center_vertical"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/cd_action_overview"
+                android:src="@drawable/ic_pie_chart_24dp"
+                android:tint="@color/action_tint" />
+
+            <ImageButton
+                android:id="@+id/action_accounts"
+                android:layout_width="?actionBarSize"
+                android:layout_height="?actionBarSize"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="56dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/cd_action_profile"
+                android:src="@drawable/ic_work_white_24dp"
+                android:tint="@color/action_tint" />
+
+            <ImageButton
+                android:id="@+id/action_settings"
+                android:layout_width="?actionBarSize"
+                android:layout_height="?actionBarSize"
+                android:layout_gravity="end|center_vertical"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/cd_action_settings"
+                android:src="@drawable/ic_settings_24dp"
+                android:tint="@color/action_tint" />
+
+
+        </FrameLayout>
+
+
+    </android.support.design.bottomappbar.BottomAppBar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_gravity="bottom"
+        android:background="@color/shark"
+        app:layout_anchor="@id/bottom_app_bar"
+        app:layout_anchorGravity="top" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_24dp"
+        android:tint="@color/colorBackground"
+        app:layout_anchor="@id/bottom_app_bar"
+        app:layout_behavior="@null" />
 
 
 </android.support.design.widget.CoordinatorLayout>

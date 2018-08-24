@@ -104,6 +104,10 @@
     <string name="donation_1">1 $</string>
     <string name="donation_2">2 $</string>
     <string name="donation_5">5 $</string>
+    
+    <string name="cd_action_overview">Overview</string>
+    <string name="cd_action_profile">Profile</string>
+    <string name="cd_action_settings">Settings</string>
 
     <plurals name="assets_count">
         <item quantity="one">%d asset</item>

@@ -1,35 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@android:color/white"
-    android:clipToPadding="false"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingLeft="12dp"
-    android:paddingTop="8dp"
-    android:elevation="1dp"
-    android:paddingBottom="8dp"
-    android:paddingRight="12dp">
+    android:layout_height="wrap_content">
 
-
-    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
-        android:id="@+id/asset_name"
-        android:layout_width="0dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textColor="@color/colorText"
-        android:textSize="18sp"
-        tools:text="LTC" />
-
-    <ru.nikitazhelonkin.coinbalance.ui.widget.TFTextView
-        android:id="@+id/asset_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0.003"
-        android:textColor="@color/colorTextSecondary"
-        android:textSize="16sp" />
+        android:background="@color/color_surface"
+        android:clipToPadding="false"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="8dp">
 
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/asset_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/TextAppearance.Body2"
+            android:textColor="@color/colorText"
+            tools:text="LTC" />
+
+        <TextView
+            android:id="@+id/asset_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.003"
+            android:textAppearance="@style/TextAppearance.Subtitle2"
+            android:textColor="@color/colorTextSecondary" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_gravity="bottom"
+        android:background="@color/colorDivider" />
+</FrameLayout>

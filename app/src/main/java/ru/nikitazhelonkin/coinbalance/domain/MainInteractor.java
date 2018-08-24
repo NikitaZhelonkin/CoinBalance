@@ -144,8 +144,8 @@ public class MainInteractor {
 
     public Single<MainViewModel> loadData() {
         return Single.zip(getWallets(),
-                getTokens(),
                 getExchanges(),
+                getTokens(),
                 getExchangeBalances(),
                 getPrices(getCurrency()),
                 MainViewModel::new);

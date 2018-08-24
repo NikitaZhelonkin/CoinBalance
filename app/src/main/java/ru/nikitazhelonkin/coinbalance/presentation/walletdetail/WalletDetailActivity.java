@@ -28,6 +28,8 @@ import ru.nikitazhelonkin.coinbalance.data.entity.WalletDetailViewModel;
 import ru.nikitazhelonkin.coinbalance.di.DaggerWalletDetailComponent;
 import ru.nikitazhelonkin.coinbalance.di.WalletDetailModule;
 import ru.nikitazhelonkin.coinbalance.mvp.MvpActivity;
+import ru.nikitazhelonkin.coinbalance.ui.widget.AlertDialogBuilder;
+import ru.nikitazhelonkin.coinbalance.ui.widget.AppToast;
 import ru.nikitazhelonkin.coinbalance.ui.widget.InputAlertDialogBuilder;
 import ru.nikitazhelonkin.coinbalance.utils.QRCodeUtils;
 
@@ -126,8 +128,8 @@ public class WalletDetailActivity extends MvpActivity<WalletDetailPresenter, Wal
 
     @Override
     public void showDeleteView(Wallet wallet) {
-        new AlertDialog.Builder(this)
-                .setMessage(R.string.dialog_delete_wallet_message)
+        new AlertDialogBuilder(this)
+                .setTitle(R.string.dialog_delete_wallet_message)
                 .setPositiveButton(R.string.ok, (dialogInterface, i) -> getPresenter().deleteWallet(wallet))
                 .setNegativeButton(R.string.cancel, null)
                 .create()
@@ -159,7 +161,7 @@ public class WalletDetailActivity extends MvpActivity<WalletDetailPresenter, Wal
 
     @Override
     public void showMessage(int messageResId) {
-        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
+        AppToast.make(this, messageResId, Toast.LENGTH_SHORT).show();
     }
 
     @Override
